@@ -1,0 +1,9 @@
+cc_library(
+    name = "gamepad",
+    srcs = ["gamepad.cpp"],
+    hdrs = ["gamepad.hpp"],
+    copts = ["-std=c++20"],
+    strip_include_prefix = "/gfx",
+    visibility = ["//visibility:public"],
+    deps = ["@glfw"],
+)

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+python3 tools/find_comments/find_comments_main.py --directory src
+python3 tools/find_comments/find_comments_main.py --directory test

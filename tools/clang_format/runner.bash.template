@@ -1,0 +1,42 @@
+#! /usr/bin/env bash
+
+source scripts/logging.sh
+VERBOSE=1
+
+WORKSPACE="@@WORKSPACE@@"
+MODE="@@MODE@@"
+EXTENSIONS=@@EXTENSIONS@@
+DIRECTORIES="@@DIRECTORIES@@"
+
+if [[ ${MODE} = "check" ]]; then
+  ARGS="--Werror --dry-run"
+elif [[ ${MODE} = "fix" ]]; then
+  ARGS="-i"
+fi
+
+verbose_info "$(declare -p EXTENSIONS)"
+verbose_info "using clang-tidy args: ${ARGS}"
+
+cd $BUILD_WORKSPACE_DIRECTORY
+verbose_info "running in ${BUILD_WORKSPACE_DIRECTORY}"
+[ ! -f ".clang-format" ] && error "missing clang-format configuration file"
+
+RESULT=1
+for directory in ${DIRECTORIES}; do
+  [ ! -d ${directory} ] \
+    && warning "${directory} not a directory" \
+    && exit 1
+
+  [ ! -f "${directory}/BUILD.bazel" ] \
+    && warning "${directory} missing bazel buildfile, not a package"
+
+  verbose_info "checking in ${directory}"
+  
+  FILES=$(find ${directory} \( ${EXTENSIONS[@]} \))
+
+  for FILE in ${FILES}; do
+    clang-format ${ARGS} ${FILE} || RESULT=0
+  done
+done
+
+[[ $RESULT = 1 ]] && success "finished"

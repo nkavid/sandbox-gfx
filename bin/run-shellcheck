@@ -1,0 +1,92 @@
+#!/bin/bash
+
+source scripts/logging.sh
+
+FAILURE=0
+
+EXECUTABLE_SCRIPTS=""
+function check_for_executable()
+{
+  DIRECTORY=$1
+  EXECUTABLE_SCRIPTS=$(grep -rlm 1 "#\!/bin/bash" "${DIRECTORY}")
+
+  for SCRIPT in ${EXECUTABLE_SCRIPTS}; do
+    [[ ! -x ${SCRIPT} ]] \
+      && error "'${SCRIPT}' is not executable" \
+      && FAILURE=1
+
+    [[ ${SCRIPT} =~ [_] ]] \
+      && error "'${SCRIPT}' contains underscore, prefer hyphen" \
+      && FAILURE=1
+
+    [[ ${SCRIPT} == *".sh"* ]] \
+      && warning "'${SCRIPT}' extension '.sh', source/executable?" \
+      && FAILURE=1
+  done
+}
+
+BASH_SCRIPTS=""
+function check_for_bash_script()
+{
+  DIRECTORY=$1
+  BASH_SCRIPTS=$(find "${DIRECTORY}" -name "*.sh")
+
+  for SCRIPT in ${BASH_SCRIPTS}; do
+    [[ ${SCRIPT} =~ [-] ]] \
+      && error "'${SCRIPT}' contains hyphen, prefer underscore" \
+      && FAILURE=1
+
+    [[ -x ${SCRIPT} ]] \
+      && warning "'${SCRIPT}' is executable, source/executable?" \
+      && FAILURE=1
+
+    grep -q "#\!/bin/bash" "${SCRIPT}" \
+      && warning "'${SCRIPT}' has shebang, source/executable?" \
+      && FAILURE=1
+  done
+}
+
+function run()
+{
+  FAILURE=0
+  DIRECTORY=$1
+
+  check_for_executable "${DIRECTORY}"
+  check_for_bash_script "${DIRECTORY}"
+
+  SCRIPTS=$( (echo "${BASH_SCRIPTS}" && echo "${EXECUTABLE_SCRIPTS}") | sort | uniq) || true
+
+  [[ -z ${SCRIPTS} ]] \
+    && verbose_info "no files to check in '${DIRECTORY}'" \
+    && return 0
+
+  # shellcheck disable=SC2086 # "scripts" space separated
+  shellcheck \
+    --format=gcc \
+    --shell=bash \
+    --enable=all \
+    --severity=style \
+    --color=always \
+    --external-sources\
+    ${SCRIPTS} \
+    || FAILURE=1
+
+  [[ ${FAILURE} = 1 ]] \
+    && error "directory '${DIRECTORY}'" \
+    && return 1
+
+  success "checked '${DIRECTORY}'"
+}
+
+[[ -z $(command -v shellcheck || true) ]] \
+  && error "missing 'shellcheck', export PATH=\"\$HOME/.cabal/bin:\$PATH\"" \
+  && exit 1
+
+FAIL=0
+
+run src || FAIL=1
+run bin || FAIL=1
+run bin/find-comments || FAIL=1
+run tools || FAIL=1
+
+[[ ${FAIL} = 1 ]] && error "fail" && exit 1

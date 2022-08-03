@@ -1,0 +1,68 @@
+load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda_enabled")
+
+cuda_library(
+    name = "drawcircle",
+    srcs = ["circle.cu"],
+    hdrs = [
+        "circle.cuh",
+    ],
+    target_compatible_with = requires_cuda_enabled(),
+)
+
+cuda_library(
+    name = "drawcircletexture",
+    srcs = ["circle_texture.cu"],
+    hdrs = [
+        "circle_texture.cuh",
+    ],
+    target_compatible_with = requires_cuda_enabled(),
+)
+
+cc_library(
+    name = "components",
+    srcs = [
+        "context.cpp",
+        "pixel_buffer.cpp",
+        "texture_buffer.cpp",
+    ],
+    hdrs = [
+        "circle.cuh",
+        "circle_texture.cuh",
+        "context.hpp",
+        "detail/check_cuda_call.hpp",
+        "pixel_buffer.hpp",
+        "texture_buffer.hpp",
+    ],
+    copts = ["-std=c++20"],
+    strip_include_prefix = "/gfx",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":drawcircle",
+        ":drawcircletexture",
+        "//gfx/vocabulary",
+        "@rules_cuda//cuda:cuda_runtime",
+    ],
+    linkopts = [
+        "-lcuda",
+        "-lnvcuvid",
+    ],    
+)
+
+cc_library(
+    name = "dump",
+    srcs = [
+        "utils/compute_dump.cpp",
+    ],
+    hdrs = [
+        "detail/check_cuda_call.hpp",
+        "utils/compute_dump.hpp",
+    ],
+    copts = ["-std=c++20"],
+    strip_include_prefix = "/gfx",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//gfx/vocabulary",
+        "@rules_cuda//cuda:cuda_runtime",
+        "@stb",
+    ],
+)

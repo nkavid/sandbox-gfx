@@ -1,0 +1,15 @@
+[
+  {include: ["<glm/ext/vector_float2.hpp>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/ext/vector_float3.hpp>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/type_vec2.inl>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/type_vec3.inl>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/ext/matrix_float4x4.hpp>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/func_trigonometric.inl>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/type_mat4x4.hpp>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/type_mat4x4.inl>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/type_vec4.inl>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/ext/matrix_clip_space.inl>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/ext/matrix_transform.inl>", "private", "<glm/gtc/matrix_transform.hpp>", "public"] },
+  {include: ["<glm/detail/type_vec2.hpp>", "private", "<glm/glm.hpp>", "public"] },
+  {include: ["<glm/detail/type_vec3.hpp>", "private", "<glm/glm.hpp>", "public"] },
+]

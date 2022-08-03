@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function run_clang_format()
+{
+  DIRECTORY=$1
+  if [[ ! -d "${DIRECTORY}" ]]; then
+    echo "gfx::did not find ${DIRECTORY}, run from root"
+    exit 1
+  fi;
+
+  echo "gfx::formatting: ${PWD}/${DIRECTORY}"
+  find "$1" \( -name "*.hpp" -o -name "*.cpp" \
+  -o -name "*.glsl" \
+  -o -name "*.c" -o -name "*.h" \
+  -o -name "*.cu" -o -name "*.cuh" \) \
+  -exec clang-format -i {} +
+}
+
+run_clang_format gfx

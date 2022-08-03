@@ -1,0 +1,4 @@
+load(":rule_glsl_source.bzl", "glsl_source")
+load(":rule_glsl_source_test.bzl", "glsl_source_test_suite")
+
+glsl_source_test_suite(name = "glsl_source_test_suite")

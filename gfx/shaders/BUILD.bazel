@@ -1,0 +1,17 @@
+load("//gfx/shaders/glsl_source_package:rule_glsl_source.bzl", "glsl_source")
+
+glsl_source(
+    name = "actual_texture",
+    directory = "gfx/shaders",
+    stages = [
+        "vertex",
+        "fragment",
+    ],
+)
+
+cc_library(
+    name = "texture",
+    hdrs = ["texture.hpp"],
+    strip_include_prefix = "/gfx",
+    visibility = ["//visibility:public"],
+)

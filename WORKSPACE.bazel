@@ -1,0 +1,104 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "rules_foreign_cc",
+    sha256 = "2a4d07cd64b0719b39a7c12218a3e507672b82a97b98c6a89d38565894cf7c51",
+    strip_prefix = "rules_foreign_cc-0.9.0",
+    url = "https://github.com/bazelbuild/rules_foreign_cc/archive/0.9.0.tar.gz",
+)
+
+load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
+
+rules_foreign_cc_dependencies()
+
+load(
+    "@bazel_tools//tools/build_defs/repo:git.bzl",
+    "git_repository",
+    "new_git_repository",
+)
+
+git_repository(
+    name = "bazel_skylib",
+    commit = "ee67264452174896741824ed25ade0f6d58ca642",
+    remote = "https://github.com/bazelbuild/bazel-skylib.git",
+    shallow_since = "1646929865 -0500",
+)
+
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
+bazel_skylib_workspace()
+
+new_local_repository(
+    name = "bazel_pkg_config",
+    build_file = "/home/divak/repos/bazel_pkg_config/BUILD",
+    path = "/home/divak/repos/bazel_pkg_config",
+)
+
+new_local_repository(
+    name = "stb",
+    build_file = "third_party/stb.BUILD.bazel",
+    path = "third_party/stb",
+)
+
+http_archive(
+    name = "rules_cuda",
+    sha256 = "f80438bee9906e9ecb1a8a4ae2365374ac1e8a283897281a2db2fb7fcf746333",
+    strip_prefix = "runtime-b1c7cce21ba4661c17ac72421c6a0e2015e7bef3/third_party/rules_cuda",
+    urls = ["https://github.com/tensorflow/runtime/archive/b1c7cce21ba4661c17ac72421c6a0e2015e7bef3.tar.gz"],
+)
+
+load("@rules_cuda//cuda:dependencies.bzl", "rules_cuda_dependencies")
+
+rules_cuda_dependencies()
+
+load("@rules_cc//cc:repositories.bzl", "rules_cc_toolchains")
+
+rules_cc_toolchains()
+
+new_local_repository(
+    name = "glm",
+    build_file = "third_party/glm.BUILD.bazel",
+    path = "third_party/glm",
+)
+
+http_archive(
+    name = "io_bazel_rules_go",
+    sha256 = "d6b2513456fe2229811da7eb67a444be7785f5323c6708b38d851d2b51e54d83",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.30.0/rules_go-v0.30.0.zip",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.30.0/rules_go-v0.30.0.zip",
+    ],
+)
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "3bd7828aa5af4b13b99c191e8b1e884ebfa9ad371b0ce264605d347f135d2568",
+    strip_prefix = "protobuf-3.19.4",
+    urls = [
+        "https://github.com/protocolbuffers/protobuf/archive/v3.19.4.tar.gz",
+    ],
+)
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains")
+
+go_register_toolchains(version = "1.17.2")
+
+http_archive(
+    name = "com_github_bazelbuild_buildtools",
+    strip_prefix = "buildtools-5.1.0",
+    urls = [
+        "https://github.com/bazelbuild/buildtools/archive/refs/tags/5.1.0.tar.gz",
+    ],
+)
+
+load("//:gfx/workspace_dependencies.bzl", "gfx_dependencies")
+
+gfx_dependencies()

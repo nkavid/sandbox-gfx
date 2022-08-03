@@ -1,0 +1,14 @@
+filegroup(
+    name = "headers",
+    srcs = glob(["*.h"]),
+)
+
+cc_library(
+    srcs = ["@//third_party:stb_image_implementation.cpp"],
+    name = "stb",
+    hdrs = [
+        ":headers"
+    ],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+)

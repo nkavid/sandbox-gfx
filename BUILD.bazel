@@ -1,0 +1,108 @@
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
+
+buildifier(
+    name = "buildifier",
+)
+
+load("//:tools/clang_format/clang_format.bzl", "clang_format")
+
+clang_format(
+    name = "clang-format",
+    directories = ["gfx"],
+    extensions = [
+        ".cpp",
+        ".hpp",
+        ".c",
+        ".h",
+        ".cu",
+        ".cuh",
+    ],
+    mode = "check",
+)
+
+cc_binary(
+    name = "gamepad-demo",
+    srcs = ["gfx/applications/gamepad_demo_main.cpp"],
+    copts = ["-std=c++20"],
+    deps = [
+        "//gfx/graphics:window",
+        "//gfx/input:gamepad",
+    ],
+)
+
+cc_binary(
+    name = "demo-texture-compute",
+    srcs = [
+        "gfx/applications/texture_compute_main.cpp",
+    ],
+    copts = ["-std=c++20"],
+    deps = [
+        "//gfx/compute:components",
+        "//gfx/graphics:components",
+        "//gfx/graphics:window",
+        "//gfx/shaders:texture",
+        "//gfx/utils:arg_parser",
+        "//gfx/vocabulary",
+    ],
+)
+
+cc_library(
+    name = "demo",
+    srcs = ["gfx/applications/demo_application.cpp"],
+    hdrs = [
+        "gfx/applications/demo_application.hpp",
+        "//gfx/utils:timestamp.hpp",
+    ],
+    copts = ["-std=c++20"],
+    strip_include_prefix = "/gfx",
+    deps = [
+        "//gfx/compute:components",
+        "//gfx/compute:dump",
+        "//gfx/graphics:components",
+        "//gfx/graphics:dump",
+        "//gfx/graphics:window",
+        "//gfx/shaders:texture",
+    ],
+)
+
+cc_binary(
+    name = "demo-app",
+    srcs = [
+        "gfx/applications/demo_application_main.cpp",
+    ],
+    copts = ["-std=c++20"],
+    deps = [
+        ":demo",
+        "@fmt//:lib",
+    ],
+)
+
+cc_library(
+    name = "_muxer",
+    srcs = [
+        "//gfx/utils:muxer.cpp",
+    ],
+    hdrs = [
+        "//gfx/utils:libav_string_fix.hpp",
+        "//gfx/utils:muxer.hpp",
+    ],
+    copts = ["-std=c++20"],
+    strip_include_prefix = "/gfx",
+    deps = [
+        "//gfx/vocabulary",
+        "@libavcodec//:lib",
+        "@libavformat//:lib",
+        "@libswscale//:lib",
+    ],
+)
+
+cc_binary(
+    name = "muxer",
+    srcs = ["gfx/applications/muxing_main.cpp"],
+    copts = ["-std=c++20"],
+    includes = ["include"],
+    deps = [
+        ":_muxer",
+        "//gfx/utils:arg_parser",
+    ],
+)

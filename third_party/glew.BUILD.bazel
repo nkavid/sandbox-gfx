@@ -1,0 +1,11 @@
+cc_library(
+    name = "GLEW",
+    includes = ["include"],
+    srcs = ["src/glew.c"],
+    hdrs = glob(["include/GL/*.h"]),
+    defines = [
+        "GLEW_STATIC",
+    ],
+    linkopts = ["-lGL"],
+    visibility = ["//visibility:public"],
+)

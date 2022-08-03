@@ -1,0 +1,73 @@
+---
+Language:        Cpp
+IndentWidth: 2
+BraceWrapping:
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  true
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+  AfterExternBlock: false
+BreakBeforeBraces: Custom
+BreakBeforeBinaryOperators: NonAssignment
+FixNamespaceComments: false
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeIsMainSourceRegex: '$?'
+IncludeCategories:
+  - Regex:           '"([A-Za-z0-9.\Q/-_\E])+"'
+    Priority:        1
+  - Regex:           '(glew)'
+    Priority:        2
+  - Regex:           '<([A-Za-z0-9\Q/-_\E])+>'
+    Priority:        4
+  - Regex:           '<([A-Za-z0-9.\Q/-_\E])+>'
+    Priority:        3
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+PackConstructorInitializers: Never
+PointerAlignment: Left
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterFunctionDefinitionName: false
+AlwaysBreakTemplateDeclarations: Yes
+AlignConsecutiveBitFields: Consecutive
+AlignArrayOfStructures: Right
+AlignAfterOpenBracket: Align
+EmptyLineBeforeAccessModifier: Always
+IndentAccessModifiers: true
+BreakInheritanceList: AfterComma
+BreakBeforeConceptDeclarations: true
+BinPackArguments: false
+BinPackParameters: false
+IndentExternBlock: NoIndent
+AllowShortLambdasOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLoopsOnASingleLine: false
+AlignEscapedNewlines: Right
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveMacros: Consecutive
+AlignAfterOpenBracket: Align
+AlignOperands: AlignAfterOperator
+ColumnLimit: 88
+PenaltyBreakAssignment: 100
+PenaltyBreakBeforeFirstCallParameter: 1000
+PenaltyBreakComment: 0
+PenaltyBreakFirstLessLess: 100
+PenaltyBreakOpenParenthesis: 100
+PenaltyBreakTemplateDeclaration: 1000
+PenaltyReturnTypeOnItsOwnLine: 100
+SeparateDefinitionBlocks: Always
+InsertBraces: true
+...

@@ -1,0 +1,53 @@
+[project]
+name = "gfx"
+description = "Single solution project of highly collaborative components"
+readme = "README.md"
+
+[tool.isort]
+line_length = 88
+profile = "black"
+
+[tool.black]
+line_length = 88
+target_version = ['py310']
+
+[tool.flake8]
+max-line-length = 88
+
+[mypy]
+follow_imports = "silent"
+show_error_context = true
+color_output = true
+pretty = true
+show_absolute_path = true
+disallow_redefinition = true
+warn_unused_configs = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_reexport = true
+
+[tool.pylint.main]
+jobs = 1
+good-names = ["i", "j", "k", "x", "y", "z", "s", "t", "u", "a", "b", "c"]
+
+[tool.pylint."messages control"]
+disable = [
+  "missing-module-docstring",
+  "missing-function-docstring",
+  "missing-class-docstring",
+  "logging-fstring-interpolation",
+  "too-few-public-methods",
+  "no-value-for-parameter"
+]
+
+[tool.pylint.logging]
+logging-format-style = "new"

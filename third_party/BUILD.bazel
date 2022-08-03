@@ -1,0 +1,3 @@
+exports_files([
+    "stb_image_implementation.cpp",
+])

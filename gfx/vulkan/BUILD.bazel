@@ -1,0 +1,58 @@
+load("//gfx/vulkan/rules_glslc:defs.bzl", "glsl_shader")
+
+glsl_shader(
+    name = "vertex_shader",
+    shader = "shaders/shader.vert.glsl",
+)
+
+glsl_shader(
+    name = "fragment_shader",
+    shader = "shaders/shader.frag.glsl",
+)
+
+cc_library(
+    name = "context",
+    srcs = ["context.cpp"],
+    hdrs = ["context.hpp"],
+    copts = ["-std=c++20"],
+    deps = [
+        "//gfx/utils:logger",
+        "@glfw",
+    ],
+)
+
+cc_library(
+    name = "shader",
+    srcs = ["shader.cpp"],
+    hdrs = ["shader.hpp"],
+    copts = ["-std=c++20"],
+)
+
+cc_library(
+    name = "application_implementation",
+    srcs = ["application.cpp"],
+    hdrs = ["application.hpp"],
+    copts = ["-std=c++20"],
+    data = [
+        ":fragment_shader",
+        ":vertex_shader",
+    ],
+    deps = [
+        ":context",
+        ":shader",
+        "@glm",
+        "@stb",
+    ],
+)
+
+cc_binary(
+    name = "application",
+    srcs = ["main.cpp"],
+    copts = ["-std=c++20"],
+    linkopts = ["-lvulkan"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":application_implementation",
+        ":context",
+    ],
+)
