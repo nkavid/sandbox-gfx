@@ -1,16 +1,15 @@
-add_library(window STATIC)
-target_sources(window PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}/window.cpp
-)
-
-target_include_directories(window PRIVATE
-  gfx
-)
-
-target_link_libraries(window
-  ${GL_LIB}
-  glfw
-  GLEW
+gfx_static_library_target(window
+  TARGET
+    window
+  NAMESPACE
+    graphics
+  SOURCES
+    ${CMAKE_CURRENT_LIST_DIR}/window.cpp
+  DEPENDENCIES
+    ${GL_LIB}
+    glfw
+    GLEW
+    vocabulary
 )
 
 add_library(components STATIC)
@@ -53,5 +52,4 @@ add_custom_target(${CMAKE_PROJECT_NAME}_generate_glsl_string ALL
 
 add_dependencies(components ${CMAKE_PROJECT_NAME}_generate_glsl_string)
 
-add_library(graphics::window ALIAS window)
 add_library(graphics::components ALIAS components)
