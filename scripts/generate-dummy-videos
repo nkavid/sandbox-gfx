@@ -1,0 +1,25 @@
+#!/bin/bash
+
+source scripts/logging.sh
+
+function generate_video()
+{
+  SIZE=$1
+  DURATION=$2
+  FRAME_RATE=$3
+
+  FILENAME="build/dummy_${SIZE}_${DURATION}s_${FRAME_RATE}hz.mp4"
+
+  build/bin/muxing "--output-uri" "file:${FILENAME}" \
+    "--size" ${SIZE} \
+    "--duration" ${DURATION} \
+    "--frame-rate" ${FRAME_RATE} \
+  && success "${FILENAME}"
+  
+}
+
+[[ ! -f build/bin/muxing ]] && error "missing build/bin/muxing" && exit 1
+
+generate_video "512x512" "10" "30"
+generate_video "512x512" "10" "60"
+generate_video "512x512" "10" "5"
