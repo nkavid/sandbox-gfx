@@ -81,15 +81,6 @@ include(gfx/test/unit_tests.cmake)
 
 include(gfx/applications/applicationsTargets.cmake)
 
-install(TARGETS graphics_window
-        EXPORT gfxTargets
-)
-
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gfx/graphics/window.hpp"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/gfx/graphics"
-        COMPONENT gfx
-)
-
 export(EXPORT gfxTargets
   FILE "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxTargets.cmake"
   NAMESPACE gfx::

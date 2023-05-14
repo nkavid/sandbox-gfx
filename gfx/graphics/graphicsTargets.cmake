@@ -5,6 +5,8 @@ gfx_static_library_target(window
     graphics
   SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/window.cpp
+  INTERFACE_HEADERS
+    ${CMAKE_CURRENT_LIST_DIR}/window.hpp
   DEPENDENCIES
     ${GL_LIB}
     glfw

@@ -1,6 +1,6 @@
 function(gfx_static_library_target)
   set(options)
-  set(one_value_args TARGET NAMESPACE)
+  set(one_value_args TARGET NAMESPACE INTERFACE_HEADERS)
   set(multi_value_args SOURCES DIRECTORIES DEPENDENCIES)
   cmake_parse_arguments(GFX_LIBRARY
     "${options}"
@@ -26,4 +26,12 @@ function(gfx_static_library_target)
   )
 
   add_library(${GFX_LIBRARY_NAMESPACE}::${GFX_LIBRARY_TARGET} ALIAS ${_TARGET_NAME})
+
+  install(TARGETS ${_TARGET_NAME}
+          EXPORT gfxTargets
+  )
+
+  install(FILES ${GFX_LIBRARY_INTERFACE_HEADERS}
+          DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/gfx/${GFX_LIBRARY_NAMESPACE}"
+  )
 endfunction()
