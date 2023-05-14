@@ -52,7 +52,7 @@ def main() -> None:
                 write_shader(output_source, stage, input_file)
 
         output_source.write("}\n")
-        output_source.write("\n// clang-format on")
+        output_source.write("\n// clang-format on\n")
 
 
 def parse_arguments() -> tuple[str, pathlib.Path, list[str]]:
@@ -103,7 +103,7 @@ def write_header(output: IO[str]) -> None:
 
 
 def write_shader(output_file: IO[str], shader_type: str, input_file: IO[str]) -> None:
-    declaration = "static const char* " + shader_type + " = "
+    declaration = "static const char* const " + shader_type + " = "
     whitespace = " " * 4
     output_file.write(declaration + "\n")
     lines = input_file.read().splitlines()

@@ -23,7 +23,7 @@ Checks: "*,
 gfx-experimental-package-namespace
 "
 WarningsAsErrors: ''
-HeaderFilterRegex: ''
+HeaderFilterRegex: 'gfx/*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     none
 User:            gfx

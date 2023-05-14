@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <filesystem>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 
 namespace gfx
@@ -40,14 +41,9 @@ URI::URI(std::string_view uri)
 {
 }
 
-const std::string& URI::string() const
-{
-  return _uri;
-}
-
 const char* URI::c_str() const
 {
-  return _uri.c_str();
+  return _uri.data();
 }
 
 std::filesystem::path URI::path() const

@@ -6,7 +6,7 @@
 
 namespace gfx
 {
-class Size;
+struct Size;
 }
 
 namespace gfx::compute::utils

@@ -46,15 +46,17 @@ class Context
 
   private:
     GLFWwindow* _window{nullptr};
-    const uint32_t _width{800};
-    const uint32_t _height{600};
+    // NOLINTBEGIN(readability-magic-numbers)
+    uint32_t _width{800};
+    uint32_t _height{600};
+    // NOLINTEND(readability-magic-numbers)
     VkInstance _vkInstance{};
     const char* _applicationName{"vulkan-hello-application"};
     VkDebugUtilsMessengerEXT _debugMessenger{};
     VkPhysicalDevice _physicalDevice{VK_NULL_HANDLE};
     bool _framebufferResized{false};
-    const bool _enableValidationLayers{true};
-    const std::vector<const char*> _validationLayers{"VK_LAYER_KHRONOS_validation"};
+    bool _enableValidationLayers{true};
+    std::vector<const char*> _validationLayers{"VK_LAYER_KHRONOS_validation"};
     VkSurfaceKHR _surface{};
 
     [[nodiscard]] std::vector<const char*> _getRequiredExtensions() const;

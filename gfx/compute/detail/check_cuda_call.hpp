@@ -12,6 +12,7 @@
 #ifdef CUCHECK
 #error gfx::figure out a better alternative
 #else
+// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define CUCHECK(ARG) ::gfx::compute::detail::checkCudaCall(ARG)
 #endif
 

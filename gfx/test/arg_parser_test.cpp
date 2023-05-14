@@ -86,7 +86,7 @@ TEST_CASE("argparser_test", "[gfx][utils][arg_parser]")
     THEN("get uri string from arg parser")
     {
       auto result = gfx::utils::ArgParser(cli.argc(), cli.argv());
-      REQUIRE(result.getInputUri().string() == "unix:/tmp/test");
+      REQUIRE(std::string{result.getInputUri().c_str()} == "unix:/tmp/test");
     }
   }
 }

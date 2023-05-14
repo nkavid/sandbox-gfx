@@ -41,7 +41,6 @@ extern "C" {
 #include <cerrno>
 #include <cstdint>
 #include <cstdio>
-#include <utility>
 
 namespace gfx::utils::video
 {
@@ -346,7 +345,7 @@ Muxer::Muxer(gfx::URI uri,
              gfx::Size size,
              gfx::time::ms duration,
              gfx::time::fps frameRate)
-    : _uri{std::move(uri)},
+    : _uri{uri},
       _size{size},
       _duration{duration},
       _frameRate{frameRate}
