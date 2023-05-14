@@ -1,3 +1,4 @@
+# shellcheck disable=SC2034 # allow unused variables in this file
 BEGIN="\x1B["
 END="m"
 SEPARATOR=";"
@@ -30,7 +31,7 @@ RESET="\x1B[0m"
 DEBUG="\x1B[1;30;105m"
 DEV_MSG="\x1B[1;95m"
 
-BASENAME=$(basename $0)
+BASENAME="$(basename "$0")"
 VERBOSE=1
 
 function error()
@@ -51,8 +52,7 @@ function success()
 function verbose_info()
 {
   [[ ${VERBOSE} = 1 ]] \
-    && echo -e "${BOLD}gfx::[${LIGHT_GRAY}info${DEFAULT}]::${BASENAME}:${RESET} $1" \
-    || true
+    && echo -e "${BOLD}gfx::[${LIGHT_GRAY}info${DEFAULT}]::${BASENAME}:${RESET} $1"
 }
 
 function debug()

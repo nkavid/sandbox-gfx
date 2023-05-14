@@ -11,9 +11,9 @@ function generate_video()
   FILENAME="build/dummy_${SIZE}_${DURATION}s_${FRAME_RATE}hz.mp4"
 
   build/bin/muxing "--output-uri" "file:${FILENAME}" \
-    "--size" ${SIZE} \
-    "--duration" ${DURATION} \
-    "--frame-rate" ${FRAME_RATE} \
+    "--size" "${SIZE}" \
+    "--duration" "${DURATION}" \
+    "--frame-rate" "${FRAME_RATE}" \
   && success "${FILENAME}"
   
 }

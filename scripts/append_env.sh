@@ -26,7 +26,7 @@ function append()
       -d | --directory ) [[ ! -d $2 ]] \
         && error "${ITALIC}$2${RESET} not a directory" \
         && exit 1 \
-        || DIRECTORY=$(realpath $2);
+        || DIRECTORY=$(realpath "$2");
       shift 2 ;;
       pythonpath ) ENVIRONMENT_VARIABLE="pythonpath"; shift ;;
       path ) ENVIRONMENT_VARIABLE="path"; shift ;;
@@ -37,9 +37,9 @@ function append()
   verbose_info "DIRECTORY = ${ITALIC}${DIRECTORY}${RESET}"
   verbose_info "ENVIRONMENT_VARIABLE = ${BOLD}${ENVIRONMENT_VARIABLE}${RESET}"
 
-  if [[ $ENVIRONMENT_VARIABLE = "pythonpath" ]]; then
+  if [[ ${ENVIRONMENT_VARIABLE} = "pythonpath" ]]; then
       export PYTHONPATH=${DIRECTORY}:${PYTHONPATH}
-  elif [[ $ENVIRONMENT_VARIABLE = "path" ]]; then
+  elif [[ ${ENVIRONMENT_VARIABLE} = "path" ]]; then
       export PATH=${DIRECTORY}:${PATH}
   fi
 }

@@ -88,5 +88,6 @@ run src || FAIL=1
 run bin || FAIL=1
 run bin/find-comments || FAIL=1
 run tools || FAIL=1
+run scripts || FAIL=1
 
 [[ ${FAIL} = 1 ]] && error "fail" && exit 1
