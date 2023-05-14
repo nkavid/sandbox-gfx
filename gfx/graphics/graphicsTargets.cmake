@@ -21,17 +21,13 @@ target_sources(components PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/utils/graphics_dump.cpp
 )
 
-target_include_directories(components SYSTEM PRIVATE
-  third_party/stb
-)
-
 target_include_directories(components PRIVATE
   gfx
 )
 
 target_link_libraries(components
   ${GL_LIB}
-  $<TARGET_OBJECTS:stb_image_implementation>
+  stb_image_implementation
   GLEW
 )
 
