@@ -12,6 +12,11 @@ target_include_directories(arg_parser PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/../
 )
 
+target_compile_options(arg_parser PUBLIC
+  # std::unary_function removed in C++17
+  -DBOOST_NO_CXX98_FUNCTION_BASE
+)
+
 add_library(utils_logger STATIC)
 
 target_sources(utils_logger PRIVATE

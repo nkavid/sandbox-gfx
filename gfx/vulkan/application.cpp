@@ -23,18 +23,15 @@
 #include <string>
 #include <vector>
 
-/*
-  NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index)
-*/
-
 namespace gfx::vulkan::detail
 {
+namespace
+{
 // NOLINTNEXTLINE
-static const std::vector<const char*> deviceExtensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
-VkSurfaceFormatKHR static chooseSwapSurfaceFormat(
-    const std::vector<VkSurfaceFormatKHR>& availableFormats)
+VkSurfaceFormatKHR
+chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
   for (const auto& availableFormat : availableFormats)
   {
@@ -48,8 +45,8 @@ VkSurfaceFormatKHR static chooseSwapSurfaceFormat(
   return availableFormats[0];
 }
 
-VkPresentModeKHR static chooseSwapPresentMode(
-    const std::vector<VkPresentModeKHR>& availablePresentModes)
+VkPresentModeKHR
+chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
   for (const auto& availablePresentMode : availablePresentModes)
   {
@@ -62,8 +59,8 @@ VkPresentModeKHR static chooseSwapPresentMode(
   return VK_PRESENT_MODE_FIFO_KHR;
 }
 
-static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities,
-                                   GLFWwindow* window)
+VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities,
+                            GLFWwindow* window)
 {
   if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
   {
@@ -87,6 +84,7 @@ static VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities,
                                    capabilities.maxImageExtent.height);
 
   return actualExtent;
+}
 }
 }
 
@@ -222,17 +220,21 @@ void Application::terminate()
 
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
   {
+    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index)
     vkDestroyFence(_logicalDevice, _inFlightFences[i], nullptr);
     vkDestroySemaphore(_logicalDevice, _renderFinishedSemaphores[i], nullptr);
     vkDestroySemaphore(_logicalDevice, _imageAvailableSemaphores[i], nullptr);
+    // NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index)
   }
 
   vkDestroyCommandPool(_logicalDevice, _commandPool, nullptr);
 
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
   {
+    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index)
     vkDestroyBuffer(_logicalDevice, _uniformBuffers[i], nullptr);
     vkFreeMemory(_logicalDevice, _uniformBuffersMemory[i], nullptr);
+    // NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index)
   }
 
   vkDestroyDescriptorPool(_logicalDevice, _descriptorPool, nullptr);
@@ -631,12 +633,12 @@ void Application::_createGraphicsPipeline()
   colorBlending.attachmentCount = 1;
   colorBlending.pAttachments    = &colorBlendAttachment;
 
-  // NOLINTBEGIN(readability-magic-numbers)
+  // NOLINTBEGIN(readability-magic-numbers,clang-diagnostic-unsafe-buffer-usage)
   colorBlending.blendConstants[0] = 0.0F; // Optional
   colorBlending.blendConstants[1] = 0.0F; // Optional
   colorBlending.blendConstants[2] = 0.0F; // Optional
   colorBlending.blendConstants[3] = 0.0F; // Optional
-                                          // NOLINTEND(readability-magic-numbers)
+  // NOLINTEND(readability-magic-numbers,clang-diagnostic-unsafe-buffer-usage)
 
   VkPipelineDepthStencilStateCreateInfo depthStencil{};
   depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
@@ -920,8 +922,10 @@ uint32_t Application::_findMemoryType(uint32_t typeFilter,
   vkGetPhysicalDeviceMemoryProperties(_context.getPhysicalDevice(), &memProperties);
   for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
   {
-    if (((typeFilter & (1U << i)) != 0U)
-        && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
+    // NOLINTNEXTLINE
+    const auto propertyBitField = memProperties.memoryTypes[i].propertyFlags
+                                & properties;
+    if (((typeFilter & (1U << i)) != 0U) && (propertyBitField == properties))
     {
       return i;
     }
@@ -1477,20 +1481,19 @@ void Application::_recordCommandBuffer(VkCommandBuffer commandBuffer,
 // NOLINTNEXTLINE(readability-function-size)
 void Application::_drawFrame()
 {
-  vkWaitForFences(_logicalDevice,
-                  1,
-                  &_inFlightFences[_currentFrame],
-                  VK_TRUE,
-                  UINT64_MAX);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+  auto& inFlightFence = _inFlightFences[_currentFrame];
+  vkWaitForFences(_logicalDevice, 1, &inFlightFence, VK_TRUE, UINT64_MAX);
 
   uint32_t imageIndex{};
-  const VkResult acquireResult =
-      vkAcquireNextImageKHR(_logicalDevice,
-                            _swapChain,
-                            UINT64_MAX,
-                            _imageAvailableSemaphores[_currentFrame],
-                            VK_NULL_HANDLE,
-                            &imageIndex);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+  auto& imageAvailableSemaphore = _imageAvailableSemaphores[_currentFrame];
+  const VkResult acquireResult  = vkAcquireNextImageKHR(_logicalDevice,
+                                                       _swapChain,
+                                                       UINT64_MAX,
+                                                       imageAvailableSemaphore,
+                                                       VK_NULL_HANDLE,
+                                                       &imageIndex);
 
   if (acquireResult == VK_ERROR_OUT_OF_DATE_KHR)
   {
@@ -1503,26 +1506,32 @@ void Application::_drawFrame()
     throw std::runtime_error("gfx::failed to acquire swap chain image!");
   }
 
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
   vkResetFences(_logicalDevice, 1, &_inFlightFences[_currentFrame]);
 
-  vkResetCommandBuffer(_commandBuffers[_currentFrame], 0);
-  _recordCommandBuffer(_commandBuffers[_currentFrame], imageIndex);
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+  auto& currentCommandBuffer = _commandBuffers[_currentFrame];
+  vkResetCommandBuffer(currentCommandBuffer, 0);
+  _recordCommandBuffer(currentCommandBuffer, imageIndex);
 
   std::vector<VkPipelineStageFlags> waitStages{
       VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
 
   _updateUniformBuffer(_currentFrame);
 
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+  auto& currentRenderFinishedSemaphore = _renderFinishedSemaphores[_currentFrame];
   VkSubmitInfo submitInfo{};
   submitInfo.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
   submitInfo.waitSemaphoreCount   = static_cast<uint32_t>(waitStages.size());
-  submitInfo.pWaitSemaphores      = &_imageAvailableSemaphores[_currentFrame];
+  submitInfo.pWaitSemaphores      = &imageAvailableSemaphore;
   submitInfo.pWaitDstStageMask    = waitStages.data();
   submitInfo.commandBufferCount   = 1;
-  submitInfo.pCommandBuffers      = &_commandBuffers[_currentFrame];
+  submitInfo.pCommandBuffers      = &currentCommandBuffer;
   submitInfo.signalSemaphoreCount = 1;
-  submitInfo.pSignalSemaphores    = &_renderFinishedSemaphores[_currentFrame];
+  submitInfo.pSignalSemaphores    = &currentRenderFinishedSemaphore;
 
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
   if (vkQueueSubmit(_graphicsQueue, 1, &submitInfo, _inFlightFences[_currentFrame])
       != VK_SUCCESS)
   {
@@ -1533,7 +1542,7 @@ void Application::_drawFrame()
   presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
 
   presentInfo.waitSemaphoreCount = 1;
-  presentInfo.pWaitSemaphores    = &_renderFinishedSemaphores[_currentFrame];
+  presentInfo.pWaitSemaphores    = &currentRenderFinishedSemaphore;
   presentInfo.swapchainCount     = 1;
   presentInfo.pSwapchains        = &_swapChain;
   presentInfo.pImageIndices      = &imageIndex;
@@ -1566,6 +1575,7 @@ void Application::_createSyncObjects()
 
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; ++i)
   {
+    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-constant-array-index)
     if (vkCreateSemaphore(_logicalDevice,
                           &semaphoreInfo,
                           nullptr,
@@ -1578,6 +1588,7 @@ void Application::_createSyncObjects()
                != VK_SUCCESS
         || vkCreateFence(_logicalDevice, &fenceInfo, nullptr, &_inFlightFences[i])
                != VK_SUCCESS)
+    // NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index)
     {
       throw std::runtime_error("gfx::failed to create semaphores!");
     }
@@ -1617,7 +1628,3 @@ void Application::_recreateSwapChain()
   _createFramebuffers();
 }
 }
-
-/*
-  NOLINTEND(cppcoreguidelines-pro-bounds-constant-array-index)
-*/

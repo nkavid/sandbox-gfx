@@ -7,9 +7,11 @@
 #include <stdexcept>
 #include <string_view>
 
-namespace gfx::detail
+namespace gfx
 {
-static URI::Schema getSchema(std::string_view uri)
+namespace
+{
+URI::Schema getSchema(std::string_view uri)
 {
   URI::Schema result{};
   if (uri.starts_with("file"))
@@ -32,11 +34,9 @@ static URI::Schema getSchema(std::string_view uri)
 }
 }
 
-namespace gfx
-{
 URI::URI(std::string_view uri)
     : _uri{uri},
-      _schema{detail::getSchema(_uri)}
+      _schema{getSchema(_uri)}
 {
 }
 

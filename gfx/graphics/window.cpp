@@ -6,7 +6,9 @@
 
 #include <GLFW/glfw3.h>
 
-namespace gfx::graphics::detail
+namespace gfx::graphics
+{
+namespace
 {
 namespace opengl_version
 {
@@ -14,7 +16,7 @@ constexpr int major{4};
 constexpr int minor{6};
 }
 
-static void initialize_glfw(Window::Mode mode)
+void initialize_glfw(Window::Mode mode)
 {
   if (glfwInit() == GLFW_FALSE)
   {
@@ -38,7 +40,7 @@ static void initialize_glfw(Window::Mode mode)
   }
 }
 
-static GLFWwindow* create_window_glfw(const char* name, const gfx::Size& size)
+GLFWwindow* create_window_glfw(const char* name, const gfx::Size& size)
 {
   auto* window = glfwCreateWindow(size.width, size.height, name, nullptr, nullptr);
 
@@ -61,7 +63,7 @@ static GLFWwindow* create_window_glfw(const char* name, const gfx::Size& size)
   return window;
 }
 
-static void initialize_opengl()
+void initialize_opengl()
 {
   glewExperimental = GL_TRUE;
   glewInit();
@@ -72,17 +74,16 @@ static void initialize_opengl()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+
 }
 
-namespace gfx::graphics
-{
 Window::Window(const char* name, const gfx::Size& size, Mode mode)
     : _size{size.width, size.height}
 {
-  detail::initialize_glfw(mode);
+  initialize_glfw(mode);
   // NOLINTNEXTLINE(cppcoreguidelines-prefer-member-initializer)
-  _window = detail::create_window_glfw(name, _size);
-  detail::initialize_opengl();
+  _window = create_window_glfw(name, _size);
+  initialize_opengl();
 }
 
 Window::~Window()

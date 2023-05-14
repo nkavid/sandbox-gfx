@@ -9,7 +9,9 @@
 
 namespace gfx::graphics::detail
 {
-[[noreturn]] static void fatalShaderError(unsigned int shader)
+namespace
+{
+[[noreturn]] void fatalShaderError(unsigned int shader)
 {
   constexpr size_t infoLogSize{512};
   std::array<char, infoLogSize> infoLog{};
@@ -17,7 +19,7 @@ namespace gfx::graphics::detail
   utils::logger::fatal(infoLog.data());
 }
 
-static unsigned int compileShader(const char* sourceString, GLenum type)
+unsigned int compileShader(const char* sourceString, GLenum type)
 {
   const unsigned int shader = glCreateShader(type);
   glShaderSource(shader, 1, &sourceString, nullptr);
@@ -34,7 +36,7 @@ static unsigned int compileShader(const char* sourceString, GLenum type)
   return shader;
 }
 
-[[noreturn]] static void fatalProgramError(unsigned int program)
+[[noreturn]] void fatalProgramError(unsigned int program)
 {
   constexpr size_t infoLogSize{512};
   std::array<char, infoLogSize> infoLog{};
@@ -43,7 +45,7 @@ static unsigned int compileShader(const char* sourceString, GLenum type)
 }
 
 template <class T>
-static unsigned int createProgram(const T& shaders)
+unsigned int createProgram(const T& shaders)
 {
   const unsigned int shaderProgram = glCreateProgram();
 
@@ -73,6 +75,7 @@ enum stage
   fragment,
   num_stages
 };
+}
 }
 
 unsigned int compileShaderProgram(const char* vertSource, const char* fragSource)

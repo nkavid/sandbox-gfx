@@ -8,8 +8,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+// NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
 static struct option* g_long_options = NULL;
 
+// NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
 static struct argparse_print_description* g_desc_options = NULL;
 
 static char* g_optstring = NULL;

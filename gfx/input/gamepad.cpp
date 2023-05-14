@@ -7,8 +7,10 @@
 
 namespace gfx::input::glfw_util
 {
+namespace
+{
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-static void joystick_callback(int jid, int event)
+void joystick_callback(int jid, int event)
 {
   if (event == GLFW_CONNECTED)
   {
@@ -20,7 +22,7 @@ static void joystick_callback(int jid, int event)
   }
 }
 
-static void printJoystickInfo(int _glfwJoystickId)
+void printJoystickInfo(int _glfwJoystickId)
 {
   if (glfwJoystickPresent(_glfwJoystickId) == GLFW_TRUE)
   {
@@ -43,6 +45,7 @@ static void printJoystickInfo(int _glfwJoystickId)
     std::cout << _glfwJoystickId << " is NOT gamepad\n";
     std::cout << "joystick name: " << glfwGetJoystickName(_glfwJoystickId) << '\n';
   }
+}
 }
 }
 
@@ -101,6 +104,7 @@ void Gamepad::update()
   _invalidate();
 
   int count{};
+  // NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
   const unsigned char* newButtons = glfwGetJoystickButtons(_glfwJoystickId, &count);
   if (newButtons == nullptr)
   {
@@ -131,6 +135,7 @@ void Gamepad::update()
 void Gamepad::printAxes()
 {
   int count{};
+  // NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
   const float* axes = glfwGetJoystickAxes(_glfwJoystickId, &count);
   if (axes == nullptr)
   {

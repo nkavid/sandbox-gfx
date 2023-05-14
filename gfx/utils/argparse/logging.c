@@ -8,6 +8,7 @@
 
 const char* logging_get_executable_name(void)
 {
+  // NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
   static char executable_name[16] = "";
 
   FILE* filePtr = NULL;

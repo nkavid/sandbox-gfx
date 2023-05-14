@@ -44,9 +44,8 @@ constexpr auto apply = [](std::string_view color) {
     return sstream.str();
   };
 };
-}
 
-static std::string getPreamble(std::string_view color, std::string_view tag)
+std::string getPreamble(std::string_view color, std::string_view tag)
 {
   std::stringstream preamble;
   preamble << ansi::bold;
@@ -57,6 +56,7 @@ static std::string getPreamble(std::string_view color, std::string_view tag)
   preamble << "] ";
   preamble << ansi::reset;
   return preamble.str();
+}
 }
 
 void fatal(std::string_view msg)

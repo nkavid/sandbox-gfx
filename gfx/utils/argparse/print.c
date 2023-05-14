@@ -33,9 +33,11 @@ void argparse_print_description(const char* description)
   printf("description: %s\n\n", description);
 }
 
+// NOLINTBEGIN(clang-diagnostic-unsafe-buffer-usage)
 void argparse_print_options(const struct option* options,
                             const struct argparse_print_description* desc_options,
                             unsigned num_options)
+// NOLINTEND(clang-diagnostic-unsafe-buffer-usage)
 {
   puts("options:");
   for (unsigned i = 0; i < (num_options + 1); ++i)

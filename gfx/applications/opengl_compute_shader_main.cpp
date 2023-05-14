@@ -14,12 +14,14 @@
 
 namespace gfx
 {
+namespace
+{
 template <class T>
-static void fillRows(T& data,
-                     size_t begin,
-                     size_t end,
-                     const gfx::Color& color,
-                     const gfx::Size& size)
+void fillRows(T& data,
+              size_t begin,
+              size_t end,
+              const gfx::Color& color,
+              const gfx::Size& size)
 {
   auto floatToUint8 = [](float floatData) {
     constexpr static const float maxUint8AsFloat{255.0F};
@@ -36,6 +38,7 @@ static void fillRows(T& data,
       data[x * 4 + y * size.width * 4 + 3] = floatToUint8(color.alpha()); // NOLINT
     }
   }
+}
 }
 }
 

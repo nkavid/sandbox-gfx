@@ -16,11 +16,12 @@
 
 namespace gfx::vulkan::detail
 {
+namespace
+{
 // NOLINTNEXTLINE
-static const std::vector<const char*> deviceExtensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
 
-static bool checkDeviceExtensionSupport(VkPhysicalDevice device)
+bool checkDeviceExtensionSupport(VkPhysicalDevice device)
 {
   uint32_t extensionCount{};
   vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
@@ -42,8 +43,7 @@ static bool checkDeviceExtensionSupport(VkPhysicalDevice device)
   return requiredExtensions.empty();
 }
 
-static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device,
-                                            VkSurfaceKHR surface)
+QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface)
 {
   QueueFamilyIndices queueFamilyIndices{};
   uint32_t queueFamilyCount{0};
@@ -80,8 +80,8 @@ static QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device,
   return queueFamilyIndices;
 }
 
-static SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device,
-                                                     VkSurfaceKHR surface)
+SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device,
+                                              VkSurfaceKHR surface)
 {
   SwapChainSupportDetails details{};
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
@@ -116,7 +116,7 @@ static SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device,
   return details;
 }
 
-static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface)
+bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface)
 {
   VkPhysicalDeviceProperties deviceProperties;
   vkGetPhysicalDeviceProperties(device, &deviceProperties);
@@ -145,7 +145,7 @@ static bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR surface)
   return result;
 }
 
-static VKAPI_ATTR VkBool32 VKAPI_CALL
+VKAPI_ATTR VkBool32 VKAPI_CALL
 debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
               VkDebugUtilsMessageTypeFlagsEXT /*messageType*/,
               const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
@@ -174,8 +174,7 @@ debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
   return VK_FALSE;
 }
 
-static void
-populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
+void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
 {
   // NOLINTBEGIN(hicpp-signed-bitwise)
   createInfo.sType           = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -190,13 +189,13 @@ populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
   // NOLINTEND(hicpp-signed-bitwise)
 }
 
-static VkResult
+VkResult
 CreateDebugUtilsMessengerEXT(VkInstance instance,
                              const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                              const VkAllocationCallbacks* pAllocator,
                              VkDebugUtilsMessengerEXT* pDebugMessenger)
 {
-  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  // NOLINTNEXTLINE
   auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
       vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
 
@@ -208,11 +207,11 @@ CreateDebugUtilsMessengerEXT(VkInstance instance,
   return VK_ERROR_EXTENSION_NOT_PRESENT;
 }
 
-static void DestroyDebugUtilsMessengerEXT(VkInstance instance,
-                                          VkDebugUtilsMessengerEXT debugMessenger,
-                                          const VkAllocationCallbacks* pAllocator)
+void DestroyDebugUtilsMessengerEXT(VkInstance instance,
+                                   VkDebugUtilsMessengerEXT debugMessenger,
+                                   const VkAllocationCallbacks* pAllocator)
 {
-  // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+  // NOLINTNEXTLINE
   auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
       vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
 
@@ -220,6 +219,7 @@ static void DestroyDebugUtilsMessengerEXT(VkInstance instance,
   {
     func(instance, debugMessenger, pAllocator);
   }
+}
 }
 }
 
@@ -280,6 +280,7 @@ void Context::waitWhileMinimized() const
   int width{0};
   int height{0};
 
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-do-while)
   do
   {
     glfwGetFramebufferSize(_window, &width, &height);
@@ -320,7 +321,7 @@ void Context::_initWindow()
 std::vector<const char*> Context::_getRequiredExtensions() const
 {
   uint32_t glfwExtensionCount{0};
-  const char** glfwExtensions{nullptr};
+  const char** glfwExtensions{nullptr}; // NOLINT(clang-diagnostic-unsafe-buffer-usage)
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
   std::vector<const char*> extensions{};
 

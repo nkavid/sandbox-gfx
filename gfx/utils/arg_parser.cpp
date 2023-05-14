@@ -4,7 +4,6 @@
 #include "vocabulary/time.hpp"
 #include "vocabulary/uri.hpp"
 
-#include <boost/lexical_cast/bad_lexical_cast.hpp>
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/value_semantic.hpp>
@@ -33,12 +32,14 @@
 
 namespace gfx::utils
 {
-[[maybe_unused]] static std::ostream& operator<<(std::ostream& outStream,
-                                                 const Size& size)
+namespace
+{
+[[maybe_unused]] std::ostream& operator<<(std::ostream& outStream, const Size& size)
 {
   outStream << static_cast<size_t>(size.width) << 'x'
             << static_cast<size_t>(size.height);
   return outStream;
+}
 }
 
 void ArgParser::_checkForOutputPath()

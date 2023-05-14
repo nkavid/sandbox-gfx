@@ -45,10 +45,10 @@ extern "C" {
 
 namespace gfx::utils::video
 {
+namespace
+{
 struct Size
 {
-    Size() = default;
-
     // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
     Size(int widthParam, int heightParam)
         : width{widthParam},
@@ -87,11 +87,11 @@ struct OutputStream
     SwrContext* swr_ctx{nullptr};
 };
 
-static int write_frame(AVFormatContext* fmt_ctx,
-                       AVCodecContext* codecContext,
-                       AVStream* stream,
-                       AVFrame* frame,
-                       AVPacket* pkt)
+int write_frame(AVFormatContext* fmt_ctx,
+                AVCodecContext* codecContext,
+                AVStream* stream,
+                AVFrame* frame,
+                AVPacket* pkt)
 {
   int ret{};
   ret = avcodec_send_frame(codecContext, frame);
@@ -128,12 +128,12 @@ static int write_frame(AVFormatContext* fmt_ctx,
 }
 
 // NOLINTNEXTLINE(readability-function-size,readability-function-cognitive-complexity)
-static void add_stream(OutputStream* ost,
-                       AVFormatContext* formatContext,
-                       const AVCodec** codec,
-                       AVCodecID codec_id,
-                       const Size& size,
-                       uint32_t frameRate)
+void add_stream(OutputStream* ost,
+                AVFormatContext* formatContext,
+                const AVCodec** codec,
+                AVCodecID codec_id,
+                const Size& size,
+                uint32_t frameRate)
 {
   AVCodecContext* codecContext{nullptr};
   *codec = avcodec_find_encoder(codec_id);
@@ -201,7 +201,7 @@ static void add_stream(OutputStream* ost,
   }
 }
 
-static AVFrame* alloc_picture(AVPixelFormat pix_fmt, const Size& size)
+AVFrame* alloc_picture(AVPixelFormat pix_fmt, const Size& size)
 {
   AVFrame* picture{nullptr};
   int ret{};
@@ -225,10 +225,10 @@ static AVFrame* alloc_picture(AVPixelFormat pix_fmt, const Size& size)
   return picture;
 }
 
-static void open_video(AVFormatContext* /*oc*/,
-                       const AVCodec* codec,
-                       OutputStream* ost,
-                       AVDictionary* opt_arg)
+void open_video(AVFormatContext* /*oc*/,
+                const AVCodec* codec,
+                OutputStream* ost,
+                AVDictionary* opt_arg)
 {
   int ret{};
   AVCodecContext* codecContext{ost->enc};
@@ -268,7 +268,7 @@ static void open_video(AVFormatContext* /*oc*/,
   }
 }
 
-static void fill_yuv_image(AVFrame* pict, int64_t frameIndex, const Size& size)
+void fill_yuv_image(AVFrame* pict, int64_t frameIndex, const Size& size)
 {
   // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic,
   // readability-identifier-length)
@@ -295,7 +295,7 @@ static void fill_yuv_image(AVFrame* pict, int64_t frameIndex, const Size& size)
   // readability-identifier-length)
 }
 
-static AVFrame* get_video_frame(OutputStream* ost, int64_t duration)
+AVFrame* get_video_frame(OutputStream* ost, int64_t duration)
 {
   AVCodecContext* codecContext{ost->enc};
 
@@ -319,9 +319,9 @@ static AVFrame* get_video_frame(OutputStream* ost, int64_t duration)
   return ost->frame;
 }
 
-static int write_video_frame(AVFormatContext* formatContext,
-                             OutputStream* ost,
-                             int64_t duration)
+int write_video_frame(AVFormatContext* formatContext,
+                      OutputStream* ost,
+                      int64_t duration)
 {
   return write_frame(formatContext,
                      ost->enc,
@@ -330,7 +330,7 @@ static int write_video_frame(AVFormatContext* formatContext,
                      ost->tmp_pkt);
 }
 
-static void close_stream(AVFormatContext* /*oc*/, OutputStream* ost)
+void close_stream(AVFormatContext* /*oc*/, OutputStream* ost)
 {
   avcodec_free_context(&ost->enc);
   av_frame_free(&ost->frame);
@@ -338,6 +338,7 @@ static void close_stream(AVFormatContext* /*oc*/, OutputStream* ost)
   av_packet_free(&ost->tmp_pkt);
   sws_freeContext(ost->sws_ctx);
   swr_free(&ost->swr_ctx);
+}
 }
 
 // NOLINTNEXTLINE(readability-function-size,readability-function-cognitive-complexity)
