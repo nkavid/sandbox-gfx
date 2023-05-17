@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <filesystem>
 #include <stdexcept>
-#include <string>
 #include <string_view>
 
 namespace gfx
@@ -51,15 +50,13 @@ std::filesystem::path URI::path() const
   if (_schema == Schema::File)
   {
     constexpr size_t schemaPrefixLength = std::string_view("file:").size();
-    // NOLINTNEXTLINE(readability-suspicious-call-argument)
-    return _uri.substr(schemaPrefixLength, std::string::npos);
+    return _uri.substr(schemaPrefixLength);
   }
 
   if (_schema == Schema::Unix)
   {
     constexpr size_t schemaPrefixLength = std::string_view("unix:").size();
-    // NOLINTNEXTLINE(readability-suspicious-call-argument)
-    return _uri.substr(schemaPrefixLength, std::string::npos);
+    return _uri.substr(schemaPrefixLength);
   }
 
   throw std::runtime_error("gfx::support for path unexpected");
