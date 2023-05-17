@@ -1,11 +1,11 @@
 #pragma once
 
-#include <nlohmann/json.hpp>
+#include <filesystem>
 
 namespace gfx::utils
 {
 class JSONParser
 {
-    JSONParser();
+    explicit JSONParser(const std::filesystem::path& filepath);
 };
 }
