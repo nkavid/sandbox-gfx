@@ -48,7 +48,7 @@ target_sources(json_parser PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/json_parser.cpp
 )
 
-ignore_third_party(json_parser)
+#ignore_third_party(json_parser)
 
 target_link_libraries(json_parser
   nlohmann_json::nlohmann_json
@@ -89,6 +89,8 @@ add_library(argparse_c STATIC
   ${CMAKE_CURRENT_LIST_DIR}/argparse/print.c
   ${CMAKE_CURRENT_LIST_DIR}/argparse/logging.c
 )
+
+target_compile_definitions(argparse_c PRIVATE __STDC_WANT_LIB_EXT1__=1)
 
 add_library(utils::c::argparse ALIAS argparse_c)
 

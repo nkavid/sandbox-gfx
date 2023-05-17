@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
 // NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
 static struct option* g_long_options = NULL;
 
@@ -17,6 +18,8 @@ static struct argparse_print_description* g_desc_options = NULL;
 static char* g_optstring = NULL;
 
 static unsigned* g_num_options = NULL;
+
+// NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
 void argparse_alloc_options(unsigned num_options)
 {
@@ -32,8 +35,10 @@ void argparse_alloc_options(unsigned num_options)
   static const unsigned help_and_null   = num_help + 1;
   const unsigned long total_num_options = num_options + help_and_null;
 
-  g_long_options = malloc(total_num_options * sizeof(struct option));
-  memset(g_long_options, 0, total_num_options * sizeof(struct option));
+  const unsigned long size_long_options = total_num_options * sizeof(struct option);
+
+  g_long_options = malloc(size_long_options);
+  memset(g_long_options, 0, size_long_options);
 
   struct option help = {.name = "help", .has_arg = no_argument, .flag = 0, .val = 'h'};
 

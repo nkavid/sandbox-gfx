@@ -17,23 +17,23 @@ Checks: "*,
 -clang-diagnostic-old-style-cast,
 -cppcoreguidelines-avoid-c-arrays,
 -cppcoreguidelines-avoid-magic-numbers,
+-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,
 -cert-exp42-c,
 -cert-flp37-c,
 -gfx-experimental*,
 gfx-experimental-package-namespace
 "
-WarningsAsErrors: ''
+WarningsAsErrors: '*'
 HeaderFilterRegex: 'gfx/*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     none
 User:            gfx
+UseColor:        true
 CheckOptions:
   - key:             llvm-else-after-return.WarnOnConditionVariables
     value:           'false'
   - key:             modernize-loop-convert.MinConfidence
     value:           reasonable
-  - key:             cert-str34-c.DiagnoseSignedUnsignedCharComparisons
-    value:           'false'
   - key:             google-readability-namespace-comments.ShortNamespaceLines
     value:           '10'
   - key:             cert-err33-c.CheckedFunctions
@@ -52,8 +52,6 @@ CheckOptions:
     value:           llvm
   - key:             modernize-use-nullptr.NullMacros
     value:           'NULL'
-  - key:             llvm-qualified-auto.AddConstToQualified
-    value:           'false'
   - key:             modernize-loop-convert.NamingStyle
     value:           CamelCase
   - key:             llvm-else-after-return.WarnOnUnfixable

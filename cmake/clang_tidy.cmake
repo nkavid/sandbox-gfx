@@ -10,30 +10,14 @@ set(GFX_CXX_CLANG_TIDY_OPTIONS
   --extra-arg=-Wno-c++98-compat-pedantic;
   --extra-arg=-Wno-switch-enum;
   --extra-arg=-Wno-padded;
-  --warnings-as-errors=*;
-  --use-color;
-)
-
-set(GFX_CLANG_TIDY_CATCH2_OPTIONS
-  --checks=-readability-function-size;
-)
-
-string(APPEND GFX_SKIP_CHECKS_C
-  "-modernize-macro-to-enum,"
-  "-cppcoreguidelines-avoid-non-const-global-variables,"
-  "-concurrency-mt-unsafe,"
-  "-clang-analyzer-security.insecureAPI*,"
 )
 
 set(GFX_C_CLANG_TIDY_OPTIONS
-  --checks=${GFX_SKIP_CHECKS_C};
   --extra-arg=-Wno-error=unknown-warning-option;
   --extra-arg=-Wno-declaration-after-statement;
   --extra-arg=-Weverything;
   --extra-arg=-Wno-switch-enum;
   --extra-arg=-Wno-padded;
-  --warnings-as-errors=*;
-  --use-color;
 )
 
 set(GFX_CLANG_TIDY_CATCH2_OPTIONS

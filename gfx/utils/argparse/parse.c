@@ -8,13 +8,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define NUM_OPTIONS 2
+static const unsigned num_options = 2U;
 
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 int verbose_flag = 0;
 
 static void argparse_add_options(void)
 {
-  argparse_alloc_options(NUM_OPTIONS);
+  argparse_alloc_options(num_options);
   argparse_add_option(1, "verbose", 'v', no_argument, "");
   // NOLINTNEXTLINE(readability-magic-numbers)
   argparse_add_option(2, "dir", 'd', required_argument, "this is input");
@@ -26,17 +27,17 @@ void argparse_print_help(void)
   argparse_print_description("this is a description");
   argparse_print_options(argparse_options_long_opts(),
                          argparse_options_desc_opts(),
-                         NUM_OPTIONS);
+                         num_options);
   argparse_print_positional("space separated list of stuff");
 }
 
-// NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
+// NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage,readability-function-size)
 static void argparse_parse_options(int argc, char** argv)
 {
   if (argc == 1)
   {
     argparse_print_usage();
-    exit(EXIT_FAILURE);
+    abort();
   }
 
   int character = 0;
@@ -45,6 +46,7 @@ static void argparse_parse_options(int argc, char** argv)
   {
     int option_index = 0;
 
+    // NOLINTNEXTLINE(concurrency-mt-unsafe)
     character = getopt_long(argc,
                             argv,
                             argparse_options_optstring(),
@@ -61,6 +63,7 @@ static void argparse_parse_options(int argc, char** argv)
     case 'h':
       argparse_print_help();
       argparse_dealloc_options();
+      // NOLINTNEXTLINE(concurrency-mt-unsafe)
       exit(EXIT_SUCCESS);
 
     case 'v':
