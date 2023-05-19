@@ -37,7 +37,8 @@ static void argparse_parse_options(int argc, char** argv)
   if (argc == 1)
   {
     argparse_print_usage();
-    abort();
+    // NOLINTNEXTLINE(concurrency-mt-unsafe)
+    exit(EXIT_FAILURE);
   }
 
   int character = 0;
@@ -67,7 +68,6 @@ static void argparse_parse_options(int argc, char** argv)
       exit(EXIT_SUCCESS);
 
     case 'v':
-      puts("option -v");
       verbose_flag = 1;
       break;
 
@@ -80,7 +80,7 @@ static void argparse_parse_options(int argc, char** argv)
       break;
 
     default:
-      printf("error, unexpected case\n");
+      printf("error, unexpected case %c\n", character);
       abort();
     }
   }
