@@ -1,0 +1,44 @@
+#!/bin/bash
+
+source scripts/logging.sh
+
+CLANG_TIDY="../llvm-project/build/bin/clang-tidy"
+CLANG_TIDY_OPTIONS=(-p build \
+--fix-errors \
+--extra-arg=-Wno-error=unknown-warning-option \
+--extra-arg=-Weverything \
+--extra-arg=-Wno-c++98-compat \
+--extra-arg=-Wno-c++98-compat-pedantic \
+--extra-arg=-Wno-switch-enum \
+--extra-arg=-Wno-padded \
+--extra-arg=-Wno-declaration-after-statement \
+--extra-arg=-isystem/usr/lib//llvm-15/include/c++/v1/ \
+--checks=-gfx-class-cohesion \
+--quiet)
+
+function fix_clang_tidy()
+{
+  [[ ! -d $1 ]] && error "did not find directory '$1'..." && exit 1
+  verbose_info "run clang-tidy for headers in '$1'"
+  
+  FILES=$(find "$1" -regextype posix-extended -regex ".*\.(c|h|cpp|hpp)$")
+  NUM_FILES=$(echo "${FILES}" | wc -l)
+  PROCESSED=0
+
+  for FILE in ${FILES}; do
+    INCR="${BOLD}[$((++PROCESSED)) of ${NUM_FILES}]${RESET}"
+
+    [[ ${FILE} =~ /shaders/ ]] \
+      && verbose_info "skip ${ITALIC}${FILE}${RESET} ${INCR}" \
+      && continue
+
+    verbose_info "checking ${ITALIC}${FILE}${RESET} ${INCR}"
+    ${CLANG_TIDY} "${CLANG_TIDY_OPTIONS[@]}" "${FILE}"
+  done
+}
+
+[[ ! -f build/compile_commands.json ]] \
+  && error "missing build/compile_commands.json" && exit 1
+
+fix_clang_tidy "$1"
+
