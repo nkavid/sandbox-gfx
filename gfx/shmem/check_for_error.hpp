@@ -25,11 +25,11 @@ static void checkForError(int returnValue, const char* function, int errorCode =
 }
 
 // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast,performance-no-int-to-ptr)
-static void const* const defaultCode = reinterpret_cast<void*>(-1);
+static void const* const g_defaultCode = reinterpret_cast<void*>(-1);
 
 static void checkForError(void* returnValue,
                           const char* function,
-                          void const* const errorCode = defaultCode)
+                          void const* const errorCode = g_defaultCode)
 {
   if (returnValue == errorCode)
   {

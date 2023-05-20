@@ -41,9 +41,8 @@ def main() -> None:
     ) as output_source:
         write_header(output_source)
 
-        output_source.write(
-            "namespace gfx::graphics::shaders::" + program_name + "\n{\n"
-        )
+        output_source.write("namespace gfx::graphics::shaders\n{\n")
+        output_source.write("struct " + program_name + "\n{\n")
 
         for stage in shader_stages:
             with open(
@@ -51,6 +50,7 @@ def main() -> None:
             ) as input_file:
                 write_shader(output_source, stage, input_file)
 
+        output_source.write("};\n")
         output_source.write("}\n")
         output_source.write("\n// clang-format on\n")
 
@@ -103,7 +103,7 @@ def write_header(output: IO[str]) -> None:
 
 
 def write_shader(output_file: IO[str], shader_type: str, input_file: IO[str]) -> None:
-    declaration = "static const char* const " + shader_type + " = "
+    declaration = "constexpr static const char* const " + shader_type + " = "
     whitespace = " " * 4
     output_file.write(declaration + "\n")
     lines = input_file.read().splitlines()

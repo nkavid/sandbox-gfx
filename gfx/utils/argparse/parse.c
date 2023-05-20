@@ -8,14 +8,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static const unsigned num_options = 2U;
+static const unsigned g_num_options = 2U;
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-int verbose_flag = 0;
+int g_verbose_flag = 0;
 
 static void argparse_add_options(void)
 {
-  argparse_alloc_options(num_options);
+  argparse_alloc_options(g_num_options);
   argparse_add_option(1, "verbose", 'v', no_argument, "");
   // NOLINTNEXTLINE(readability-magic-numbers)
   argparse_add_option(2, "dir", 'd', required_argument, "this is input");
@@ -27,7 +27,7 @@ void argparse_print_help(void)
   argparse_print_description("this is a description");
   argparse_print_options(argparse_options_long_opts(),
                          argparse_options_desc_opts(),
-                         num_options);
+                         g_num_options);
   argparse_print_positional("space separated list of stuff");
 }
 
@@ -68,7 +68,7 @@ static void argparse_parse_options(int argc, char** argv)
       exit(EXIT_SUCCESS);
 
     case 'v':
-      verbose_flag = 1;
+      g_verbose_flag = 1;
       break;
 
     case 'd':

@@ -10,11 +10,11 @@ namespace gfx::graphics
 {
 namespace
 {
-namespace opengl_version
+struct opengl_version
 {
-constexpr int major{4};
-constexpr int minor{6};
-}
+    constexpr static int major{4};
+    constexpr static int minor{6};
+};
 
 void initialize_glfw(Window::Mode mode)
 {

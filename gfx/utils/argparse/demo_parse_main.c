@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
   argparse_parse(argc, argv);
 
-  if (verbose_flag == 1)
+  if (g_verbose_flag == 1)
   {
     puts("verbose flag is set");
   }

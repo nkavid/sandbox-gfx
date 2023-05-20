@@ -5,39 +5,39 @@
 #include <array>
 #include <cstddef>
 
-namespace gfx::graphics::detail
+namespace gfx::graphics
 {
 namespace attribute
 {
-enum attribute
+enum Attribute
 {
-  position,
-  texCoord
+  position = 0,
+  texCoord = 1
 };
 }
 
-constexpr size_t numCorners = 4;
-constexpr size_t posDim     = 3;
-
-static const std::array<float, numCorners* posDim> pos_coords = {
-    {1.0F, 1.0F, 0.0F, 1.0F, -1.0F, 0.0F, -1.0F, -1.0F, 0.0F, -1.0F, 1.0F, 0.0F}
-};
-
-constexpr size_t texDim = 2;
-
-static const std::array<float, numCorners* texDim> tex_coords = {
-    {1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F}
-};
-
-constexpr size_t numVertices = 6;
-
-static const std::array<unsigned char, numVertices> indices = {
-    {0, 1, 3, 1, 2, 3}
-};
-}
-
-namespace gfx::graphics
+struct detail
 {
+    constexpr static size_t numCorners = 4;
+    constexpr static size_t posDim     = 3;
+
+    constexpr static std::array<float, numCorners* posDim> pos_coords = {
+        {1.0F, 1.0F, 0.0F, 1.0F, -1.0F, 0.0F, -1.0F, -1.0F, 0.0F, -1.0F, 1.0F, 0.0F}
+    };
+
+    constexpr static size_t texDim = 2;
+
+    constexpr static std::array<float, numCorners* texDim> tex_coords = {
+        {1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F}
+    };
+
+    constexpr static size_t numVertices = 6;
+
+    constexpr static const std::array<unsigned char, numVertices> indices = {
+        {0, 1, 3, 1, 2, 3}
+    };
+};
+
 Quad::Quad()
 {
   glGenVertexArrays(1, &_vao);
@@ -51,13 +51,13 @@ Quad::Quad()
                detail::pos_coords.data(),
                GL_STATIC_DRAW);
 
-  glVertexAttribPointer(detail::attribute::position,
+  glVertexAttribPointer(attribute::position,
                         detail::posDim,
                         GL_FLOAT,
                         GL_FALSE,
                         detail::posDim * sizeof(float),
                         nullptr);
-  glEnableVertexAttribArray(detail::attribute::position);
+  glEnableVertexAttribArray(attribute::position);
 
   unsigned int tex_VBO{};
   glGenBuffers(1, &tex_VBO);
@@ -67,13 +67,13 @@ Quad::Quad()
                detail::tex_coords.data(),
                GL_STATIC_DRAW);
 
-  glVertexAttribPointer(detail::attribute::texCoord,
+  glVertexAttribPointer(attribute::texCoord,
                         detail::texDim,
                         GL_FLOAT,
                         GL_FALSE,
                         detail::texDim * sizeof(float),
                         nullptr);
-  glEnableVertexAttribArray(detail::attribute::texCoord);
+  glEnableVertexAttribArray(attribute::texCoord);
 
   unsigned int EBO{};
   glGenBuffers(1, &EBO);

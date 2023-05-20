@@ -8,7 +8,7 @@ class Channel
 {
   public:
     explicit constexpr Channel(std::integral auto data)
-        : _data{static_cast<float>(data) / _max}
+        : _data{static_cast<float>(data) / max}
     {
     }
 
@@ -25,13 +25,13 @@ class Channel
 
     constexpr bool operator==(const float& other) const
     {
-      return (_data <= other + _epsilon) && (_data >= other - _epsilon);
+      return (_data <= other + epsilon) && (_data >= other - epsilon);
     }
 
   private:
     float _data;
-    constexpr static const float _max{255.0F};
-    constexpr static const float _epsilon{1.0F / 256.0F};
+    constexpr static float max{255.0F};
+    constexpr static float epsilon{1.0F / 256.0F};
 };
 
 class Color

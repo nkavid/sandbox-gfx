@@ -27,15 +27,15 @@ std::string get_name()
 
 constexpr std::string_view gfx = "gfx::";
 
-namespace ansi
+struct ansi
 {
-constexpr std::string_view red    = "\x1B[31m";
-constexpr std::string_view yellow = "\x1B[33m";
-constexpr std::string_view cyan   = "\x1B[36m";
-constexpr std::string_view white  = "\x1B[39m";
-constexpr std::string_view bold   = "\x1B[1m";
-constexpr std::string_view reset  = "\x1B[0m";
-}
+    constexpr static std::string_view red    = "\x1B[31m";
+    constexpr static std::string_view yellow = "\x1B[33m";
+    constexpr static std::string_view cyan   = "\x1B[36m";
+    constexpr static std::string_view white  = "\x1B[39m";
+    constexpr static std::string_view bold   = "\x1B[1m";
+    constexpr static std::string_view reset  = "\x1B[0m";
+};
 
 constexpr auto apply = [](std::string_view color) {
   return [color](std::string_view string) {

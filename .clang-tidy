@@ -70,6 +70,16 @@ CheckOptions:
     value:           'true'
   - key:             readability-magic-numbers.IgnoredIntegerValues
     value:           '1'
+  - key:             readability-identifier-naming.GlobalConstantPrefix
+    value:           'g_'
+  - key:             readability-identifier-naming.GlobalVariablePrefix
+    value:           'g_'
+  - key:             readability-identifier-naming.ClassMemberPrefix
+    value:           ''
+  - key:             readability-identifier-naming.PrivateMemberPrefix
+    value:           '_'
+  - key:             readability-identifier-naming.ConstexprVariablePrefix
+    value:           ''
   - key:             gfx-main-implementation-filename.Affix
     value:           'none;suffix'
   - key:             gfx-experimental-package-namespace.Allowed
