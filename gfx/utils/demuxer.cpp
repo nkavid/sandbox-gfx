@@ -272,11 +272,21 @@ static int get_format_from_sample_fmt(const char** fmt, enum AVSampleFormat samp
   return -1;
 }
 
-int main(int argc, char** argv)
+namespace cli_arg
 {
-  int ret = 0;
+enum CLIArg
+{
+  Executable = 0,
+  SourceFile = 1,
+  VideoOut   = 2,
+  AudioOut   = 3,
+  NumArgs    = 4
+};
+}
 
-  if (argc != 4)
+static void parse_args(int argc, char** argv)
+{
+  if (argc != cli_arg::NumArgs)
   {
     fprintf(stderr,
             "usage: %s  input_file video_output_file audio_output_file\n"
@@ -284,12 +294,17 @@ int main(int argc, char** argv)
             "This program reads frames from a file, decodes them, and writes decoded\n"
             "video frames to a rawvideo file named video_output_file, and decoded\n"
             "audio frames to a rawaudio file named audio_output_file.\n",
-            argv[0]);
+            argv[cli_arg::Executable]);
     exit(1);
   }
-  g_src_filename       = argv[1];
-  g_video_dst_filename = argv[2];
-  g_audio_dst_filename = argv[3];
+  g_src_filename       = argv[cli_arg::SourceFile];
+  g_video_dst_filename = argv[cli_arg::AudioOut];
+  g_audio_dst_filename = argv[cli_arg::SourceFile];
+}
+
+int main(int argc, char** argv)
+{
+  parse_args(argc, argv);
 
   /* open input file, and allocate format context */
   if (avformat_open_input(&g_fmt_ctx, g_src_filename, nullptr, nullptr) < 0)
@@ -304,6 +319,8 @@ int main(int argc, char** argv)
     fprintf(stderr, "Could not find stream information\n");
     exit(1);
   }
+
+  int ret = 0;
 
   if (open_codec_context(&g_video_stream_idx,
                          &g_video_dec_ctx,
