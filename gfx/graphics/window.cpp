@@ -10,7 +10,7 @@ namespace gfx::graphics
 {
 namespace
 {
-struct opengl_version
+struct OpenglVersion
 {
     constexpr static int major{4};
     constexpr static int minor{6};
@@ -23,8 +23,8 @@ void initialize_glfw(Window::Mode mode)
     utils::logger::fatal("graphics::Window - Failed to call glfwInit()");
   }
 
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, opengl_version::major);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, opengl_version::minor);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, OpenglVersion::major);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, OpenglVersion::minor);
 
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);

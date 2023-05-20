@@ -27,8 +27,8 @@ void DemoApplication::run()
   graphics::Window window{"demo application", windowSize};
 
   const graphics::Quad quad{};
-  const graphics::Shader shader(graphics::shaders::texture::vertex,
-                                graphics::shaders::texture::fragment);
+  const graphics::Shader shader(graphics::shaders::Texture::vertex,
+                                graphics::shaders::Texture::fragment);
 
   shader.use();
   const float scale{0.8F};

@@ -15,19 +15,19 @@
 int main(int argc, char** argv)
 {
   using namespace gfx;
-  utils::ArgParser argParser{argc, argv};
+  utils::ArgParser const argParser{argc, argv};
   graphics::Window window{
       __FILE__,
       gfx::Size{1080, 720}
   };
-  compute::Context context{};
+  compute::Context const context{};
 
-  gfx::Size surfaceSize{512, 512};
+  gfx::Size const surfaceSize{512, 512};
   compute::TextureBuffer textureBuffer{surfaceSize};
 
-  graphics::Quad quad{};
-  graphics::Shader shader(graphics::shaders::texture::vertex,
-                          graphics::shaders::texture::fragment);
+  graphics::Quad const quad{};
+  graphics::Shader const shader(graphics::shaders::Texture::vertex,
+                                graphics::shaders::Texture::fragment);
 
   shader.use();
   const float scale = 0.8F;

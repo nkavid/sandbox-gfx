@@ -70,7 +70,7 @@ int main()
   const graphics::Texture inputTexture{size, data.data()};
   const graphics::Texture outputTexture{size};
 
-  const graphics::Shader shader{graphics::shaders::yuv::compute};
+  const graphics::Shader shader{graphics::shaders::Yuv::compute};
 
   shader.use();
 

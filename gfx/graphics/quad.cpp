@@ -16,7 +16,7 @@ enum Attribute
 };
 }
 
-struct detail
+struct Detail
 {
     constexpr static size_t numCorners = 4;
     constexpr static size_t posDim     = 3;
@@ -47,15 +47,15 @@ Quad::Quad()
   glGenBuffers(1, &pos_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, pos_VBO);
   glBufferData(GL_ARRAY_BUFFER,
-               sizeof(detail::pos_coords),
-               detail::pos_coords.data(),
+               sizeof(Detail::pos_coords),
+               Detail::pos_coords.data(),
                GL_STATIC_DRAW);
 
   glVertexAttribPointer(attribute::position,
-                        detail::posDim,
+                        Detail::posDim,
                         GL_FLOAT,
                         GL_FALSE,
-                        detail::posDim * sizeof(float),
+                        Detail::posDim * sizeof(float),
                         nullptr);
   glEnableVertexAttribArray(attribute::position);
 
@@ -63,15 +63,15 @@ Quad::Quad()
   glGenBuffers(1, &tex_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, tex_VBO);
   glBufferData(GL_ARRAY_BUFFER,
-               sizeof(detail::tex_coords),
-               detail::tex_coords.data(),
+               sizeof(Detail::tex_coords),
+               Detail::tex_coords.data(),
                GL_STATIC_DRAW);
 
   glVertexAttribPointer(attribute::texCoord,
-                        detail::texDim,
+                        Detail::texDim,
                         GL_FLOAT,
                         GL_FALSE,
-                        detail::texDim * sizeof(float),
+                        Detail::texDim * sizeof(float),
                         nullptr);
   glEnableVertexAttribArray(attribute::texCoord);
 
@@ -79,14 +79,14 @@ Quad::Quad()
   glGenBuffers(1, &EBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-               detail::indices.size(),
-               detail::indices.data(),
+               Detail::indices.size(),
+               Detail::indices.data(),
                GL_STATIC_DRAW);
 }
 
 void Quad::draw() const
 {
   glBindVertexArray(_vao);
-  glDrawElements(GL_TRIANGLES, detail::numVertices, GL_UNSIGNED_BYTE, nullptr);
+  glDrawElements(GL_TRIANGLES, Detail::numVertices, GL_UNSIGNED_BYTE, nullptr);
 }
 }

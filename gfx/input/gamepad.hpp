@@ -10,7 +10,7 @@
 
 namespace gfx::input
 {
-namespace Button
+namespace button
 {
 enum Name
 {

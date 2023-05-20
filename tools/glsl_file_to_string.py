@@ -15,6 +15,10 @@ def remove_cache():
     shutil.rmtree("glsl_cache")
 
 
+def snake_to_pascal(string: str) -> str:
+    return "".join(word.capitalize() for word in string.split("_"))
+
+
 def main() -> None:
     program_name, path_to_shaders, shader_stages = parse_arguments()
 
@@ -42,7 +46,7 @@ def main() -> None:
         write_header(output_source)
 
         output_source.write("namespace gfx::graphics::shaders\n{\n")
-        output_source.write("struct " + program_name + "\n{\n")
+        output_source.write("struct " + snake_to_pascal(program_name) + "\n{\n")
 
         for stage in shader_stages:
             with open(

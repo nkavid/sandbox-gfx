@@ -58,8 +58,8 @@ void Gamepad::_invalidate()
 
 void Gamepad::_updateDirectionalPad(const DirectionalPadData& newButtons)
 {
-  constexpr auto ButtonEnumOffset = Button::UP;
-  const bool glfwUp = newButtons[Button::UP - ButtonEnumOffset] == GLFW_PRESS;
+  constexpr auto ButtonEnumOffset = button::UP;
+  const bool glfwUp = newButtons[button::UP - ButtonEnumOffset] == GLFW_PRESS;
   if (glfwUp != _directionalPad.up)
   {
     _directionalPad.updated = true;
@@ -67,7 +67,7 @@ void Gamepad::_updateDirectionalPad(const DirectionalPadData& newButtons)
     std::cout << "DPAD UP: " << _directionalPad.up << '\n';
   }
 
-  const bool glfwDown = newButtons[Button::DOWN - ButtonEnumOffset] == GLFW_PRESS;
+  const bool glfwDown = newButtons[button::DOWN - ButtonEnumOffset] == GLFW_PRESS;
   if (glfwDown != _directionalPad.down)
   {
     _directionalPad.updated = true;
@@ -75,7 +75,7 @@ void Gamepad::_updateDirectionalPad(const DirectionalPadData& newButtons)
     std::cout << "DPAD DOWN: " << _directionalPad.down << '\n';
   }
 
-  const bool glfwLeft = newButtons[Button::LEFT - ButtonEnumOffset] == GLFW_PRESS;
+  const bool glfwLeft = newButtons[button::LEFT - ButtonEnumOffset] == GLFW_PRESS;
   if (glfwLeft != _directionalPad.left)
   {
     _directionalPad.updated = true;
@@ -83,7 +83,7 @@ void Gamepad::_updateDirectionalPad(const DirectionalPadData& newButtons)
     std::cout << "DPAD LEFT: " << _directionalPad.left << '\n';
   }
 
-  const bool glfwRight = newButtons[Button::RIGHT - ButtonEnumOffset] == GLFW_PRESS;
+  const bool glfwRight = newButtons[button::RIGHT - ButtonEnumOffset] == GLFW_PRESS;
   if (glfwRight != _directionalPad.right)
   {
     _directionalPad.updated = true;
@@ -112,23 +112,23 @@ void Gamepad::update()
   }
 
   // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-  LOGBUTTON(Button::UNUSED, newButtons);
-  LOGBUTTON(Button::A, newButtons);
-  LOGBUTTON(Button::B, newButtons);
-  LOGBUTTON(Button::X, newButtons);
-  LOGBUTTON(Button::Y, newButtons);
-  LOGBUTTON(Button::START, newButtons);
-  LOGBUTTON(Button::SELECT, newButtons);
-  LOGBUTTON(Button::RIGHT_BUMPER, newButtons);
-  LOGBUTTON(Button::LEFT_BUMPER, newButtons);
-  LOGBUTTON(Button::RIGHT_STICK, newButtons);
-  LOGBUTTON(Button::LEFT_STICK, newButtons);
+  LOGBUTTON(button::UNUSED, newButtons);
+  LOGBUTTON(button::A, newButtons);
+  LOGBUTTON(button::B, newButtons);
+  LOGBUTTON(button::X, newButtons);
+  LOGBUTTON(button::Y, newButtons);
+  LOGBUTTON(button::START, newButtons);
+  LOGBUTTON(button::SELECT, newButtons);
+  LOGBUTTON(button::RIGHT_BUMPER, newButtons);
+  LOGBUTTON(button::LEFT_BUMPER, newButtons);
+  LOGBUTTON(button::RIGHT_STICK, newButtons);
+  LOGBUTTON(button::LEFT_STICK, newButtons);
   // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
   static DirectionalPadData dPad{};
 
   // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-  std::memcpy(dPad.data(), newButtons + Button::UP, dPad.size());
+  std::memcpy(dPad.data(), newButtons + button::UP, dPad.size());
   _updateDirectionalPad(dPad);
 }
 
