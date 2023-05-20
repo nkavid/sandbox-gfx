@@ -29,11 +29,6 @@ target_include_directories(utils_logger PRIVATE
 
 add_library(utils_logger_stub STATIC)
 
-set_target_properties(utils_logger_stub PROPERTIES
-  CXX_CLANG_TIDY ""
-  CXX_INCLUDE_WHAT_YOU_USE ""
-)
-
 target_sources(utils_logger_stub PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/logger_stub.cpp
 )
@@ -47,8 +42,6 @@ add_library(json_parser STATIC)
 target_sources(json_parser PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/json_parser.cpp
 )
-
-#ignore_third_party(json_parser)
 
 target_link_libraries(json_parser
   nlohmann_json::nlohmann_json
@@ -68,6 +61,8 @@ target_link_libraries(app_utils_demuxer_c
 )
 
 add_executable(app_utils_demuxer_cpp ${CMAKE_CURRENT_LIST_DIR}/demuxer.cpp)
+
+ignore_gfx_target(app_utils_demuxer_cpp clang-tidy)
 
 target_link_libraries(app_utils_demuxer_cpp
   ffmpeg::libavcodec

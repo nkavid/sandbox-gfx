@@ -70,12 +70,15 @@ include(cmake/ignore_macro.cmake)
 include(third_party/stbTargets.cmake)
 
 include(cmake/gfx_static_library_target.cmake)
+include(cmake/gfx_executable_target.cmake)
+
 include(gfx/vocabulary/vocabularyTargets.cmake)
 include(gfx/graphics/graphicsTargets.cmake)
 include(gfx/vulkan/vulkanTargets.cmake)
 include(gfx/compute/computeTargets.cmake)
 include(gfx/shmem/system_resourcesTargets.cmake)
 include(gfx/utils/utilsTargets.cmake)
+include(gfx/input/inputTargets.cmake)
 
 include(gfx/test/unit_tests.cmake)
 
