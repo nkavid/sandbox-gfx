@@ -69,11 +69,10 @@ target_link_libraries(app_utils_demuxer_c
 
 add_executable(app_utils_demuxer_cpp ${CMAKE_CURRENT_LIST_DIR}/demuxer.cpp)
 
-ignore_gfx_target(app_utils_demuxer_cpp clang-tidy)
-
 target_link_libraries(app_utils_demuxer_cpp
   ffmpeg::libavcodec
   ffmpeg::libavformat
+  fmt::fmt
 )
 
 add_library(utils::logger ALIAS utils_logger)
