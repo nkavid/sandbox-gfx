@@ -1,5 +1,9 @@
 add_executable(unit_tests)
 
+target_link_libraries(unit_tests PRIVATE
+  Catch2::Catch2WithMain
+)
+
 function(obj_unit_test unit)
   set(varargs DEPENDENCIES INCLUDE_PATH)
   cmake_parse_arguments(OBJ_UNIT_TEST "" "" "${varargs}" ${ARGN})
@@ -73,8 +77,4 @@ obj_unit_test(argparse
     utils::c::argparse
   INCLUDE_PATH
     gfx/utils/argparse
-)
-
-target_link_libraries(unit_tests PRIVATE
-  Catch2::Catch2WithMain
 )
