@@ -13,7 +13,7 @@ BraceWrapping:
   BeforeCatch:     true
   BeforeElse:      true
   IndentBraces:    false
-  AfterExternBlock: false
+  AfterExternBlock: true
 BreakBeforeBraces: Custom
 BreakBeforeBinaryOperators: NonAssignment
 FixNamespaceComments: false

@@ -12,7 +12,8 @@
  * all copies or substantial portions of the Software.
  */
 
-extern "C" {
+extern "C"
+{
 #include <libavcodec/avcodec.h>
 #include <libavcodec/codec.h>
 #include <libavcodec/packet.h>
