@@ -204,6 +204,87 @@ int open_codec_context(int* stream_idx,
   return 0;
 }
 
+// NOLINTNEXTLINE(readability-function-size, readability-function-cognitive-complexity)
+bool create_resources()
+{
+  int ret = 0;
+  if (open_codec_context(&g_video_stream_idx,
+                         &g_video_dec_ctx,
+                         g_fmt_ctx,
+                         AVMEDIA_TYPE_VIDEO)
+      >= 0)
+  {
+    g_video_stream = g_fmt_ctx->streams[g_video_stream_idx];
+
+    g_video_dst_file = fopen(g_video_dst_filename, "wb");
+    if (g_video_dst_file == nullptr)
+    {
+      fmt::print(stderr, "Could not open destination file %s\n", g_video_dst_filename);
+      return false;
+    }
+
+    g_width   = g_video_dec_ctx->width;
+    g_height  = g_video_dec_ctx->height;
+    g_pix_fmt = g_video_dec_ctx->pix_fmt;
+    ret       = av_image_alloc(g_video_dst_data,
+                         g_video_dst_linesize,
+                         g_width,
+                         g_height,
+                         g_pix_fmt,
+                         1);
+    if (ret < 0)
+    {
+      fmt::print(stderr, "Could not allocate raw video buffer\n");
+      return false;
+    }
+    g_video_dst_bufsize = ret;
+  }
+
+  av_dump_format(g_fmt_ctx, 0, g_src_filename, 0);
+
+  if (g_video_stream == nullptr)
+  {
+    fmt::print(stderr, "Could not find video stream in the input, aborting\n");
+    return false;
+  }
+
+  g_frame = av_frame_alloc();
+  if (g_frame == nullptr)
+  {
+    fmt::print(stderr, "Could not allocate frame\n");
+    return false;
+  }
+
+  g_pkt = av_packet_alloc();
+  if (g_pkt == nullptr)
+  {
+    fmt::print(stderr, "Could not allocate packet\n");
+    return false;
+  }
+
+  if (g_video_stream != nullptr)
+  {
+    fmt::print("Demuxing video from file '%s' into '%s'\n",
+               g_src_filename,
+               g_video_dst_filename);
+  }
+
+  return true;
+}
+
+void destroy_resources()
+{
+  avcodec_free_context(&g_video_dec_ctx);
+  avformat_close_input(&g_fmt_ctx);
+  if (g_video_dst_file != nullptr)
+  {
+    fclose(g_video_dst_file); // NOLINT
+  }
+  av_packet_free(&g_pkt);
+  av_frame_free(&g_frame);
+  av_free(g_video_dst_data[0]);
+}
+
 namespace cli_arg
 {
 enum CLIArg
@@ -215,7 +296,8 @@ enum CLIArg
 };
 }
 
-void parse_args(int argc, const char** argv)
+// NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
+bool parse_args(int argc, const char** argv)
 {
   if (argc != cli_arg::NumArgs)
   {
@@ -226,10 +308,12 @@ void parse_args(int argc, const char** argv)
         "This program reads frames from a file, decodes them, and writes decoded\n"
         "video frames to a rawvideo file named video_output_file.\n",
         argv[cli_arg::Executable]);
-    exit(1);
+    return false;
   }
   g_src_filename       = argv[cli_arg::SourceFile];
   g_video_dst_filename = argv[cli_arg::VideoOut];
+
+  return true;
 }
 
 }
@@ -240,7 +324,10 @@ int main(int argc, const char** argv)
 {
   using namespace gfx;
 
-  parse_args(argc, argv);
+  if (!parse_args(argc, argv))
+  {
+    return EXIT_FAILURE;
+  }
 
   if (avformat_open_input(&g_fmt_ctx, g_src_filename, nullptr, nullptr) < 0)
   {
@@ -256,69 +343,10 @@ int main(int argc, const char** argv)
 
   int ret = 0;
 
-  if (open_codec_context(&g_video_stream_idx,
-                         &g_video_dec_ctx,
-                         g_fmt_ctx,
-                         AVMEDIA_TYPE_VIDEO)
-      >= 0)
+  if (!create_resources())
   {
-    g_video_stream = g_fmt_ctx->streams[g_video_stream_idx];
-
-    g_video_dst_file = fopen(g_video_dst_filename, "wb");
-    if (g_video_dst_file == nullptr)
-    {
-      fmt::print(stderr, "Could not open destination file %s\n", g_video_dst_filename);
-      ret = 1;
-      goto end; // NOLINT(cppcoreguidelines-avoid-goto)
-    }
-
-    g_width   = g_video_dec_ctx->width;
-    g_height  = g_video_dec_ctx->height;
-    g_pix_fmt = g_video_dec_ctx->pix_fmt;
-    ret       = av_image_alloc(g_video_dst_data,
-                         g_video_dst_linesize,
-                         g_width,
-                         g_height,
-                         g_pix_fmt,
-                         1);
-    if (ret < 0)
-    {
-      fmt::print(stderr, "Could not allocate raw video buffer\n");
-      goto end; // NOLINT(cppcoreguidelines-avoid-goto)
-    }
-    g_video_dst_bufsize = ret;
-  }
-
-  av_dump_format(g_fmt_ctx, 0, g_src_filename, 0);
-
-  if (g_video_stream == nullptr)
-  {
-    fmt::print(stderr, "Could not find video stream in the input, aborting\n");
-    ret = 1;
-    goto end; // NOLINT(cppcoreguidelines-avoid-goto)
-  }
-
-  g_frame = av_frame_alloc();
-  if (g_frame == nullptr)
-  {
-    fmt::print(stderr, "Could not allocate frame\n");
     ret = AVERROR(ENOMEM);
     goto end; // NOLINT(cppcoreguidelines-avoid-goto)
-  }
-
-  g_pkt = av_packet_alloc();
-  if (g_pkt == nullptr)
-  {
-    fmt::print(stderr, "Could not allocate packet\n");
-    ret = AVERROR(ENOMEM);
-    goto end; // NOLINT(cppcoreguidelines-avoid-goto)
-  }
-
-  if (g_video_stream != nullptr)
-  {
-    fmt::print("Demuxing video from file '%s' into '%s'\n",
-               g_src_filename,
-               g_video_dst_filename);
   }
 
   while (av_read_frame(g_fmt_ctx, g_pkt) >= 0)
@@ -352,15 +380,7 @@ int main(int argc, const char** argv)
   }
 
 end:
-  avcodec_free_context(&g_video_dec_ctx);
-  avformat_close_input(&g_fmt_ctx);
-  if (g_video_dst_file != nullptr)
-  {
-    fclose(g_video_dst_file); // NOLINT
-  }
-  av_packet_free(&g_pkt);
-  av_frame_free(&g_frame);
-  av_free(g_video_dst_data[0]);
+  destroy_resources();
 
   return static_cast<int>(ret < 0);
 }
