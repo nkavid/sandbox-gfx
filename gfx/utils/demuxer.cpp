@@ -12,30 +12,56 @@
  * all copies or substantial portions of the Software.
  */
 
+extern "C" {
 #include <libavcodec/avcodec.h>
+#include <libavcodec/codec.h>
+#include <libavcodec/packet.h>
 #include <libavformat/avformat.h>
+#include <libavutil/avutil.h>
+#include <libavutil/error.h>
+#include <libavutil/frame.h>
 #include <libavutil/imgutils.h>
+#include <libavutil/macros.h>
+#include <libavutil/mem.h>
+#include <libavutil/pixdesc.h>
+#include <libavutil/pixfmt.h>
 #include <libavutil/samplefmt.h>
 #include <libavutil/timestamp.h>
+}
 
-static AVFormatContext* g_fmt_ctx      = nullptr;
-static AVCodecContext *g_video_dec_ctx = nullptr, *g_audio_dec_ctx;
-static int g_width, g_height;
-static enum AVPixelFormat g_pix_fmt;
-static AVStream *g_video_stream = nullptr, *g_audio_stream = nullptr;
-static const char* g_src_filename       = nullptr;
-static const char* g_video_dst_filename = nullptr;
-static const char* g_audio_dst_filename = nullptr;
-static FILE* g_video_dst_file           = nullptr;
-static FILE* g_audio_dst_file           = nullptr;
+#include "libav_string_fix.hpp"
+
+#include <cerrno>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+
+static AVFormatContext* g_fmt_ctx{nullptr};
+static AVCodecContext* g_video_dec_ctx{nullptr};
+static AVCodecContext* g_audio_dec_ctx{nullptr};
+
+static int g_width{};
+static int g_height{};
+
+static enum AVPixelFormat g_pix_fmt {};
+
+static AVStream* g_video_stream{nullptr};
+static AVStream* g_audio_stream{nullptr};
+
+static const char* g_src_filename{nullptr};
+static const char* g_video_dst_filename{nullptr};
+static const char* g_audio_dst_filename{nullptr};
+static FILE* g_video_dst_file{nullptr};
+static FILE* g_audio_dst_file{nullptr};
 
 static uint8_t* g_video_dst_data[4] = {nullptr};
 static int g_video_dst_linesize[4];
 static int g_video_dst_bufsize;
 
-static int g_video_stream_idx = -1, g_audio_stream_idx = -1;
-static AVFrame* g_frame        = nullptr;
-static AVPacket* g_pkt         = nullptr;
+static int g_video_stream_idx = -1;
+static int g_audio_stream_idx = -1;
+static AVFrame* g_frame{nullptr};
+static AVPacket* g_pkt{nullptr};
 static int g_video_frame_count = 0;
 static int g_audio_frame_count = 0;
 
@@ -57,7 +83,7 @@ static int output_video_frame(AVFrame* frame)
             av_get_pix_fmt_name(g_pix_fmt),
             frame->width,
             frame->height,
-            av_get_pix_fmt_name(frame->format));
+            av_get_pix_fmt_name(static_cast<AVPixelFormat>(frame->format)));
     return -1;
   }
 
@@ -80,7 +106,9 @@ static int output_video_frame(AVFrame* frame)
 
 static int output_audio_frame(AVFrame* frame)
 {
-  size_t unpadded_linesize = frame->nb_samples * av_get_bytes_per_sample(frame->format);
+  size_t const unpadded_linesize =
+      frame->nb_samples
+      * av_get_bytes_per_sample(static_cast<AVSampleFormat>(frame->format));
   printf("audio_frame n:%d nb_samples:%d pts:%s\n",
          g_audio_frame_count++,
          frame->nb_samples,
@@ -153,10 +181,10 @@ static int open_codec_context(int* stream_idx,
                               AVFormatContext* fmt_ctx,
                               enum AVMediaType type)
 {
-  int ret            = 0;
-  int stream_index   = 0;
-  AVStream* st       = nullptr;
-  const AVCodec* dec = nullptr;
+  int ret          = 0;
+  int stream_index = 0;
+  AVStream* st{nullptr};
+  const AVCodec* dec{nullptr};
 
   ret = av_find_best_stream(fmt_ctx, type, -1, -1, nullptr, 0);
   if (ret < 0)
@@ -411,7 +439,7 @@ int main(int argc, char** argv)
   {
     enum AVSampleFormat sfmt = g_audio_dec_ctx->sample_fmt;
     int n_channels           = g_audio_dec_ctx->ch_layout.nb_channels;
-    const char* fmt          = nullptr;
+    const char* fmt{nullptr};
 
     if (av_sample_fmt_is_planar(sfmt) != 0)
     {

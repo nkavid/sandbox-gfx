@@ -58,12 +58,20 @@ target_include_directories(json_parser PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/../
 )
 
+add_executable(app_utils_demuxer_c ${CMAKE_CURRENT_LIST_DIR}/demuxer.c)
 
-add_executable(app_utils_demuxer ${CMAKE_CURRENT_LIST_DIR}/demuxer.c)
+ignore_gfx_target(app_utils_demuxer_c clang-tidy)
 
-ignore_gfx_target(app_utils_demuxer clang-tidy)
+target_link_libraries(app_utils_demuxer_c
+  ffmpeg::libavcodec
+  ffmpeg::libavformat
+)
 
-target_link_libraries(app_utils_demuxer
+add_executable(app_utils_demuxer_cpp ${CMAKE_CURRENT_LIST_DIR}/demuxer.cpp)
+
+ignore_gfx_target(app_utils_demuxer_cpp clang-tidy)
+
+target_link_libraries(app_utils_demuxer_cpp
   ffmpeg::libavcodec
   ffmpeg::libavformat
 )
