@@ -19,8 +19,7 @@ class CLI
     explicit CLI(std::convertible_to<std::string_view> auto&&... strings)
         : _argc{sizeof...(strings) + 1},
           _strings{"dummy", static_cast<const char*>(strings)...}
-    {
-    }
+    {}
 
     [[nodiscard]] int argc() const
     {

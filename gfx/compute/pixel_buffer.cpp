@@ -11,8 +11,7 @@ namespace gfx::compute
 {
 PixelBuffer::PixelBuffer(const gfx::Size& size)
     : PixelBuffer::PixelBuffer(size.width, size.height)
-{
-}
+{}
 
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 PixelBuffer::PixelBuffer(size_t width, size_t height)

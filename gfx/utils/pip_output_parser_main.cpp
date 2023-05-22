@@ -9,8 +9,7 @@ int main()
   try
   {
     while (gfx::utils::parse_pip_output(std::cin, std::cout))
-    {
-    }
+    {}
   }
   catch (const std::exception& e)
   {

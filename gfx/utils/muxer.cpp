@@ -53,14 +53,12 @@ struct Size
     Size(int widthParam, int heightParam)
         : width{widthParam},
           height{heightParam}
-    {
-    }
+    {}
 
     explicit Size(const gfx::Size& size)
         : width{static_cast<int>(size.width)},
           height{static_cast<int>(size.height)}
-    {
-    }
+    {}
 
     int width{};
     int height{};

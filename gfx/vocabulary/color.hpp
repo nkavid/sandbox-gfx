@@ -9,13 +9,11 @@ class Channel
   public:
     explicit constexpr Channel(std::integral auto data)
         : _data{static_cast<float>(data) / max}
-    {
-    }
+    {}
 
     explicit constexpr Channel(float data)
         : _data{data}
-    {
-    }
+    {}
 
     // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator float() const
@@ -45,8 +43,7 @@ class Color
         : _red{red},
           _green{green},
           _blue{blue}
-    {
-    }
+    {}
 
     // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
     constexpr Color(float red, float green, float blue, float alpha = 1.0F)
@@ -54,8 +51,7 @@ class Color
           _green{green},
           _blue{blue},
           _alpha{alpha}
-    {
-    }
+    {}
 
     explicit constexpr Color(std::integral auto rgb)
         // NOLINTBEGIN(readability-magic-numbers)
@@ -63,8 +59,7 @@ class Color
           _green{(rgb >> 8) % 256},
           _blue{rgb % 256}
     // NOLINTEND(readability-magic-numbers)
-    {
-    }
+    {}
 
     [[nodiscard]] constexpr Channel red() const
     {

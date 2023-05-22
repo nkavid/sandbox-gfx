@@ -14,13 +14,11 @@ Shader::Shader(const char* vertex, const char* fragment)
     : _program{detail::compileShaderProgram(vertex, fragment)},
       _colorLoc{glGetUniformLocation(_program, "uColor")},
       _matrixLoc{glGetUniformLocation(_program, "uMatrix")}
-{
-}
+{}
 
 Shader::Shader(const char* compute)
     : _program{detail::compileShaderProgram(compute)}
-{
-}
+{}
 
 void Shader::use() const
 {

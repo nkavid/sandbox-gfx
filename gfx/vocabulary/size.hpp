@@ -15,8 +15,7 @@ class SizeElement
     template <class T>
     explicit constexpr SizeElement(T data)
         : _data{static_cast<size_t>(data)}
-    {
-    }
+    {}
 
     constexpr bool operator==(const SizeElement&) const = default;
 
@@ -88,15 +87,13 @@ struct Size
     constexpr Size(T&& pWidth, T&& pHeight)
         : width{pWidth},
           height{pHeight}
-    {
-    }
+    {}
 
     // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
     constexpr Size(Width&& pWidth, Height&& pHeight)
         : width{pWidth},
           height{pHeight}
-    {
-    }
+    {}
 
     constexpr bool operator==(const Size&) const = default;
 

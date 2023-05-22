@@ -37,8 +37,7 @@ URI::Schema getSchema(std::string_view uri)
 URI::URI(std::string_view uri)
     : _uri{uri},
       _schema{getSchema(_uri)}
-{
-}
+{}
 
 const char* URI::c_str() const
 {

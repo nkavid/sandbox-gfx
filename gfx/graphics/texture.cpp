@@ -6,8 +6,7 @@ namespace gfx::graphics
 {
 Texture::Texture(const gfx::Size& size, void* data)
     : Texture::Texture(size.width, size.height, data)
-{
-}
+{}
 
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 Texture::Texture(size_t width, size_t height, void* data)

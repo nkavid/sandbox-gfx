@@ -38,8 +38,7 @@ struct Stick
 
     explicit Stick(const char* name)
         : _name{name}
-    {
-    }
+    {}
 
     struct Data
     {
