@@ -92,7 +92,7 @@ namespace gfx::vulkan
 {
 namespace attribute
 {
-enum attribute
+enum Attribute
 {
   position,
   color,

@@ -69,7 +69,7 @@ unsigned int createProgram(const T& shaders)
 
 namespace stage
 {
-enum stage
+enum Stage
 {
   vertex,
   fragment,

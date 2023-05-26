@@ -56,7 +56,7 @@ static FILE* g_video_dst_file{nullptr};
 
 static uint8_t* g_video_dst_data[4] = {nullptr};
 static int g_video_dst_linesize[4];
-static int g_video_dst_bufsize;
+static size_t g_video_dst_bufsize;
 
 static int g_video_stream_idx = -1;
 static AVFrame* g_frame{nullptr};
@@ -148,7 +148,7 @@ int decode_packet(AVCodecContext* dec, const AVPacket* pkt)
 int open_codec_context(int* stream_idx,
                        AVCodecContext** dec_ctx,
                        AVFormatContext* fmt_ctx,
-                       enum AVMediaType type)
+                       AVMediaType type)
 {
   int ret          = 0;
   int stream_index = 0;
@@ -237,7 +237,7 @@ bool create_resources()
       fmt::print(stderr, "Could not allocate raw video buffer\n");
       return false;
     }
-    g_video_dst_bufsize = ret;
+    g_video_dst_bufsize = static_cast<size_t>(ret);
   }
 
   av_dump_format(g_fmt_ctx, 0, g_src_filename, 0);

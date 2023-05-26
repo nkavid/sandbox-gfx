@@ -7,7 +7,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(GFX_CMAKE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/cmake)
 
-option(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/gcc_toolchain.cmake)
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/gcc_toolchain.cmake)
 
 option(GFX_LINTING "Use iwyu and clang-tidy." OFF)
 

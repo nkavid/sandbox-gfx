@@ -53,7 +53,7 @@ target_include_directories(json_parser PRIVATE
 
 add_executable(app_utils_demuxer_c ${CMAKE_CURRENT_LIST_DIR}/demuxer.c)
 
-ignore_gfx_target(app_utils_demuxer_c clang-tidy)
+ignore_gfx_target(app_utils_demuxer_c clang-tidy warnings)
 
 target_link_libraries(app_utils_demuxer_c
   ffmpeg::libavcodec

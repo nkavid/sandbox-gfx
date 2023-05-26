@@ -31,7 +31,7 @@ void argparse_print_help(void)
   argparse_print_positional("space separated list of stuff");
 }
 
-// NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage,readability-function-size)
+// NOLINTNEXTLINE(readability-function-size)
 static void argparse_parse_options(int argc, char** argv)
 {
   if (argc == 1)

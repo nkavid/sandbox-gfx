@@ -2,7 +2,14 @@ set(GFX_CLANG_TIDY_EXECUTABLE
   clang-tidy;
 )
 
+find_library(GFX_MODULE_LIBRARY
+  "libgfx_checks.so"
+  PATH
+    "/home/divak/repos/gfx-checks/build/lib"
+)
+
 set(GFX_CXX_CLANG_TIDY_OPTIONS
+  -load=${GFX_MODULE_LIBRARY}
   --extra-arg=-stdlib=libc++;
   --extra-arg=-Wno-error=unknown-warning-option;
   --extra-arg=-Weverything;

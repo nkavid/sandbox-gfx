@@ -1,6 +1,7 @@
 #include "logger.hpp"
 
 #include <stdexcept>
+#include <string_view>
 
 namespace gfx::utils::logger
 {
