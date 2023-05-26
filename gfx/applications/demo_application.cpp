@@ -70,4 +70,4 @@ void DemoApplication::run()
     window.swap();
   }
 }
-}
+} // namespace gfx

@@ -25,4 +25,4 @@ class URI
     std::string_view _uri;
     Schema _schema;
 };
-}
+} // namespace gfx

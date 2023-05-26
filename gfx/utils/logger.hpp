@@ -13,4 +13,4 @@ void warning(std::string_view msg);
 
 void info(std::string_view msg);
 void info(std::string_view msg, std::string_view info);
-}
+} // namespace gfx::utils::logger

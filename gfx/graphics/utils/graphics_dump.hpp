@@ -9,4 +9,4 @@ void dump_texture(std::string_view filename,
                   unsigned int texture,
                   size_t width,
                   size_t height);
-}
+} // namespace gfx::utils

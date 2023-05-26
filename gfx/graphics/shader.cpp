@@ -44,4 +44,4 @@ void Shader::setMatrixUniform(float scale) const
 
   glUniformMatrix3fv(_matrixLoc, 1, GL_FALSE, matrix.data());
 }
-}
+} // namespace gfx::graphics

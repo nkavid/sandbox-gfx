@@ -45,4 +45,4 @@ void callDrawCircleTexture(CUarray array, size_t width, size_t height)
 
   drawCircleTexture<<<block, thread>>>(surfObj);
 }
-}
+} // namespace gfx::compute

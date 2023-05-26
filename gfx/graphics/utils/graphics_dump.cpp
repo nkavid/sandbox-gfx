@@ -43,4 +43,4 @@ void dump_texture(std::string_view filename,
     logger::fatal("did not recognize extension for ", filename);
   }
 }
-}
+} // namespace gfx::utils

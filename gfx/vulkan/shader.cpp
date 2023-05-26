@@ -47,4 +47,4 @@ VkShaderModule Shader::createShaderModule(const std::vector<char>& code,
 
   return shaderModule;
 }
-}
+} // namespace gfx::vulkan

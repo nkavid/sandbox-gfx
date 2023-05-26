@@ -108,4 +108,4 @@ constexpr Color operator+(const Color& dst, const Color& src)
   return Color{red, green, blue, alpha};
 }
 
-}
+} // namespace gfx

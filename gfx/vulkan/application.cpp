@@ -85,8 +85,8 @@ VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities,
 
   return actualExtent;
 }
-}
-}
+} // namespace
+} // namespace gfx::vulkan::detail
 
 namespace gfx::vulkan
 {
@@ -99,7 +99,7 @@ enum Attribute
   texCoord,
   num_attributes
 };
-}
+} // namespace attribute
 
 struct Vertex
 {
@@ -1627,4 +1627,4 @@ void Application::_recreateSwapChain()
   _createDepthResources();
   _createFramebuffers();
 }
-}
+} // namespace gfx::vulkan

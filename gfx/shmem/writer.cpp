@@ -56,4 +56,4 @@ void Writer::write(void* data)
     sem_post(_semaphoreFull);
   }
 }
-}
+} // namespace gfx::shmem

@@ -17,4 +17,4 @@ class Context
   private:
     CUcontext _cuContext{};
 };
-}
+} // namespace gfx::compute

@@ -12,4 +12,4 @@ namespace gfx::utils
   auto time = std::chrono::system_clock::now();
   return fmt::format("{:%Y%m%d_%H%M}", time);
 }
-}
+} // namespace gfx::utils

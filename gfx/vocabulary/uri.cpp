@@ -32,7 +32,7 @@ URI::Schema getSchema(std::string_view uri)
   }
   return result;
 }
-}
+} // namespace
 
 URI::URI(std::string_view uri)
     : _uri{uri},
@@ -65,4 +65,4 @@ URI::Schema URI::schema() const
 {
   return _schema;
 }
-}
+} // namespace gfx

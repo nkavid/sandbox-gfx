@@ -22,4 +22,4 @@ JSONParser::JSONParser(const std::filesystem::path& filepath)
 
   std::cout << jsonObject << '\n';
 }
-}
+} // namespace gfx::utils

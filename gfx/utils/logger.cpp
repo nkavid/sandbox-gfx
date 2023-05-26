@@ -35,7 +35,7 @@ constexpr std::string_view cyan   = "\x1B[36m";
 constexpr std::string_view white  = "\x1B[39m";
 constexpr std::string_view bold   = "\x1B[1m";
 constexpr std::string_view reset  = "\x1B[0m";
-};
+}; // namespace ansi
 
 constexpr auto apply = [](std::string_view color) {
   return [color](std::string_view string) {
@@ -57,7 +57,7 @@ std::string getPreamble(std::string_view color, std::string_view tag)
   preamble << ansi::reset;
   return preamble.str();
 }
-}
+} // namespace
 
 void fatal(std::string_view msg)
 {
@@ -96,4 +96,4 @@ void info(std::string_view msg, std::string_view info)
   const std::string preamble = getPreamble(ansi::cyan, "INFO");
   std::cout << preamble << msg << info << '\n';
 }
-}
+} // namespace gfx::utils::logger

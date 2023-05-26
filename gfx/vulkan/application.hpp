@@ -112,4 +112,4 @@ class Application
     void _cleanupSwapChain();
     void _recreateSwapChain();
 };
-}
+} // namespace gfx::vulkan

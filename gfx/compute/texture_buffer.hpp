@@ -7,7 +7,7 @@
 namespace gfx
 {
 struct Size;
-}
+} // namespace gfx
 
 namespace gfx::compute
 {
@@ -30,4 +30,4 @@ class TextureBuffer
     CUgraphicsResource _cuResource{};
     GLuint _texture{};
 };
-}
+} // namespace gfx::compute

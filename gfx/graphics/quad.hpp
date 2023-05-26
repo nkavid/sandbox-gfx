@@ -11,4 +11,4 @@ class Quad
   private:
     unsigned int _vao{0};
 };
-}
+} // namespace gfx::graphics

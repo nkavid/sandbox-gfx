@@ -29,4 +29,4 @@ class Reader
     sem_t* _semaphoreEmpty{nullptr};
     sem_t* _semaphoreFull{nullptr};
 };
-}
+} // namespace gfx::shmem

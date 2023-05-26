@@ -30,7 +30,7 @@ enum Name
   DOWN,
   LEFT
 };
-}
+} // namespace button
 
 struct Stick
 {
@@ -116,4 +116,4 @@ class Gamepad
     using DirectionalPadData = std::array<unsigned char, directions>;
     void _updateDirectionalPad(const DirectionalPadData& newButtons);
 };
-}
+} // namespace gfx::input

@@ -25,4 +25,4 @@ class Texture
     gfx::Size _size;
     unsigned int _texture{0};
 };
-}
+} // namespace gfx::graphics

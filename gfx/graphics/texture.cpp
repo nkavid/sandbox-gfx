@@ -41,4 +41,4 @@ void Texture::bind() const
 {
   glBindTexture(GL_TEXTURE_2D, _texture);
 }
-}
+} // namespace gfx::graphics

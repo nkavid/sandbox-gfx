@@ -35,7 +35,7 @@ class CLI
     int _argc;
     std::vector<const char*> _strings;
 };
-}
+} // namespace gfx::test
 
 TEST_CASE("argparser_test", "[gfx][utils][arg_parser]")
 {

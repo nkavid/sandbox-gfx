@@ -337,7 +337,7 @@ void close_stream(AVFormatContext* /*oc*/, OutputStream* ost)
   sws_freeContext(ost->sws_ctx);
   swr_free(&ost->swr_ctx);
 }
-}
+} // namespace
 
 // NOLINTNEXTLINE(readability-function-size,readability-function-cognitive-complexity)
 Muxer::Muxer(gfx::URI uri,
@@ -436,4 +436,4 @@ Muxer::Muxer(gfx::URI uri,
 
   avformat_free_context(outputFormatContext);
 }
-}
+} // namespace gfx::utils::video

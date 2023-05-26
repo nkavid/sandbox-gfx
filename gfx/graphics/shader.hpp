@@ -3,7 +3,7 @@
 namespace gfx
 {
 class Color;
-}
+} // namespace gfx
 
 namespace gfx::graphics
 {
@@ -23,4 +23,4 @@ class Shader
     int _colorLoc{0};
     int _matrixLoc{0};
 };
-}
+} // namespace gfx::graphics

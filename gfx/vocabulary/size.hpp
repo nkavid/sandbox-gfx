@@ -73,7 +73,7 @@ constexpr size_t operator*(size_t lhs, const SizeElement& rhs)
   return lhs * static_cast<size_t>(rhs);
 }
 
-}
+} // namespace detail
 
 using Width  = detail::SizeElement;
 using Height = detail::SizeElement;
@@ -105,4 +105,4 @@ struct Size
     Width width;
     Height height;
 };
-}
+} // namespace gfx

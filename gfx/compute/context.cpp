@@ -33,4 +33,4 @@ CUcontext Context::get() const
 {
   return _cuContext;
 }
-}
+} // namespace gfx::compute

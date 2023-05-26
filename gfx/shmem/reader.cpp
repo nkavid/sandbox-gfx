@@ -48,4 +48,4 @@ Reader::Reader(const char* name, size_t size)
   }
   return false;
 }
-}
+} // namespace gfx::shmem

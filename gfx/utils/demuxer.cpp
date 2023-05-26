@@ -294,7 +294,7 @@ enum CLIArg
   VideoOut   = 2,
   NumArgs    = 3
 };
-}
+} // namespace cli_arg
 
 // NOLINTNEXTLINE(clang-diagnostic-unsafe-buffer-usage)
 bool parse_args(int argc, const char** argv)
@@ -316,8 +316,8 @@ bool parse_args(int argc, const char** argv)
   return true;
 }
 
-}
-}
+} // namespace
+} // namespace gfx
 
 // NOLINTNEXTLINE(readability-function-size, readability-function-cognitive-complexity)
 int main(int argc, const char** argv)

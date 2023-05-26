@@ -220,8 +220,8 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance,
     func(instance, debugMessenger, pAllocator);
   }
 }
-}
-}
+} // namespace
+} // namespace gfx::vulkan::detail
 
 namespace gfx::vulkan
 {
@@ -462,4 +462,4 @@ void Context::_pickPhysicalDevice()
     throw std::runtime_error("gfx::failed to find a suitable GPU!");
   }
 }
-}
+} // namespace gfx::vulkan

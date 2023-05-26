@@ -7,11 +7,11 @@
 namespace gfx
 {
 struct Size;
-}
+} // namespace gfx
 
 namespace gfx::compute::utils
 {
 void dump_deviceptr(std::string_view filename,
                     CUdeviceptr deviceptr,
                     const gfx::Size& size);
-}
+} // namespace gfx::compute::utils

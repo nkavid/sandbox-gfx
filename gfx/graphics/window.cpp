@@ -75,7 +75,7 @@ void initialize_opengl()
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-}
+} // namespace
 
 Window::Window(const char* name, const gfx::Size& size, Mode mode)
     : _size{size.width, size.height}
@@ -106,4 +106,4 @@ bool Window::isOpen() const
 {
   return glfwWindowShouldClose(_window) == GLFW_FALSE;
 }
-}
+} // namespace gfx::graphics

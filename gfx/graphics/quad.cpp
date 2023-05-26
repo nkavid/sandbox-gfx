@@ -14,7 +14,7 @@ enum Attribute
   position = 0,
   texCoord = 1
 };
-}
+} // namespace attribute
 
 struct Detail
 {
@@ -89,4 +89,4 @@ void Quad::draw() const
   glBindVertexArray(_vao);
   glDrawElements(GL_TRIANGLES, Detail::numVertices, GL_UNSIGNED_BYTE, nullptr);
 }
-}
+} // namespace gfx::graphics

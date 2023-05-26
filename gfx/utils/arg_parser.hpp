@@ -46,4 +46,4 @@ class ArgParser
     [[nodiscard]] gfx::time::fps getFrameRate() const;
     [[nodiscard]] bool getVerbose() const;
 };
-}
+} // namespace gfx::utils

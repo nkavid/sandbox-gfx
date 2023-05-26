@@ -14,4 +14,4 @@ struct Shader
     static VkShaderModule createShaderModule(const std::vector<char>& code,
                                              const VkDevice& device);
 };
-}
+} // namespace gfx::vulkan

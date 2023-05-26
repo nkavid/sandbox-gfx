@@ -75,8 +75,8 @@ enum Stage
   fragment,
   num_stages
 };
-}
-}
+} // namespace stage
+} // namespace
 
 unsigned int compileShaderProgram(const char* vertSource, const char* fragSource)
 {
@@ -105,4 +105,4 @@ unsigned int compileShaderProgram(const char* compSource)
 
   return shaderProgram;
 }
-}
+} // namespace gfx::graphics::detail

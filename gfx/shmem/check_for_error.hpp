@@ -36,4 +36,4 @@ static void checkForError(void* returnValue,
     logAndAbort(function);
   }
 }
-}
+} // namespace gfx::shmem::detail

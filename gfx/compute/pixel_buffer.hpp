@@ -9,7 +9,7 @@
 namespace gfx
 {
 struct Size;
-}
+} // namespace gfx
 
 namespace gfx::compute
 {
@@ -37,4 +37,4 @@ class PixelBuffer
     CUgraphicsResource _cuResource{};
     unsigned int _pbo{0};
 };
-}
+} // namespace gfx::compute

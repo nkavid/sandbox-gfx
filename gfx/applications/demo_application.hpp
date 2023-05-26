@@ -9,4 +9,4 @@ class DemoApplication
 
   private:
 };
-}
+} // namespace gfx

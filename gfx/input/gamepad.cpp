@@ -46,8 +46,8 @@ void printJoystickInfo(int _glfwJoystickId)
     std::cout << "joystick name: " << glfwGetJoystickName(_glfwJoystickId) << '\n';
   }
 }
-}
-}
+} // namespace
+} // namespace gfx::input::glfw_util
 
 namespace gfx::input
 {
@@ -167,4 +167,4 @@ void Gamepad::printAxes()
   }
   // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 }
-}
+} // namespace gfx::input

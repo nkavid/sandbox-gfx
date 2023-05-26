@@ -39,8 +39,8 @@ void fillRows(T& data,
     }
   }
 }
-}
-}
+} // namespace
+} // namespace gfx
 
 int main()
 {

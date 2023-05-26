@@ -14,4 +14,4 @@ using ms = std::chrono::milliseconds;
 };
 
 using fps = uint32_t;
-}
+} // namespace gfx::time

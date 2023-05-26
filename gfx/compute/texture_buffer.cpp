@@ -59,4 +59,4 @@ GLuint TextureBuffer::getTexture() const
 {
   return _texture;
 }
-}
+} // namespace gfx::compute

@@ -75,4 +75,4 @@ class Context
       app->_framebufferResized = true;
     }
 };
-}
+} // namespace gfx::vulkan

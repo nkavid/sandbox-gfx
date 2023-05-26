@@ -81,4 +81,4 @@ void PixelBuffer::releaseDevicePtr()
 {
   CUCHECK(cuGraphicsUnmapResources(1, &_cuResource, nullptr));
 }
-}
+} // namespace gfx::compute

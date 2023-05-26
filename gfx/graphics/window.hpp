@@ -32,4 +32,4 @@ class Window
     gfx::Size _size;
     GLFWwindow* _window{nullptr};
 };
-}
+} // namespace gfx::graphics

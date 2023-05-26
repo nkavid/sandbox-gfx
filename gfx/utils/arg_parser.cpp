@@ -40,7 +40,7 @@ namespace
             << static_cast<size_t>(size.height);
   return outStream;
 }
-}
+} // namespace
 
 void ArgParser::_checkForOutputPath()
 {
@@ -229,4 +229,4 @@ bool ArgParser::getVerbose() const
 {
   return _verbose;
 }
-}
+} // namespace gfx::utils

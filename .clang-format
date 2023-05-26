@@ -21,7 +21,8 @@ BraceWrapping:
   SplitEmptyNamespace: false
 BreakBeforeBraces: Custom
 BreakBeforeBinaryOperators: NonAssignment
-FixNamespaceComments: false
+FixNamespaceComments: true
+ShortNamespaceLines: 0
 SortIncludes: true
 IncludeBlocks: Regroup
 IncludeIsMainSourceRegex: '$?'

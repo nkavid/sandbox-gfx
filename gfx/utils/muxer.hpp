@@ -34,4 +34,4 @@ class Muxer
     gfx::time::ms _duration;
     gfx::time::fps _frameRate;
 };
-}
+} // namespace gfx::utils::video

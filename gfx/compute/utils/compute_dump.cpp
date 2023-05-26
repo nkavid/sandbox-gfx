@@ -41,4 +41,4 @@ void dump_deviceptr(std::string_view filename,
     ::gfx::utils::logger::fatal("did not recognize extension for ", filename);
   }
 }
-}
+} // namespace gfx::compute::utils

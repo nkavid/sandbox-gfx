@@ -50,4 +50,4 @@ static bool parse_pip_output(std::istream& inputStream, std::ostream& outputStre
 
   return true;
 }
-}
+} // namespace gfx::utils

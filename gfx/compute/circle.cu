@@ -33,4 +33,4 @@ void callDrawCircle(CUdeviceptr array, size_t width, size_t height)
   dim3 thread{static_cast<uint32_t>(threadDim), static_cast<uint32_t>(threadDim), 1};
   drawCircle<<<block, thread>>>((uint8_t*)array);
 }
-}
+} // namespace gfx::compute

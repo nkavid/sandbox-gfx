@@ -40,4 +40,4 @@ checkCudaCall(CUresult result,
   }
 }
 #endif
-}
+} // namespace gfx::compute::detail
