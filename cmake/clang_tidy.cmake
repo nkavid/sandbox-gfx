@@ -2,14 +2,12 @@ set(GFX_CLANG_TIDY_EXECUTABLE
   clang-tidy;
 )
 
-find_library(GFX_MODULE_LIBRARY
-  "libgfx_checks.so"
-  PATH
-    "/home/divak/repos/gfx-checks/build/lib"
-)
+find_package(GFXTidy 0.0.1 REQUIRED)
+
+get_property(GFX_TIDY_LOCATION TARGET GFXTidy::gfx_tidy_checks PROPERTY LOCATION)
 
 set(GFX_CXX_CLANG_TIDY_OPTIONS
-  -load=${GFX_MODULE_LIBRARY}
+  -load=${GFX_TIDY_LOCATION}
   --extra-arg=-stdlib=libc++;
   --extra-arg=-Wno-error=unknown-warning-option;
   --extra-arg=-Weverything;
