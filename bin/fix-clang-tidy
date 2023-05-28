@@ -2,7 +2,7 @@
 
 source scripts/logging.sh
 
-CLANG_TIDY="../llvm-project/build/bin/clang-tidy"
+CLANG_TIDY="/opt/pkg/llvm/llvm_16.0.5/bin/clang-tidy"
 CLANG_TIDY_OPTIONS=(-p build \
 --fix-errors \
 --extra-arg=-Wno-error=unknown-warning-option \
@@ -12,8 +12,7 @@ CLANG_TIDY_OPTIONS=(-p build \
 --extra-arg=-Wno-switch-enum \
 --extra-arg=-Wno-padded \
 --extra-arg=-Wno-declaration-after-statement \
---extra-arg=-isystem/usr/lib//llvm-15/include/c++/v1/ \
---checks=-gfx-class-cohesion \
+--extra-arg=-nostdinc++ \
 --quiet)
 
 function fix_clang_tidy()
@@ -26,14 +25,19 @@ function fix_clang_tidy()
   PROCESSED=0
 
   for FILE in ${FILES}; do
+    CLANG_TIDY_CHECKS_ARG="--checks="
     INCR="${BOLD}[$((++PROCESSED)) of ${NUM_FILES}]${RESET}"
 
     [[ ${FILE} =~ /shaders/ ]] \
       && verbose_info "skip ${ITALIC}${FILE}${RESET} ${INCR}" \
       && continue
 
+    [[ -z "${FILE##*"_test.cpp"*}" ]] \
+      && CLANG_TIDY_CHECKS_ARG="--checks=-readability-function-size"
+
     verbose_info "checking ${ITALIC}${FILE}${RESET} ${INCR}"
-    ${CLANG_TIDY} "${CLANG_TIDY_OPTIONS[@]}" "${FILE}"
+    ${CLANG_TIDY} "${CLANG_TIDY_OPTIONS[@]}" "${CLANG_TIDY_CHECKS_ARG}" "${FILE}"
+    echo "${FILE}"
   done
 }
 
