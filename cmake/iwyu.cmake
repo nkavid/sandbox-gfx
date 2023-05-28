@@ -1,9 +1,8 @@
 set(GFX_IWYU_EXECUTABLE
-  ../../llvm-project/build/bin/include-what-you-use;
-  #include-what-you-use;
+  include-what-you-use;
 )
 
-set(IWYU_EXTERNAL_PATH ../../include-what-you-use)
+set(IWYU_EXTERNAL_PATH /opt/pkg/llvm/llvm_16.0.5/share/include-what-you-use)
 
 set(GFX_IWYU_OPTIONS
   #-Xiwyu;--verbose=7;

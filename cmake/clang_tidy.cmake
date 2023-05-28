@@ -8,7 +8,7 @@ get_property(GFX_TIDY_LOCATION TARGET GFXTidy::gfx_tidy_checks PROPERTY LOCATION
 
 set(GFX_CXX_CLANG_TIDY_OPTIONS
   -load=${GFX_TIDY_LOCATION}
-  --extra-arg=-stdlib=libc++;
+  --extra-arg=-nostdinc++;
   --extra-arg=-Wno-error=unknown-warning-option;
   --extra-arg=-Weverything;
   --extra-arg=-Wno-c++98-compat;

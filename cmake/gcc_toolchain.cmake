@@ -6,43 +6,49 @@ string(APPEND GFX_GCC_FLAGS
 #  " -O3"
 )
 
-string(APPEND GFX_CXX_WARNING_FLAGS
-  ${GFX_GCC_FLAGS}
+string(APPEND GFX_GCC_WARNINGS
   " -Wall"
   " -Wextra"
   " -Wshadow"
-  " -Wnon-virtual-dtor"
-  " -Wold-style-cast"
-  " -Wcast-align"
-  " -Wunused"
-  " -Woverloaded-virtual"
   " -Wpedantic"
+  " -Wunused"
+  " -Wunused-macros"
+  " -Wmissing-declarations"
+  " -Wredundant-decls"
+  " -Wcast-align"
   " -Wconversion"
   " -Wsign-conversion"
+  " -Wint-in-bool-context"
+  " -Warith-conversion"
+  " -Wdouble-promotion"
+  " -Wfloat-equal"
   " -Wmisleading-indentation"
   " -Wduplicated-cond"
   " -Wduplicated-branches"
   " -Wlogical-op"
   " -Wnull-dereference"
-  " -Wuseless-cast"
-  " -Wdouble-promotion"
-  " -Wformat=2"
-  " -Weffc++"
-  " -Wvexing-parse"
-  " -Wfloat-equal"
-  " -Wundef"
+  " -Walloc-zero"
   " -Wwrite-strings"
-  " -Wunused-macros"
-  " -Wmissing-declarations"
-  " -Wcast-qual"
-  " -Warith-conversion"
+  " -Wformat=2"
+  " -Wundef"
   " -Wsuggest-attribute=cold"
   " -Wsuggest-attribute=malloc"
   " -Wsuggest-attribute=noreturn"
-  " -Wsuggest-override"
-  " -Walloc-zero"
   " -Wsuggest-final-types"
   " -Wsuggest-final-methods"
+  " -Wbidi-chars=any,ucn"
+  " -Warray-compare"
+  " -Wcast-qual"
+)
+
+string(APPEND GFX_CXX_WARNING_FLAGS
+  " -Wnon-virtual-dtor"
+  " -Wold-style-cast"
+  " -Woverloaded-virtual"
+  " -Wuseless-cast"
+  " -Weffc++"
+  " -Wvexing-parse"
+  " -Wsuggest-override"
   " -Wc++20-compat"
   " -Wterminate"
   " -Wsubobject-linkage"
@@ -54,43 +60,23 @@ string(APPEND GFX_CXX_WARNING_FLAGS
   " -Wredundant-tags"
   " -Wreorder"
   " -Wsign-promo"
-  " -Wredundant-decls"
-  " -Wint-in-bool-context"
+  " -Wuninitialized"
 )
 
-set(CMAKE_CXX_FLAGS "${GFX_CXX_WARNING_FLAGS}")
+string(APPEND GFX_C_WARNING_FLAGS
+  " -Wno-declaration-after-statement" # C90 compatibility
+  " -Wmissing-prototypes"
+  " -Wc++-compat"
+)
+
+string(APPEND CMAKE_CXX_FLAGS
+  ${GFX_GCC_FLAGS}
+  ${GFX_GCC_WARNINGS}
+  ${GFX_CXX_WARNING_FLAGS}
+)
 
 string(APPEND CMAKE_C_FLAGS
   ${GFX_GCC_FLAGS}
-  " -Wno-declaration-after-statement"
-  " -Wall"
-  " -Wextra"
-  " -Wshadow"
-  " -Wcast-align"
-  " -Wunused"
-  " -Wpedantic"
-  " -Wconversion"
-  " -Wsign-conversion"
-  " -Wmissing-prototypes"
-  " -Wmisleading-indentation"
-  " -Wduplicated-cond"
-  " -Wduplicated-branches"
-  " -Wlogical-op"
-  " -Wnull-dereference"
-  " -Wdouble-promotion"
-  " -Wformat=2"
-  " -Wfloat-equal"
-  " -Wundef"
-  " -Wwrite-strings"
-  " -Wunused-macros"
-  " -Wmissing-declarations"
-  " -Wcast-qual"
-  " -Warith-conversion"
-  " -Wsuggest-attribute=cold"
-  " -Wsuggest-attribute=malloc"
-  " -Wsuggest-attribute=noreturn"
-  " -Walloc-zero"
-  " -Wsuggest-final-types"
-  " -Wsuggest-final-methods"
-  " -Wredundant-decls"
+  ${GFX_GCC_WARNINGS}
+  ${GFX_C_WARNING_FLAGS}
 )
