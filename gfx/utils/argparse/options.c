@@ -23,13 +23,13 @@ static unsigned* g_num_options = NULL;
 
 void argparse_alloc_options(unsigned num_options)
 {
-  g_num_options                  = malloc(sizeof(unsigned));
+  g_num_options                  = (unsigned*)malloc(sizeof(unsigned));
   *g_num_options                 = num_options;
   static const unsigned num_help = 1;
   size_t size_all_desc_options   = (num_help + num_options)
                                * sizeof(struct argparse_print_description);
 
-  g_desc_options = malloc(size_all_desc_options);
+  g_desc_options = (struct argparse_print_description*)malloc(size_all_desc_options);
   memset(g_desc_options, 0, size_all_desc_options);
 
   static const unsigned help_and_null   = num_help + 1;
@@ -37,7 +37,7 @@ void argparse_alloc_options(unsigned num_options)
 
   const unsigned long size_long_options = total_num_options * sizeof(struct option);
 
-  g_long_options = malloc(size_long_options);
+  g_long_options = (struct option*)malloc(size_long_options);
   memset(g_long_options, 0, size_long_options);
 
   struct option help = {.name = "help", .has_arg = no_argument, .flag = 0, .val = 'h'};
@@ -52,7 +52,7 @@ void argparse_alloc_options(unsigned num_options)
   // NOLINTNEXTLINE(readability-magic-numbers)
   unsigned size_g_optstring = 1 + *g_num_options * 2 + 1;
 
-  g_optstring = malloc(size_g_optstring);
+  g_optstring = (char*)malloc(size_g_optstring);
   memset(g_optstring, '\0', size_g_optstring);
   g_optstring[0] = 'h';
 }
