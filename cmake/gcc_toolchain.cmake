@@ -1,7 +1,14 @@
-set(CMAKE_CXX_COMPILER g++)
-set(CMAKE_C_COMPILER gcc)
+set(CMAKE_CXX_COMPILER
+    g++
+)
+set(CMAKE_C_COMPILER
+    gcc
+)
 
-string(APPEND GFX_GCC_FLAGS " -Werror" # " -O3"
+string(
+  APPEND
+  GFX_GCC_FLAGS
+  " -Werror" # " -O3"
 )
 
 string(
@@ -38,7 +45,8 @@ string(
   " -Wsuggest-final-methods"
   " -Wbidi-chars=any,ucn"
   " -Warray-compare"
-  " -Wcast-qual")
+  " -Wcast-qual"
+)
 
 string(
   APPEND
@@ -61,14 +69,29 @@ string(
   " -Wredundant-tags"
   " -Wreorder"
   " -Wsign-promo"
-  " -Wuninitialized")
+  " -Wuninitialized"
+)
 
-string(APPEND GFX_C_WARNING_FLAGS
-       " -Wno-declaration-after-statement" # C90 compatibility
-       " -Wmissing-prototypes" " -Wc++-compat")
+string(
+  APPEND
+  GFX_C_WARNING_FLAGS
+  " -Wno-declaration-after-statement" # C90 compatibility
+  " -Wmissing-prototypes"
+  " -Wc++-compat"
+)
 
-string(APPEND CMAKE_CXX_FLAGS ${GFX_GCC_FLAGS} ${GFX_GCC_WARNINGS}
-       ${GFX_CXX_WARNING_FLAGS})
+string(
+  APPEND
+  CMAKE_CXX_FLAGS
+  ${GFX_GCC_FLAGS}
+  ${GFX_GCC_WARNINGS}
+  ${GFX_CXX_WARNING_FLAGS}
+)
 
-string(APPEND CMAKE_C_FLAGS ${GFX_GCC_FLAGS} ${GFX_GCC_WARNINGS}
-       ${GFX_C_WARNING_FLAGS})
+string(
+  APPEND
+  CMAKE_C_FLAGS
+  ${GFX_GCC_FLAGS}
+  ${GFX_GCC_WARNINGS}
+  ${GFX_C_WARNING_FLAGS}
+)

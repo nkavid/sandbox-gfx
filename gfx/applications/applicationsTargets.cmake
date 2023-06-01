@@ -1,6 +1,12 @@
-add_library(demo_application STATIC)
+add_library(
+  demo_application
+  STATIC
+)
 
-target_sources(demo_application PRIVATE gfx/applications/demo_application.cpp)
+target_sources(
+  demo_application
+  PRIVATE gfx/applications/demo_application.cpp
+)
 
 target_link_libraries(
   demo_application
@@ -9,18 +15,32 @@ target_link_libraries(
   graphics::components
   compute::components
   fmt::fmt
-  utils::logger)
+  utils::logger
+)
 
 gfx_executable_target(
-  TARGET demo-application MAIN gfx/applications/demo_application_main.cpp
-  DEPENDENCIES demo_application)
+  TARGET demo-application
+  MAIN gfx/applications/demo_application_main.cpp
+  DEPENDENCIES demo_application
+)
 
-add_executable(gamepad-demo gfx/applications/gamepad_demo_main.cpp)
+add_executable(
+  gamepad-demo
+  gfx/applications/gamepad_demo_main.cpp
+)
 
-target_link_libraries(gamepad-demo graphics::window input::gamepad
-                      utils::logger)
+target_link_libraries(
+  gamepad-demo
+  graphics::window
+  input::gamepad
+  utils::logger
+)
 
-add_library(dummy_video_muxer STATIC gfx/utils/muxer.cpp)
+add_library(
+  dummy_video_muxer
+  STATIC
+  gfx/utils/muxer.cpp
+)
 
 target_link_libraries(
   dummy_video_muxer
@@ -29,14 +49,29 @@ target_link_libraries(
   ffmpeg::libswscale
   fmt::fmt
   utils::arg_parser
-  vocabulary)
+  vocabulary
+)
 
-add_executable(muxing gfx/applications/muxing_main.cpp)
+add_executable(
+  muxing
+  gfx/applications/muxing_main.cpp
+)
 
-target_link_libraries(muxing dummy_video_muxer utils::logger vocabulary::uri)
+target_link_libraries(
+  muxing
+  dummy_video_muxer
+  utils::logger
+  vocabulary::uri
+)
 
-add_executable(opengl-compute-shader
-               gfx/applications/opengl_compute_shader_main.cpp)
+add_executable(
+  opengl-compute-shader
+  gfx/applications/opengl_compute_shader_main.cpp
+)
 
-target_link_libraries(opengl-compute-shader graphics::window
-                      graphics::components utils::logger)
+target_link_libraries(
+  opengl-compute-shader
+  graphics::window
+  graphics::components
+  utils::logger
+)
