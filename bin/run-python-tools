@@ -4,21 +4,26 @@ source scripts/logging.sh
 
 FAIL=0
 
+function log()
+{
+  echo -e "\x1B[1m-- $1:\x1B[0m $2"
+}
+
 function run_pyupgrade()
 {
-  echo "gfx::pyupgrade: ${PWD}/$1"
+  log "pyupgrade" "${PWD}/$1"
   find "$1" -name "*.py" -exec python3 -m pyupgrade --py310-plus {} +
 }
 
 function run_autoflake()
 {
-  echo "gfx::autoflake: ${PWD}/$1"
+  log "autoflake" "${PWD}/$1"
   python3 -m autoflake --in-place --recursive "$1"
 }
 
 function run_autopep8()
 {
-  echo "gfx::autopep8: ${PWD}/$1"
+  log "autopep8" "${PWD}/$1"
   python3 -m autopep8 \
     --diff \
     --aggressive \
@@ -30,31 +35,31 @@ function run_autopep8()
 
 function run_isort()
 {
-  echo "gfx::isort: ${PWD}/$1"
+  log "isort" "${PWD}/$1"
   python3 -m isort "$1"
 }
 
 function run_black()
 {
-  echo "gfx::black: ${PWD}/$1"
+  log "black" "${PWD}/$1"
   find "$1" -name "*.py" -exec python3 -m black {} +
 }
 
 function run_pytest()
 {
-  echo "gfx::pytest: ${PWD}/$1"
-  python3 -m pytest "$1" || FAIL=1
+  log "pytest" "${PWD}/$1"
+  python3 -m pytest --quiet "$1" || FAIL=1
 }
 
 function run_flake8()
 {
-  echo "gfx::flake8: ${PWD}/$1"
+  log "flake8" "${PWD}/$1"
   python3 -m flake8 --config setup.cfg "$1" || FAIL=1
 }
 
 function run_mypy()
 {
-  echo "gfx::mypy: ${PWD}/$1"
+  log "mypy" "${PWD}/$1"
   python3 -m mypy \
     --follow-imports=skip \
     --ignore-missing-imports \
@@ -65,13 +70,13 @@ function run_mypy()
 
 function run_pylint()
 {
-  echo "gfx::pylint: ${PWD}/$1"
+  log "pylint" "${PWD}/$1"
   python3 -m pylint --rcfile=pyproject.toml "$1" || FAIL=1
 }
 
 function run_bandit()
 {
-  echo "gfx::bandit: ${PWD}/$1"
+  log "bandit" "${PWD}/$1"
   bandit \
     --config=tools/bandit.yaml \
     --severity-level=all \
@@ -81,7 +86,7 @@ function run_bandit()
 }
 
 if [[ ! -f "pyproject.toml" ]]; then
-  echo "gfx::did not find 'pyproject.toml', run from root"
+  error "did not find 'pyproject.toml', run from root"
   exit 1
 fi;
 
@@ -100,7 +105,7 @@ function run_all_tools()
 }
 
 run_all_tools tools
-run_all_tools doc/scripts
+run_all_tools doc
 
 [[ ${FAIL} = 1 ]] && error "" && exit 1
 
