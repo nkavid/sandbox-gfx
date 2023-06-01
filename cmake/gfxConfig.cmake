@@ -1,3 +1,1 @@
 @PACKAGE_INIT@
-
-

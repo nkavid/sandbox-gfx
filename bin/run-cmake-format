@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CMAKE_FILES=("$(find third_party -maxdepth 1 \( -name "*CMakeLists.txt" -o -name "*.cmake" \))")
+CMAKE_FILES+=("$(find cmake \( -name "*CMakeLists.txt" -o -name "*.cmake" \))")
+CMAKE_FILES+=("$(find gfx \( -name "*CMakeLists.txt" -o -name "*.cmake" \))")
+
+for CMAKE_FILE in ${CMAKE_FILES[@]}; do
+  echo "formatting: ${CMAKE_FILE}"
+  cmake-format --config-file .cmake-format --in-place ${CMAKE_FILE}
+done
+echo "done formatting!"
