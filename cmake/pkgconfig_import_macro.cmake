@@ -1,5 +1,6 @@
+# Find PkgConfig file and create alias
 macro(
-  gfx_pkgconfig_import
+  GFX_PKGCONFIG_IMPORT
   namespace
   package
   version
@@ -10,5 +11,7 @@ macro(
     IMPORTED_TARGET
     ${package}>${version}
   )
+
   add_library(${namespace}::${package} ALIAS PkgConfig::${package})
+
 endmacro()

@@ -1,3 +1,4 @@
+# Create GFX executable target
 function(gfx_executable_target)
   set(options)
   set(one_value_args TARGET MAIN)

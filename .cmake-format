@@ -12,6 +12,10 @@ parse:
         TARGET: '*'
         MAIN: '*'
         DEPENDENCIES: '*'
+    obj_unit_test:
+      kwargs:
+        DEPENDENCIES: '*'
+        INCLUDE_PATH: '*'
   override_spec: {}
   vartags: []
   proptags: []
@@ -30,7 +34,7 @@ format:
   dangle_align: prefix
   min_prefix_chars: 4
   max_prefix_chars: 4
-  max_lines_hwrap: 2
+  max_lines_hwrap: 0
   line_ending: unix
   command_case: canonical
   keyword_case: unchanged

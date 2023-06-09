@@ -33,6 +33,7 @@ target_link_libraries(
 
 add_custom_target(
   ${CMAKE_PROJECT_NAME}_generate_glsl_string ALL
+  COMMENT "${CMAKE_PROJECT_NAME}_generate_glsl_string"
   COMMAND
     python3 ${CMAKE_SOURCE_DIR}/tools/glsl_file_to_string.py --program-name
     basic --shader-stages vertex fragment --shaders-path

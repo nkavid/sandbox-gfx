@@ -1,9 +1,10 @@
+# Calls git commands to get some branch info
 function(
   get_git_info
-  _git_branch
-  _git_tag_name
-  _git_tag_subject
-  _git_rev_hash
+  git_branch
+  git_tag_name
+  git_tag_subject
+  git_rev_hash
 )
   execute_process(
     COMMAND git branch --show-current
@@ -11,7 +12,7 @@ function(
     OUTPUT_VARIABLE current_branch
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  set(${_git_branch}
+  set(${git_branch}
       ${current_branch}
       PARENT_SCOPE
   )
@@ -41,11 +42,11 @@ function(
     1
     current_tag_subject
   )
-  set(${_git_tag_name}
+  set(${git_tag_name}
       ${current_tag_name}
       PARENT_SCOPE
   )
-  set(${_git_tag_subject}
+  set(${git_tag_subject}
       ${current_tag_subject}
       PARENT_SCOPE
   )
@@ -56,7 +57,7 @@ function(
     OUTPUT_VARIABLE current_rev_hash
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  set(${_git_rev_hash}
+  set(${git_rev_hash}
       ${current_rev_hash}
       PARENT_SCOPE
   )

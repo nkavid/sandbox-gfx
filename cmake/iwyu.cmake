@@ -24,14 +24,15 @@ set(GFX_IWYU_OPTIONS
 )
 
 set(GFX_IWYU_CATCH2_TARGET_PROPERTIES
-    ${GFX_IWYU_EXECUTABLE}; ${GFX_IWYU_OPTIONS};
+    ${GFX_IWYU_EXECUTABLE};
+    ${GFX_IWYU_OPTIONS};
     -Xiwyu;--keep=*_stream_operator.hpp;
 )
 
 if(GFX_LINTING)
   message(STATUS "gfx::ENABLED include-what-you-use")
-  set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${GFX_IWYU_EXECUTABLE};
-                                     ${GFX_IWYU_OPTIONS};
+  set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE
+      ${GFX_IWYU_EXECUTABLE}; ${GFX_IWYU_OPTIONS};
   )
   set(CMAKE_C_INCLUDE_WHAT_YOU_USE ${GFX_IWYU_EXECUTABLE}; ${GFX_IWYU_OPTIONS};)
 else()

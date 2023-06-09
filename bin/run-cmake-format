@@ -1,23 +1,30 @@
 #!/bin/bash
 
+source scripts/logging.sh
+
 CMAKE_FILES=("$(find third_party -maxdepth 1 \( -name "*CMakeLists.txt" -o -name "*.cmake" \))")
 CMAKE_FILES+=("$(find cmake \( -name "*CMakeLists.txt" -o -name "*.cmake" \))")
 CMAKE_FILES+=("$(find gfx \( -name "*CMakeLists.txt" -o -name "*.cmake" \))")
 CMAKE_FILES+=("CMakeLists.txt")
 
+FAIL=0
+
 # shellcheck disable=SC2068 # intended parse each file separately
 for CMAKE_FILE in ${CMAKE_FILES[@]}; do
-  echo "formatting: ${CMAKE_FILE}"
+  echo "Checking: ${CMAKE_FILE}"
 
   cmake-format \
   --config-file .cmake-format \
   --in-place \
-  "${CMAKE_FILE}"
+  "${CMAKE_FILE}" || FAIL=1
 
   cmake-lint \
   --config-file .cmake-format \
   --suppress-decorations \
-  "${CMAKE_FILE}"
+  "${CMAKE_FILE}" || FAIL=1
 
 done
-echo "done formatting!"
+
+[[ ${FAIL} = 1 ]] && error "Linter or formatter for CMake reported failure" && exit 1
+
+success "Done!"

@@ -37,6 +37,7 @@ target_link_libraries(
 
 add_custom_target(
   ${CMAKE_PROJECT_NAME}_generate_spirv_from_glsl ALL
+  COMMENT "${CMAKE_PROJECT_NAME}_generate_spirv_from_glsl"
   COMMAND
     glslc -fshader-stage=vertex
     ${CMAKE_CURRENT_LIST_DIR}/shaders/shader.vert.glsl -o

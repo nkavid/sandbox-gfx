@@ -2,6 +2,7 @@ add_executable(unit_tests)
 
 target_link_libraries(unit_tests PRIVATE Catch2::Catch2WithMain)
 
+# Simplify build dependencies declarations for unit tests
 function(obj_unit_test unit)
   set(varargs DEPENDENCIES INCLUDE_PATH)
   cmake_parse_arguments(
@@ -38,43 +39,32 @@ obj_unit_test(size INCLUDE_PATH gfx/vocabulary/)
 obj_unit_test(
   shmem
   DEPENDENCIES
-  system_resources::shmem_writer
-  system_resources::shmem_reader
-  stubs::utils::logger
-  INCLUDE_PATH
-  gfx/shmem/
+    system_resources::shmem_writer
+    system_resources::shmem_reader
+    stubs::utils::logger
+  INCLUDE_PATH gfx/shmem/
 )
 
 obj_unit_test(
   uri
-  DEPENDENCIES
-  vocabulary::uri
-  stubs::utils::logger
-  INCLUDE_PATH
-  gfx/vocabulary/
+  DEPENDENCIES vocabulary::uri stubs::utils::logger
+  INCLUDE_PATH gfx/vocabulary/
 )
 
 obj_unit_test(
   arg_parser
-  DEPENDENCIES
-  utils::arg_parser
-  INCLUDE_PATH
-  gfx/utils/
-  gfx/
+  DEPENDENCIES utils::arg_parser
+  INCLUDE_PATH gfx/utils/ gfx/
 )
 
 obj_unit_test(
   pip_output_parser
-  DEPENDENCIES
-  google::re2
-  INCLUDE_PATH
-  gfx/utils/
+  DEPENDENCIES google::re2
+  INCLUDE_PATH gfx/utils/
 )
 
 obj_unit_test(
   argparse
-  DEPENDENCIES
-  utils::c::argparse
-  INCLUDE_PATH
-  gfx/utils/argparse
+  DEPENDENCIES utils::c::argparse
+  INCLUDE_PATH gfx/utils/argparse
 )

@@ -18,8 +18,9 @@ target_sources(
 )
 
 target_include_directories(
-  vocabulary INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/gfx>
-                       $<INSTALL_INTERFACE:gfx>
+  vocabulary
+  INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/gfx>
+            $<INSTALL_INTERFACE:gfx>
 )
 
 install(

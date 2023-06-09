@@ -79,7 +79,7 @@ find_package(
 include(cmake/clang_tidy.cmake)
 include(cmake/iwyu.cmake)
 
-include(cmake/ignore_macro.cmake)
+include(cmake/ignore_target.cmake)
 include(third_party/stbTargets.cmake)
 
 include(cmake/gfx_static_library_target.cmake)
