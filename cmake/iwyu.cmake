@@ -8,13 +8,10 @@ set(IWYU_EXTERNAL_PATH
 
 set(GFX_IWYU_OPTIONS
     # -Xiwyu;--verbose=7;
+    # -Xiwyu;--no_comments;
     -w;
-    -stdlib=libc++;
     -Xiwyu;--keep=*GL/glew.h;
     -Xiwyu;--keep=*libavutil/timestamp.h;
-    -Xiwyu;any;
-    -Xiwyu;iwyu;
-    -Xiwyu;args;
     -Xiwyu;--no_default_mappings;
     -Xiwyu;--quoted_includes_first;
     -Xiwyu;--no_fwd_decls;
