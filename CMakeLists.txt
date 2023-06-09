@@ -17,7 +17,9 @@ set(CMAKE_C_STANDARD 23)
 set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
 set(CMAKE_CUDA_COMPILER /usr/local/cuda-12.1/bin/nvcc)
 set(CMAKE_CUDA_ARCHITECTURES 75)
-string(APPEND CMAKE_CUDA_FLAGS
+string(
+  APPEND
+  CMAKE_CUDA_FLAGS
   " --generate-line-info"
   " -std=c++20"
 )
@@ -25,7 +27,8 @@ string(APPEND CMAKE_CUDA_FLAGS
 set(CUDA_SEPARABLE_COMPILATION ON)
 set(CUDA_PROPAGATE_HOST_FLAGS OFF)
 
-project(gfx
+project(
+  gfx
   DESCRIPTION "Sandbox project with highly collaborative components"
   VERSION 0.0.1
   LANGUAGES C CXX CUDA
@@ -33,8 +36,9 @@ project(gfx
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX
-    "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_${CMAKE_PROJECT_VERSION}"
-    CACHE PATH "..." FORCE)
+      "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_${CMAKE_PROJECT_VERSION}"
+      CACHE PATH "..." FORCE
+  )
 endif()
 
 include(CMakePackageConfigHelpers)
@@ -65,7 +69,12 @@ gfx_pkgconfig_import(google re2 10)
 
 find_library(CUVID_LIB nvcuvid REQUIRED)
 find_package(fmt 9.0 REQUIRED)
-find_package(Boost 1.74 REQUIRED program_options)
+find_package(
+  Boost
+  1.74
+  REQUIRED
+  program_options
+)
 
 include(cmake/clang_tidy.cmake)
 include(cmake/iwyu.cmake)
@@ -88,14 +97,17 @@ include(gfx/test/unit_tests.cmake)
 
 include(gfx/applications/applicationsTargets.cmake)
 
-export(EXPORT gfxTargets
+export(
+  EXPORT gfxTargets
   FILE "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxTargets.cmake"
   NAMESPACE gfx::
 )
 
-install(EXPORT gfxTargets
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
-        NAMESPACE gfx::)
+install(
+  EXPORT gfxTargets
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
+  NAMESPACE gfx::
+)
 
 write_basic_package_version_file(
   "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxConfigVersion.cmake"
@@ -105,16 +117,13 @@ write_basic_package_version_file(
 configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/gfxConfig.cmake"
   "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxConfig.cmake"
-  INSTALL_DESTINATION
-    "${CMAKE_INSTALL_LIBDIR}/cmake/"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/"
 )
 
 install(
-  FILES
-    "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxConfig.cmake"
-    "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxConfigVersion.cmake"
-  DESTINATION
-    "${CMAKE_INSTALL_LIBDIR}/cmake"
+  FILES "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxConfig.cmake"
+        "${GFX_CMAKE_OUTPUT_DIRECTORY}/gfxConfigVersion.cmake"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake"
 )
 
 install(CODE "MESSAGE(\"Finished installing ${CMAKE_INSTALL_PREFIX}\")")

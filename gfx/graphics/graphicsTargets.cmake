@@ -11,10 +11,7 @@ gfx_static_library_target(
     vocabulary
 )
 
-add_library(
-  components
-  STATIC
-)
+add_library(components STATIC)
 target_sources(
   components
   PRIVATE
@@ -25,10 +22,7 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/utils/graphics_dump.cpp
 )
 
-target_include_directories(
-  components
-  PRIVATE gfx
-)
+target_include_directories(components PRIVATE gfx)
 
 target_link_libraries(
   components
@@ -38,8 +32,7 @@ target_link_libraries(
 )
 
 add_custom_target(
-  ${CMAKE_PROJECT_NAME}_generate_glsl_string
-  ALL
+  ${CMAKE_PROJECT_NAME}_generate_glsl_string ALL
   COMMAND
     python3 ${CMAKE_SOURCE_DIR}/tools/glsl_file_to_string.py --program-name
     basic --shader-stages vertex fragment --shaders-path
@@ -53,13 +46,6 @@ add_custom_target(
     --shader-stages compute --shaders-path ${CMAKE_SOURCE_DIR}/gfx/shaders/
 )
 
-add_dependencies(
-  components
-  ${CMAKE_PROJECT_NAME}_generate_glsl_string
-)
+add_dependencies(components ${CMAKE_PROJECT_NAME}_generate_glsl_string)
 
-add_library(
-  graphics::components
-  ALIAS
-  components
-)
+add_library(graphics::components ALIAS components)

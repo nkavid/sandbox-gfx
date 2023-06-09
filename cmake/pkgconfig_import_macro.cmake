@@ -10,9 +10,5 @@ macro(
     IMPORTED_TARGET
     ${package}>${version}
   )
-  add_library(
-    ${namespace}::${package}
-    ALIAS
-    PkgConfig::${package}
-  )
+  add_library(${namespace}::${package} ALIAS PkgConfig::${package})
 endmacro()

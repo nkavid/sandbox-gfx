@@ -1,17 +1,8 @@
-add_library(
-  vulkan_context
-  STATIC
-)
+add_library(vulkan_context STATIC)
 
-target_sources(
-  vulkan_context
-  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/context.cpp
-)
+target_sources(vulkan_context PRIVATE ${CMAKE_CURRENT_LIST_DIR}/context.cpp)
 
-target_include_directories(
-  vulkan_context
-  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../
-)
+target_include_directories(vulkan_context PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../)
 
 target_link_libraries(
   vulkan_context
@@ -20,36 +11,20 @@ target_link_libraries(
   utils::logger
 )
 
-add_library(
-  vulkan_shader
-  STATIC
-)
+add_library(vulkan_shader STATIC)
+
+target_sources(vulkan_shader PRIVATE ${CMAKE_CURRENT_LIST_DIR}/shader.cpp)
+
+target_link_libraries(vulkan_shader vulkan)
+
+add_library(vulkan_application STATIC)
 
 target_sources(
-  vulkan_shader
-  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/shader.cpp
-)
-
-target_link_libraries(
-  vulkan_shader
-  vulkan
-)
-
-add_library(
-  vulkan_application
-  STATIC
-)
-
-target_sources(
-  vulkan_application
-  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/application.cpp
+  vulkan_application PRIVATE ${CMAKE_CURRENT_LIST_DIR}/application.cpp
 )
 
 target_include_directories(
-  vulkan_application
-  SYSTEM
-  PRIVATE third_party/glm
-          third_party/stb
+  vulkan_application SYSTEM PRIVATE third_party/glm third_party/stb
 )
 
 target_link_libraries(
@@ -61,8 +36,7 @@ target_link_libraries(
 )
 
 add_custom_target(
-  ${CMAKE_PROJECT_NAME}_generate_spirv_from_glsl
-  ALL
+  ${CMAKE_PROJECT_NAME}_generate_spirv_from_glsl ALL
   COMMAND
     glslc -fshader-stage=vertex
     ${CMAKE_CURRENT_LIST_DIR}/shaders/shader.vert.glsl -o
@@ -74,22 +48,13 @@ add_custom_target(
 )
 
 add_dependencies(
-  vulkan_application
-  ${CMAKE_PROJECT_NAME}_generate_spirv_from_glsl
+  vulkan_application ${CMAKE_PROJECT_NAME}_generate_spirv_from_glsl
 )
 
-add_executable(
-  vulkan-application
-  ${CMAKE_CURRENT_LIST_DIR}/main.cpp
-)
+add_executable(vulkan-application ${CMAKE_CURRENT_LIST_DIR}/main.cpp)
 
 target_include_directories(
-  vulkan-application
-  PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../
+  vulkan-application PRIVATE ${CMAKE_CURRENT_LIST_DIR}/../
 )
 
-target_link_libraries(
-  vulkan-application
-  vulkan_application
-  utils::logger
-)
+target_link_libraries(vulkan-application vulkan_application utils::logger)

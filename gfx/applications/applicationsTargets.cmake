@@ -1,12 +1,6 @@
-add_library(
-  demo_application
-  STATIC
-)
+add_library(demo_application STATIC)
 
-target_sources(
-  demo_application
-  PRIVATE gfx/applications/demo_application.cpp
-)
+target_sources(demo_application PRIVATE gfx/applications/demo_application.cpp)
 
 target_link_libraries(
   demo_application
@@ -24,10 +18,7 @@ gfx_executable_target(
   DEPENDENCIES demo_application
 )
 
-add_executable(
-  gamepad-demo
-  gfx/applications/gamepad_demo_main.cpp
-)
+add_executable(gamepad-demo gfx/applications/gamepad_demo_main.cpp)
 
 target_link_libraries(
   gamepad-demo
@@ -36,11 +27,7 @@ target_link_libraries(
   utils::logger
 )
 
-add_library(
-  dummy_video_muxer
-  STATIC
-  gfx/utils/muxer.cpp
-)
+add_library(dummy_video_muxer STATIC gfx/utils/muxer.cpp)
 
 target_link_libraries(
   dummy_video_muxer
@@ -52,10 +39,7 @@ target_link_libraries(
   vocabulary
 )
 
-add_executable(
-  muxing
-  gfx/applications/muxing_main.cpp
-)
+add_executable(muxing gfx/applications/muxing_main.cpp)
 
 target_link_libraries(
   muxing
@@ -65,8 +49,7 @@ target_link_libraries(
 )
 
 add_executable(
-  opengl-compute-shader
-  gfx/applications/opengl_compute_shader_main.cpp
+  opengl-compute-shader gfx/applications/opengl_compute_shader_main.cpp
 )
 
 target_link_libraries(
