@@ -46,6 +46,7 @@ string(
   " -Wbidi-chars=any,ucn"
   " -Warray-compare"
   " -Wcast-qual"
+  " -Wimplicit-fallthrough"
 )
 
 string(
