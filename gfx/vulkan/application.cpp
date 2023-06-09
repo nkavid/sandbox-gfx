@@ -27,9 +27,6 @@ namespace gfx::vulkan::detail
 {
 namespace
 {
-// NOLINTNEXTLINE
-const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
-
 VkSurfaceFormatKHR
 chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
@@ -144,20 +141,7 @@ struct Vertex
     }
 };
 
-// NOLINTNEXTLINE
-const static std::vector<Vertex> vertices = {
-    { {-0.5F, -0.5F, 0.0F}, {1.0F, 0.0F, 0.0F}, {1.0F, 0.0F}},
-    {  {0.5F, -0.5F, 0.0F}, {0.0F, 1.0F, 0.0F}, {0.0F, 0.0F}},
-    {   {0.5F, 0.5F, 0.0F}, {0.0F, 0.0F, 1.0F}, {0.0F, 1.0F}},
-    {  {-0.5F, 0.5F, 0.0F}, {1.0F, 1.0F, 1.0F}, {1.0F, 1.0F}},
-    {{-0.5F, -0.5F, -0.5F}, {1.0F, 0.0F, 0.0F}, {1.0F, 0.0F}},
-    { {0.5F, -0.5F, -0.5F}, {0.0F, 1.0F, 0.0F}, {0.0F, 0.0F}},
-    {  {0.5F, 0.5F, -0.5F}, {0.0F, 0.0F, 1.0F}, {0.0F, 1.0F}},
-    { {-0.5F, 0.5F, -0.5F}, {1.0F, 1.0F, 1.0F}, {1.0F, 1.0F}},
-};
-
-// NOLINTNEXTLINE
-const static std::vector<uint16_t> indices = {0, 1, 2, 2, 3, 0, 4, 5, 6, 6, 7, 4};
+constexpr std::array<uint16_t, 12> indices{0, 1, 2, 2, 3, 0, 4, 5, 6, 6, 7, 4};
 
 constexpr static const size_t VEC4_ALIGNMENT{16};
 
@@ -282,9 +266,11 @@ void Application::_createLogicalDevice()
   VkPhysicalDeviceFeatures deviceFeatures{};
   deviceFeatures.samplerAnisotropy = VK_TRUE;
   createInfo.pEnabledFeatures      = &deviceFeatures;
-  createInfo.enabledExtensionCount =
-      static_cast<uint32_t>(detail::deviceExtensions.size());
-  createInfo.ppEnabledExtensionNames = detail::deviceExtensions.data();
+
+  const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+
+  createInfo.enabledExtensionCount   = static_cast<uint32_t>(deviceExtensions.size());
+  createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
   if (vkCreateDevice(_context.getPhysicalDevice(),
                      &createInfo,
@@ -1035,6 +1021,19 @@ void Application::_createBuffer(VkDeviceSize size,
 
 void Application::_createVertexBuffer()
 {
+  constexpr std::array<Vertex, 8> vertices{
+      {
+       {{-0.5F, -0.5F, 0.0F}, {1.0F, 0.0F, 0.0F}, {1.0F, 0.0F}},
+       {{0.5F, -0.5F, 0.0F}, {0.0F, 1.0F, 0.0F}, {0.0F, 0.0F}},
+       {{0.5F, 0.5F, 0.0F}, {0.0F, 0.0F, 1.0F}, {0.0F, 1.0F}},
+       {{-0.5F, 0.5F, 0.0F}, {1.0F, 1.0F, 1.0F}, {1.0F, 1.0F}},
+       {{-0.5F, -0.5F, -0.5F}, {1.0F, 0.0F, 0.0F}, {1.0F, 0.0F}},
+       {{0.5F, -0.5F, -0.5F}, {0.0F, 1.0F, 0.0F}, {0.0F, 0.0F}},
+       {{0.5F, 0.5F, -0.5F}, {0.0F, 0.0F, 1.0F}, {0.0F, 1.0F}},
+       {{-0.5F, 0.5F, -0.5F}, {1.0F, 1.0F, 1.0F}, {1.0F, 1.0F}},
+       }
+  };
+
   const VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
   VkBuffer stagingBuffer{};

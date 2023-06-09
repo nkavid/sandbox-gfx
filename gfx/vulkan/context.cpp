@@ -18,11 +18,10 @@ namespace gfx::vulkan::detail
 {
 namespace
 {
-// NOLINTNEXTLINE
-const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
-
 bool checkDeviceExtensionSupport(VkPhysicalDevice device)
 {
+  const std::vector<const char*> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+
   uint32_t extensionCount{};
   vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
   std::vector<VkExtensionProperties> availableExtensions{extensionCount};
