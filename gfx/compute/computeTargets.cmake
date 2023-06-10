@@ -8,8 +8,17 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/texture_buffer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/utils/compute_dump.cpp
     ${CMAKE_CURRENT_LIST_DIR}/circle.cu
-    ${CMAKE_CURRENT_LIST_DIR}/circle_texture.cu
 )
+
+if(NOT
+   CMAKE_CXX_COMPILER_ID
+   STREQUAL
+   "Clang"
+)
+  target_sources(
+    compute_components PRIVATE ${CMAKE_CURRENT_LIST_DIR}/circle_texture.cu
+  )
+endif()
 
 target_include_directories(compute_components SYSTEM PRIVATE third_party/stb)
 
