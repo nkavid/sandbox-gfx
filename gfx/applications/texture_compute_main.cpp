@@ -3,10 +3,10 @@
 #include "compute/texture_buffer.hpp"
 #include "graphics/quad.hpp"
 #include "graphics/shader.hpp"
-#include "graphics/texture.hpp"
 #include "graphics/window.hpp"
 #include "shaders/texture.hpp"
 #include "utils/arg_parser.hpp"
+#include "vocabulary/size.hpp"
 
 #include <GL/glew.h>
 
@@ -16,13 +16,12 @@ int main(int argc, char** argv)
 {
   using namespace gfx;
   utils::ArgParser const argParser{argc, argv};
-  graphics::Window window{
-      __FILE__,
-      gfx::Size{1080, 720}
-  };
+  constexpr gfx::Size windowSize{1080, 720};
+
+  graphics::Window window{__FILE__, windowSize};
   compute::Context const context{};
 
-  gfx::Size const surfaceSize{512, 512};
+  constexpr gfx::Size surfaceSize{512, 512};
   compute::TextureBuffer textureBuffer{surfaceSize};
 
   graphics::Quad const quad{};
@@ -41,6 +40,7 @@ int main(int argc, char** argv)
 
   glBindTexture(GL_TEXTURE_2D, textureBuffer.getTexture());
 
+  // NOLINTNEXTLINE(cppcoreguidelines-avoid-do-while)
   do
   {
     quad.draw();

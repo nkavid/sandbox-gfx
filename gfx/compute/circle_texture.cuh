@@ -2,9 +2,9 @@
 
 #include <cuda.h>
 
-#if defined __clang__
-#error surf2Dwrite not available in Clang. \
-"texObj" only for fetching/sampling, not write
+#if defined(__clang__) && not defined(GFX_CLANG_TIDY)
+#error "surf2Dwrite not available in Clang. \
+"texObj" only for fetching/sampling, not write"
 #endif
 
 namespace gfx::compute
