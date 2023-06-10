@@ -25,6 +25,7 @@ set(GFX_C_CLANG_TIDY_OPTIONS
     --extra-arg=-Weverything;
     --extra-arg=-Wno-switch-enum;
     --extra-arg=-Wno-padded;
+    --extra-arg=-Wno-unsafe-buffer-usage; # TODO C++ specific?
 )
 
 set(GFX_CLANG_TIDY_CATCH2_OPTIONS --checks=-readability-function-size;)

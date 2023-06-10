@@ -15,7 +15,6 @@ class Channel
         : _data{data}
     {}
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator float() const
     {
       return _data;

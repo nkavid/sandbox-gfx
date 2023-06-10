@@ -36,6 +36,10 @@ extern "C"
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <iterator>
+#include <memory>
+#include <optional>
+#include <span>
 
 namespace gfx
 {
@@ -52,7 +56,22 @@ static AVStream* g_video_stream{nullptr};
 
 static const char* g_src_filename{nullptr};
 static const char* g_video_dst_filename{nullptr};
-static FILE* g_video_dst_file{nullptr};
+
+static void close_file(FILE* filePtr)
+{
+  fclose(filePtr);
+}
+
+using UniqueFile = std::unique_ptr<FILE, decltype(&close_file)>;
+
+static UniqueFile makeUniqueFile(const char* filename, const char* mode)
+{
+  return UniqueFile(fopen(filename, mode), &close_file);
+}
+
+// TODO clang-diagnostic-exit-time-destructors
+// TODO clang-diagnostic-global-constructors
+static std::optional<UniqueFile> g_video_dst_file{std::nullopt};
 
 static uint8_t* g_video_dst_data[4] = {nullptr};
 static int g_video_dst_linesize[4];
@@ -90,14 +109,14 @@ int output_video_frame(AVFrame* frame)
 
   av_image_copy(static_cast<uint8_t**>(g_video_dst_data),
                 static_cast<int*>(g_video_dst_linesize),
-                const_cast<const uint8_t**>(frame->data),
+                const_cast<const uint8_t**>(frame->data), // NOLINT
                 static_cast<int*>(frame->linesize),
                 g_pix_fmt,
                 g_width,
                 g_height);
 
   // NOLINTNEXTLINE
-  fwrite(g_video_dst_data[0], 1, g_video_dst_bufsize, g_video_dst_file);
+  fwrite(g_video_dst_data[0], 1, g_video_dst_bufsize, g_video_dst_file.value().get());
   return 0;
 }
 
@@ -166,7 +185,7 @@ int open_codec_context(int* stream_idx,
   }
 
   stream_index = ret;
-  stream       = fmt_ctx->streams[stream_index];
+  stream       = *std::next(fmt_ctx->streams, stream_index);
 
   dec = avcodec_find_decoder(stream->codecpar->codec_id);
   if (dec == nullptr)
@@ -214,9 +233,10 @@ bool create_resources()
                          AVMEDIA_TYPE_VIDEO)
       >= 0)
   {
-    g_video_stream = g_fmt_ctx->streams[g_video_stream_idx];
+    g_video_stream = *std::next(g_fmt_ctx->streams, g_video_stream_idx);
 
-    g_video_dst_file = fopen(g_video_dst_filename, "wb");
+    g_video_dst_file = makeUniqueFile(g_video_dst_filename, "wb");
+
     if (g_video_dst_file == nullptr)
     {
       fmt::print(stderr, "Could not open destination file %s\n", g_video_dst_filename);
@@ -226,8 +246,9 @@ bool create_resources()
     g_width   = g_video_dec_ctx->width;
     g_height  = g_video_dec_ctx->height;
     g_pix_fmt = g_video_dec_ctx->pix_fmt;
-    ret       = av_image_alloc(g_video_dst_data,
-                         g_video_dst_linesize,
+
+    ret = av_image_alloc(std::span<uint8_t*>(g_video_dst_data).data(),
+                         std::span<int>(g_video_dst_linesize).data(),
                          g_width,
                          g_height,
                          g_pix_fmt,
@@ -276,10 +297,7 @@ void destroy_resources()
 {
   avcodec_free_context(&g_video_dec_ctx);
   avformat_close_input(&g_fmt_ctx);
-  if (g_video_dst_file != nullptr)
-  {
-    fclose(g_video_dst_file); // NOLINT
-  }
+
   av_packet_free(&g_pkt);
   av_frame_free(&g_frame);
   av_free(g_video_dst_data[0]);
@@ -307,11 +325,11 @@ bool parse_args(int argc, const char** argv)
         "API example program to show how to read frames from an input file.\n"
         "This program reads frames from a file, decodes them, and writes decoded\n"
         "video frames to a rawvideo file named video_output_file.\n",
-        argv[cli_arg::Executable]);
+        *std::next(argv, cli_arg::Executable));
     return false;
   }
-  g_src_filename       = argv[cli_arg::SourceFile];
-  g_video_dst_filename = argv[cli_arg::VideoOut];
+  g_src_filename       = *std::next(argv, cli_arg::SourceFile);
+  g_video_dst_filename = *std::next(argv, cli_arg::VideoOut);
 
   return true;
 }

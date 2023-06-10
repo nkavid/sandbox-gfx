@@ -8,6 +8,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <iterator>
 #include <optional>
 #include <set>
 #include <stdexcept>
@@ -195,7 +196,7 @@ CreateDebugUtilsMessengerEXT(VkInstance instance,
                              VkDebugUtilsMessengerEXT* pDebugMessenger)
 {
   // NOLINTNEXTLINE
-  auto func = reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
+  auto func = std::bit_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
       vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
 
   if (func != nullptr)
@@ -211,7 +212,7 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance,
                                    const VkAllocationCallbacks* pAllocator)
 {
   // NOLINTNEXTLINE
-  auto func = reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
+  auto func = std::bit_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
       vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
 
   if (func != nullptr)
@@ -320,15 +321,11 @@ void Context::_initWindow()
 std::vector<const char*> Context::_getRequiredExtensions() const
 {
   uint32_t glfwExtensionCount{0};
-  const char** glfwExtensions{nullptr}; // NOLINT(clang-diagnostic-unsafe-buffer-usage)
+  const char** glfwExtensions{nullptr};
   glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-  std::vector<const char*> extensions{};
 
-  for (uint32_t i = 0; i < glfwExtensionCount; ++i)
-  {
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-    extensions.push_back(glfwExtensions[i]);
-  }
+  std::vector<const char*> extensions{glfwExtensions,
+                                      std::next(glfwExtensions, glfwExtensionCount)};
 
   if (_enableValidationLayers)
   {

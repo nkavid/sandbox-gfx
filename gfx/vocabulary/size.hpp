@@ -39,19 +39,16 @@ class SizeElement
       return _data / static_cast<size_t>(other);
     }
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator size_t() const
     {
       return _data;
     }
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator int() const
     {
       return static_cast<int>(_data);
     }
 
-    // NOLINTNEXTLINE(hicpp-explicit-conversions)
     constexpr operator unsigned() const
     {
       return static_cast<unsigned>(_data);

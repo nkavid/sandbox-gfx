@@ -42,6 +42,8 @@ extern "C"
 #include <cerrno>
 #include <cstdint>
 #include <cstdio>
+#include <iterator>
+#include <span>
 
 namespace gfx::utils::video
 {
@@ -268,14 +270,17 @@ void open_video(AVFormatContext* /*oc*/,
 
 void fill_yuv_image(AVFrame* pict, int64_t frameIndex, const Size& size)
 {
-  // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic,
-  // readability-identifier-length)
+  // NOLINTBEGIN(readability-identifier-length,readability-magic-numbers)
+
+  const auto lineSize = std::span<const int, 8UL>(pict->linesize);
+  const auto pictData = std::span<uint8_t*, 8UL>(pict->data);
+
   for (int y = 0; y < size.height; y++)
   {
     for (int x = 0; x < size.width; x++)
     {
       const auto lum = static_cast<uint8_t>(x + y + frameIndex * 3);
-      pict->data[0][y * pict->linesize[0] + x] = lum;
+      *std::next(*std::next(pictData.begin(), 0), y * lineSize[0] + x) = lum;
     }
   }
 
@@ -284,13 +289,12 @@ void fill_yuv_image(AVFrame* pict, int64_t frameIndex, const Size& size)
     for (int x = 0; x < size.width / 2; x++)
     {
       const auto cb = static_cast<uint8_t>(128 + y + frameIndex * 2);
-      pict->data[1][y * pict->linesize[1] + x] = cb;
+      *std::next(*std::next(pictData.begin(), 1), y * lineSize[1] + x) = cb;
       const auto cr = static_cast<uint8_t>(64 + x + frameIndex * 5);
-      pict->data[2][y * pict->linesize[2] + x] = cr;
+      *std::next(*std::next(pictData.begin(), 2), y * lineSize[2] + x) = cr;
     }
   }
-  // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic,
-  // readability-identifier-length)
+  // NOLINTEND(readability-identifier-length,readability-magic-numbers)
 }
 
 AVFrame* get_video_frame(OutputStream* ost, int64_t duration)

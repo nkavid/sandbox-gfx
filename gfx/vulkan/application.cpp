@@ -16,6 +16,7 @@
 #include <stb_image.h>
 #include <vulkan/vulkan_core.h>
 
+#include <iterator>
 #include <limits>
 #include <optional>
 #include <set>
@@ -619,12 +620,9 @@ void Application::_createGraphicsPipeline()
   colorBlending.attachmentCount = 1;
   colorBlending.pAttachments    = &colorBlendAttachment;
 
-  // NOLINTBEGIN(readability-magic-numbers,clang-diagnostic-unsafe-buffer-usage)
-  colorBlending.blendConstants[0] = 0.0F; // Optional
-  colorBlending.blendConstants[1] = 0.0F; // Optional
-  colorBlending.blendConstants[2] = 0.0F; // Optional
-  colorBlending.blendConstants[3] = 0.0F; // Optional
-  // NOLINTEND(readability-magic-numbers,clang-diagnostic-unsafe-buffer-usage)
+  constexpr size_t numBlendConstants{4UL};
+  // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+  memset(colorBlending.blendConstants, 0, numBlendConstants * sizeof(float));
 
   VkPipelineDepthStencilStateCreateInfo depthStencil{};
   depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
@@ -908,8 +906,8 @@ uint32_t Application::_findMemoryType(uint32_t typeFilter,
   vkGetPhysicalDeviceMemoryProperties(_context.getPhysicalDevice(), &memProperties);
   for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
   {
-    // NOLINTNEXTLINE
-    const auto propertyBitField = memProperties.memoryTypes[i].propertyFlags
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+    const auto propertyBitField = std::next(memProperties.memoryTypes, i)->propertyFlags
                                 & properties;
     if (((typeFilter & (1U << i)) != 0U) && (propertyBitField == properties))
     {
