@@ -89,3 +89,13 @@ string(
   ${GFX_GCC_WARNINGS}
   ${GFX_C_WARNING_FLAGS}
 )
+
+set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
+set(CMAKE_CUDA_COMPILER /usr/local/cuda-12.1/bin/nvcc)
+
+string(
+  APPEND
+  CMAKE_CUDA_FLAGS
+  " --generate-line-info"
+  " -std=c++20"
+)

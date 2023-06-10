@@ -14,15 +14,7 @@ option(GFX_LINTING "Use iwyu and clang-tidy." OFF)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 23)
 
-set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
-set(CMAKE_CUDA_COMPILER /usr/local/cuda-12.1/bin/nvcc)
 set(CMAKE_CUDA_ARCHITECTURES 75)
-string(
-  APPEND
-  CMAKE_CUDA_FLAGS
-  " --generate-line-info"
-  " -std=c++20"
-)
 
 set(CUDA_SEPARABLE_COMPILATION ON)
 set(CUDA_PROPAGATE_HOST_FLAGS OFF)
@@ -45,6 +37,8 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY true)
 
+include(cmake/ignore_target.cmake)
+
 find_package(CUDAToolkit 12.0 REQUIRED)
 find_package(Catch2 3.2 REQUIRED)
 
@@ -53,7 +47,9 @@ add_subdirectory(third_party/glm EXCLUDE_FROM_ALL SYSTEM)
 set(JSON_SystemInclude ON)
 add_subdirectory(third_party/json EXCLUDE_FROM_ALL SYSTEM)
 
-find_package(glfw3 3.4 REQUIRED)
+add_subdirectory(third_party/glfw EXCLUDE_FROM_ALL SYSTEM)
+ignore_third_party(glfw)
+
 find_package(GLEW 2.2 REQUIRED)
 find_library(GL_LIB GL REQUIRED)
 find_library(X11_LIB X11 REQUIRED)
@@ -79,7 +75,6 @@ find_package(
 include(cmake/clang_tidy.cmake)
 include(cmake/iwyu.cmake)
 
-include(cmake/ignore_target.cmake)
 include(third_party/stbTargets.cmake)
 
 include(cmake/gfx_static_library_target.cmake)
