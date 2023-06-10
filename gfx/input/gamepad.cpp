@@ -1,5 +1,7 @@
 #include "gamepad.hpp"
 
+#include <GLFW/glfw3.h>
+
 // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
 #define LOGBUTTON(ID, ARRAY)                                                           \
   if ((ARRAY)[(ID)] == GLFW_PRESS)                                                     \
