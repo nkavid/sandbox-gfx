@@ -58,3 +58,21 @@ target_link_libraries(
   graphics::components
   utils::logger
 )
+
+if(NOT
+   CMAKE_CXX_COMPILER_ID
+   STREQUAL
+   "Clang"
+)
+  gfx_executable_target(
+    TARGET texture-compute
+    MAIN gfx/applications/texture_compute_main.cpp
+    DEPENDENCIES
+      graphics::window
+      graphics::components
+      compute::components
+      utils::arg_parser
+      utils::logger
+      vocabulary::uri
+  )
+endif()
