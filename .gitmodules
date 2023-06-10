@@ -10,3 +10,6 @@
 	path = third_party/json
 	url = https://github.com/nlohmann/json.git
 	branch = develop
+[submodule "third_party/glfw"]
+	path = third_party/glfw
+	url = https://github.com/glfw/glfw.git
