@@ -11,6 +11,8 @@
   {include: ["<__concepts/arithmetic.h>", "private", "<concepts>", "public"] },
   {include: ["<__concepts/convertible_to.h>", "private", "<concepts>", "public"] },
   {include: ["<__tree>", "private", "<vector>", "public"] },
+  {include: ["<__iterator/next.h>", "private", "<iterator>", "public"] },
+  {include: ["<__memory/unique_ptr.h>", "private", "<memory>", "public"] },
   { symbol: [ "std::stringstream", public, "<sstream>", public ] },
   { symbol: [ "std::ifstream", public, "<fstream>", public ] },
   { symbol: [ "std::ratio", public, "<chrono>", public ] },
