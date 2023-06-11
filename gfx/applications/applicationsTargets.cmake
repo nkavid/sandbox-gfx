@@ -59,6 +59,16 @@ target_link_libraries(
   utils::logger
 )
 
+gfx_executable_target(
+  TARGET headless
+  MAIN gfx/applications/headless_main.cpp
+  DEPENDENCIES
+    graphics::window
+    compute::components
+    utils::logger
+    fmt::fmt
+)
+
 if(NOT
    CMAKE_CXX_COMPILER_ID
    STREQUAL

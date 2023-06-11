@@ -6,8 +6,10 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/context.cpp
     ${CMAKE_CURRENT_LIST_DIR}/pixel_buffer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/texture_buffer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/render_buffer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/utils/compute_dump.cpp
     ${CMAKE_CURRENT_LIST_DIR}/circle.cu
+    ${CMAKE_CURRENT_LIST_DIR}/read_texture.cu
 )
 
 if(NOT
