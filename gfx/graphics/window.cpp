@@ -40,8 +40,23 @@ void initialize_glfw(Window::Mode mode)
   }
 }
 
-GLFWwindow* create_window_glfw(const char* name, const gfx::Size& size)
+void initialize_opengl()
 {
+  glewExperimental = GL_TRUE;
+  glewInit();
+
+  glClearColor(1.0F, 1.0F, 0.0F, 1.0F);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+GLFWwindow* create_window_glfw(const char* name,
+                               const gfx::Size& size,
+                               Window::Mode mode)
+{
+  initialize_glfw(mode);
   auto* window = glfwCreateWindow(size.width, size.height, name, nullptr, nullptr);
 
   if (window == nullptr)
@@ -60,34 +75,20 @@ GLFWwindow* create_window_glfw(const char* name, const gfx::Size& size)
                                  });
   // NOLINTEND(bugprone-easily-swappable-parameters)
 
+  initialize_opengl();
+
   return window;
-}
-
-void initialize_opengl()
-{
-  glewExperimental = GL_TRUE;
-  glewInit();
-
-  glClearColor(1.0F, 1.0F, 0.0F, 1.0F);
-  glClear(GL_COLOR_BUFFER_BIT);
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 } // namespace
 
 Window::Window(const char* name, const gfx::Size& size, Mode mode)
-    : _size{size.width, size.height}
-{
-  initialize_glfw(mode);
-  // NOLINTNEXTLINE(cppcoreguidelines-prefer-member-initializer)
-  _window = create_window_glfw(name, _size);
-  initialize_opengl();
-}
+    : _window{create_window_glfw(name, size, mode)}
+{}
 
 Window::~Window()
 {
+  glfwDestroyWindow(_window);
   glfwTerminate();
 }
 

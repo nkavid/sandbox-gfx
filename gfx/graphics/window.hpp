@@ -29,7 +29,6 @@ class Window
     [[nodiscard]] bool isOpen() const;
 
   private:
-    gfx::Size _size;
-    GLFWwindow* _window{nullptr};
+    GLFWwindow* _window;
 };
 } // namespace gfx::graphics
