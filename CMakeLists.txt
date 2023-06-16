@@ -76,6 +76,7 @@ include(cmake/clang_tidy.cmake)
 include(cmake/iwyu.cmake)
 
 include(third_party/stbTargets.cmake)
+include(third_party/nvidia_video_codec_sdkTargets.cmake)
 
 include(cmake/gfx_static_library_target.cmake)
 include(cmake/gfx_executable_target.cmake)
