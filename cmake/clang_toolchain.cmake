@@ -28,6 +28,11 @@ set(CMAKE_CUDA_COMPILER clang)
 
 string(APPEND CMAKE_CUDA_FLAGS "-nostdinc++ -std=c++20")
 
+string(ASCII 27 Esc)
+set(RED "${Esc}[31m")
+set(YELLOW "${Esc}[93m")
+set(RESET "${Esc}[m")
+
 string(
   APPEND
   GFX_CLANG_ASAN
@@ -40,11 +45,6 @@ string(
 )
 
 if(GFX_ASAN)
-  string(ASCII 27 Esc)
-  set(RED "${Esc}[31m")
-  set(YELLOW "${Esc}[93m")
-  set(RESET "${Esc}[m")
-
   if(NOT DEFINED ENV{ASAN_OPTIONS})
     message(
       NOTICE
@@ -85,6 +85,39 @@ function(gfx_print_asan_info)
     message(
       NOTICE
       "${RESET}${YELLOW}LD_PRELOAD=${fake_dl_close} <executable>${RESET}"
+    )
+  endif()
+endfunction()
+
+string(
+  APPEND
+  GFX_CLANG_UBSAN
+  " -fsanitize=undefined"
+  " -fsanitize=float-divide-by-zero"
+  " -fsanitize=unsigned-integer-overflow"
+  " -fsanitize=implicit-conversion"
+  " -fsanitize=local-bounds"
+  " -fsanitize=nullability"
+  " -fsanitize-trap=undefined"
+  " -fno-omit-frame-pointer"
+  " -g"
+)
+
+if(GFX_UBSAN)
+  string(APPEND CMAKE_C_FLAGS ${GFX_CLANG_UBSAN})
+  string(APPEND CMAKE_CXX_FLAGS ${GFX_CLANG_UBSAN})
+endif()
+
+# Call in project listing after configuring build to log in terminal
+function(gfx_print_ubsan_info)
+  if(GFX_UBSAN)
+    message(
+      NOTICE
+      "${RESET}${YELLOW}"
+      "export UBSAN_OPTIONS="
+      "suppressions=${CMAKE_SOURCE_DIR}/tools/ubsan.supp,"
+      "print_stacktrace=1"
+      "${RESET}"
     )
   endif()
 endfunction()

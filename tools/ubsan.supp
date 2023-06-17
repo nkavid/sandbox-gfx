@@ -1,0 +1,3 @@
+implicit-integer-sign-change:*/third_party/*
+implicit-integer-sign-change:/opt/pkg/*
+unsigned-integer-overflow:*/third_party/*
