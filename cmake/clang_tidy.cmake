@@ -12,6 +12,7 @@ set(GFX_CXX_CLANG_TIDY_OPTIONS
     -load=${GFX_TIDY_LOCATION}
     --extra-arg=-DGFX_CLANG_TIDY;
     --extra-arg=-nostdinc++;
+    --extra-arg=-Wno-unused-command-line-argument;
     --extra-arg=-Wno-error=unknown-warning-option;
     --extra-arg=-Weverything;
     --extra-arg=-Wno-c++98-compat;
@@ -22,6 +23,7 @@ set(GFX_CXX_CLANG_TIDY_OPTIONS
 
 set(GFX_C_CLANG_TIDY_OPTIONS
     --extra-arg=-DGFX_CLANG_TIDY;
+    --extra-arg=-Wno-unused-command-line-argument;
     --extra-arg=-Wno-error=unknown-warning-option;
     --extra-arg=-Wno-declaration-after-statement;
     --extra-arg=-Weverything;
@@ -38,7 +40,7 @@ set(GFX_CLANG_TIDY_CATCH2_TARGET_PROPERTIES
     ${GFX_CLANG_TIDY_CATCH2_OPTIONS};
 )
 
-if(GFX_LINTING)
+if(GFX_CLANG_TIDY)
   message(STATUS "gfx::ENABLED clang-tidy")
   set(CMAKE_CXX_CLANG_TIDY
       ${GFX_CLANG_TIDY_EXECUTABLE}; ${GFX_CXX_CLANG_TIDY_OPTIONS};

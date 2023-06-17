@@ -9,7 +9,8 @@ set(GFX_CMAKE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/cmake)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/gcc_toolchain.cmake)
 
-option(GFX_LINTING "Use iwyu and clang-tidy." OFF)
+option(GFX_CLANG_TIDY "Enable clang-tidy." OFF)
+option(GFX_ASAN "Enable address sanitized." OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 23)
@@ -92,6 +93,8 @@ include(gfx/input/inputTargets.cmake)
 include(gfx/test/unit_tests.cmake)
 
 include(gfx/applications/applicationsTargets.cmake)
+
+gfx_print_asan_info()
 
 export(
   EXPORT gfxTargets

@@ -1,0 +1,12 @@
+leak:libGL.so
+leak:libGLX_nvidia.so
+leak:libnvidia-cbl.so
+leak:libnvidia-fatbinaryloader.so
+leak:libnvidia-glcore.so
+leak:libnvidia-rtcore.so
+leak:nvidia0
+leak:nvidiactl
+leak:libdbus-1.so
+leak:libvulkan.so
+leak:libX11.so
+leak:<unknown module>
