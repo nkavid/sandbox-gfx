@@ -85,5 +85,7 @@ int main()
   renderBuffer.releaseCuArray();
 
   gfx::compute::utils::dump_deviceptr("headless.jpg", devicePtr, devicePtrSize);
+
+  CUCHECK(cuMemFree(devicePtr));
   return EXIT_SUCCESS;
 }
