@@ -92,6 +92,7 @@ include(gfx/utils/utilsTargets.cmake)
 include(gfx/input/inputTargets.cmake)
 
 include(gfx/test/unit_tests.cmake)
+include(gfx/test/fuzz/fuzzTargets.cmake)
 
 include(gfx/applications/applicationsTargets.cmake)
 

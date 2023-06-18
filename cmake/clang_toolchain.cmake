@@ -1,8 +1,6 @@
 set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_C_COMPILER clang)
 
-set(CMAKE_CXX_FLAGS "-stdlib=libc++")
-
 string(
   APPEND
   CMAKE_CXX_FLAGS
@@ -25,8 +23,6 @@ string(
 
 set(CMAKE_CUDA_HOST_COMPILER clang)
 set(CMAKE_CUDA_COMPILER clang)
-
-string(APPEND CMAKE_CUDA_FLAGS "-nostdinc++ -std=c++20")
 
 string(ASCII 27 Esc)
 set(RED "${Esc}[31m")
