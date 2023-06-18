@@ -111,12 +111,12 @@ string(
   " -fno-common"
 )
 
-if(GFX_ASAN)
-  string(ASCII 27 Esc)
-  set(RED "${Esc}[31m")
-  set(YELLOW "${Esc}[93m")
-  set(RESET "${Esc}[m")
+string(ASCII 27 Esc)
+set(RED "${Esc}[31m")
+set(YELLOW "${Esc}[93m")
+set(RESET "${Esc}[m")
 
+if(GFX_ASAN)
   string(APPEND CMAKE_C_FLAGS ${GFX_GCC_ASAN})
   string(APPEND CMAKE_CXX_FLAGS ${GFX_GCC_ASAN})
 
@@ -149,6 +149,18 @@ function(gfx_print_asan_info)
     message(
       NOTICE
       "${RESET}${YELLOW}LD_PRELOAD=${fake_dl_close} <executable>${RESET}"
+    )
+  endif()
+endfunction()
+
+# Call in project listing after configuring build to log in terminal
+function(gfx_print_ubsan_info)
+  if(GFX_UBSAN)
+    message(
+      NOTICE
+      "${RESET}${YELLOW}"
+      "UBSAN not implemented for GCC"
+      "${RESET}"
     )
   endif()
 endfunction()
