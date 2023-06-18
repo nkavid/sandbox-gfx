@@ -53,3 +53,9 @@ __pycache__/
 
 # SPIR-V
 *.spv
+
+# sqlite3
+*.sqlite3
+
+# dextool mutate report html output
+html
