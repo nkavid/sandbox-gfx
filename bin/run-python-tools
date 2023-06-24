@@ -9,6 +9,14 @@ function log()
   echo -e "\x1B[1m-- $1:\x1B[0m $2"
 }
 
+function run_ruff()
+{
+  log "ruff" "${PWD}/$1"
+  ruff \
+    --fix \
+    "$1" || FAIL=1
+}
+
 function run_pyupgrade()
 {
   log "pyupgrade" "${PWD}/$1"
@@ -92,6 +100,7 @@ fi;
 
 function run_all_tools()
 {
+  run_ruff "$1"
   run_pyupgrade "$1"
   run_autoflake "$1"
   run_autopep8 "$1"
