@@ -100,7 +100,7 @@ db = ".dextool_mutate.sqlite3"
 [compiler]
 
 # extra flags to pass on to the compiler such as the C++ standard.
-# extra_flags = []
+extra_flags = ["-w"]
 
 # force system includes to use -I instead of -isystem
 # force_system_includes = false
