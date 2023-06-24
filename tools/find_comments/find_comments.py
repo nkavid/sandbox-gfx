@@ -1,6 +1,7 @@
 import os
 import pathlib
 import re
+import sys
 
 from pipe import where
 
@@ -33,7 +34,7 @@ class FindComments:
                 self.filepaths.append(filepath)
 
     def print_checks(self) -> int:
-        print("============== RESULTS ===============")
+        sys.stdout.write("============== RESULTS ===============")
         return self._check()
 
     def _check(self) -> int:
@@ -52,6 +53,6 @@ class FindComments:
 
                     for i, element in enumerate(result):
                         occurences = occurences + 1
-                        print(filepath.name + ":" + str(i) + " " + element)
+                        sys.stdout.write(filepath.name + ":" + str(i) + " " + element)
 
         return occurences

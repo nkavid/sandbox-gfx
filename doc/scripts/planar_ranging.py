@@ -1,9 +1,11 @@
+import sys
+
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy
 
 
-def main():  # pylint: disable=too-many-locals
+def main() -> None:  # pylint: disable=too-many-locals
     x = [-2, -4, 4]
     y = [1, 8, 4]
     s = [5, 4, 5]
@@ -33,12 +35,12 @@ def main():  # pylint: disable=too-many-locals
 
     error = [0, 0, 0]
 
-    cost = 0
+    cost: sympy.Poly = 0
 
-    N = 3  # pylint: disable=invalid-name
-    for i in range(N):
+    num = 3
+    for i in range(num):
         error[i] = (x[i] - x_u) ** 2 + (y[i] - y_u) ** 2 - s[i] ** 2
-        cost += (error[i] ** 2) / N
+        cost += (error[i] ** 2) / num
 
     cost_dx = sympy.diff(cost, x_u)
     cost_dy = sympy.diff(cost, y_u)
@@ -68,7 +70,7 @@ def main():  # pylint: disable=too-many-locals
 
     mse = float(cost.subs([(x_u, x_k), (y_u, y_k)]))
     rmse = np.sqrt(mse)
-    print(rmse)
+    sys.stdout.write(rmse)
 
     plt.show()
 

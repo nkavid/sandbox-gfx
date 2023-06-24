@@ -1,5 +1,7 @@
 import logging
 
+# ruff: noqa
+
 
 class CustomFormatter(logging.Formatter):
     grey = "\x1b[37;20m"
@@ -20,7 +22,7 @@ class CustomFormatter(logging.Formatter):
         logging.CRITICAL: bold_red + _format,
     }
 
-    def format(self, record):
+    def format(self, record: logging.LogRecord):
         log_fmt = self.FORMATS.get(record.levelno)
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)

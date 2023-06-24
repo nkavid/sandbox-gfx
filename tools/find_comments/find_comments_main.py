@@ -1,5 +1,6 @@
 import argparse
 import pathlib
+import sys
 
 from tools.find_comments import find_comments
 
@@ -8,7 +9,7 @@ def main() -> None:
     directory = parse_arguments()
     application = find_comments.FindComments(directory)
     occurences = application.print_checks()
-    print(str(directory) + ": total occurences: " + str(occurences))
+    sys.stdout.write(str(directory) + ": total occurences: " + str(occurences))
 
 
 def parse_arguments() -> pathlib.Path:
@@ -21,7 +22,8 @@ def parse_arguments() -> pathlib.Path:
     args = parser.parse_args()
 
     if args.directory is None:
-        raise Exception("Missing directory argument")
+        msg = "Missing directory argument"
+        raise ValueError(msg)
 
     return pathlib.Path(args.directory)
 

@@ -1,9 +1,9 @@
+import contextlib
 import logging
 import pathlib
 import subprocess  # nosec
 import sys
 import time
-from typing import Any
 
 from tools.logger import Logger
 
@@ -20,20 +20,26 @@ class Process:
 
         try:
             # pylint: disable=consider-using-with
-            self.process = subprocess.Popen([executable, *args])  # nosec
+            self.process = subprocess.Popen([executable, *args])  # nosec # noqa: S603
         except FileNotFoundError:
-            logger.error(f"'{executable}' not found")
+            logger.exception(
+                "'{expected_file}' not found",
+                extra={"expected_file": executable},
+            )
             sys.exit("fatal error")
 
     def poll(self) -> int | None:
         result = self.process.poll()
         if result is not None:
-            logger.info(f"'{self.name}' has stopped")
+            logger.info(
+                "'{process_name}' has stopped",
+                extra={"process_name": self.name},
+            )
 
         return result
 
-    def terminate(self) -> Any:
-        return self.process.terminate()
+    def terminate(self) -> None:
+        self.process.terminate()
 
 
 class URI:
@@ -42,10 +48,8 @@ class URI:
         self.schema = schema
 
     def __del__(self) -> None:
-        try:
+        with contextlib.suppress(FileNotFoundError):
             self.path.unlink()
-        except FileNotFoundError:
-            pass
 
     def uri(self) -> str:
         return f"{self.schema}:{self.path}"
@@ -60,7 +64,7 @@ def main() -> None:
 
     dummy = URI("file", f"build/dummy_{size}_{duration}s_{frame_rate}hz.mp4")
 
-    stream = URI("unix", "/tmp/input_stream_socket")  # nosec
+    stream = URI("unix", "/tmp/input_stream_socket")  # nosec # noqa: S108
 
     call_once(
         pathlib.Path("build/bin/muxing"),
@@ -125,7 +129,7 @@ def main() -> None:
 
 
 def call_once(executable: pathlib.Path, args: list[str]) -> None:
-    subprocess.call([executable, *args])  # nosec
+    subprocess.call([executable, *args])  # nosec # noqa: S603
 
 
 if __name__ == "__main__":
