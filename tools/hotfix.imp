@@ -16,4 +16,6 @@
   { symbol: [ "std::stringstream", public, "<sstream>", public ] },
   { symbol: [ "std::ifstream", public, "<fstream>", public ] },
   { symbol: [ "std::ratio", public, "<chrono>", public ] },
+  # std::array::operator==() with clang has unexpected symbol dependency
+  { symbol: [ "std::equal", public, "<array>", public ] },
 ]
