@@ -18,6 +18,7 @@ SCENARIO("Check different constructors", "[gfx][color]")
       STATIC_REQUIRE(color.red() == 0.2F);
       STATIC_REQUIRE(color.green() == 0.3F);
       STATIC_REQUIRE(color.blue() == 0.4F);
+      STATIC_REQUIRE(color.alpha() == 1.0F);
     }
   }
   GIVEN("unsigned integer input '127U, 20U, 100U'")
@@ -28,6 +29,7 @@ SCENARIO("Check different constructors", "[gfx][color]")
       STATIC_REQUIRE(color.red() == 127.0F / 255.0F);
       STATIC_REQUIRE(color.green() == 20.0F / 255.0F);
       STATIC_REQUIRE(color.blue() == 100.0F / 255.0F);
+      STATIC_REQUIRE(color.alpha() == 1.0F);
     }
   }
   GIVEN("single integer '0x40F2A9'")
@@ -38,6 +40,7 @@ SCENARIO("Check different constructors", "[gfx][color]")
       STATIC_REQUIRE(color.red() == static_cast<float>(0x40) / 255.0F);
       STATIC_REQUIRE(color.green() == static_cast<float>(0xF2) / 255.0F);
       STATIC_REQUIRE(color.blue() == static_cast<float>(0xA9) / 255.0F);
+      STATIC_REQUIRE(color.alpha() == 1.0F);
     }
   }
 }

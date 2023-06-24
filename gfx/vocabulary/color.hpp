@@ -97,11 +97,16 @@ class Color
     Channel _alpha{1.0F};
 };
 
+constexpr float add(float srcColor, float srcAlpha, float dstColor)
+{
+  return srcColor * srcAlpha + dstColor * (1.0F - srcAlpha);
+}
+
 constexpr Color operator+(const Color& dst, const Color& src)
 {
-  const float red   = src.red() * src.alpha() + dst.red() * (1.0F - src.alpha());
-  const float green = src.green() * src.alpha() + dst.green() * (1.0F - src.alpha());
-  const float blue  = src.blue() * src.alpha() + dst.blue() * (1.0F - src.alpha());
+  const float red   = add(src.red(), src.alpha(), dst.red());
+  const float green = add(src.green(), src.alpha(), dst.green());
+  const float blue  = add(src.blue(), src.alpha(), dst.blue());
   const float alpha = src.alpha() + dst.alpha() * (1.0F - src.alpha());
 
   return Color{red, green, blue, alpha};
