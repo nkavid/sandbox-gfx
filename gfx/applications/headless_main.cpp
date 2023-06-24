@@ -10,7 +10,9 @@
 
 #include <cudaGL.h>
 
+#include <cstdint>
 #include <cstdlib>
+#include <tuple>
 
 namespace
 {
@@ -35,6 +37,22 @@ void draw_some_stuff()
   glDisable(GL_SCISSOR_TEST);
   // NOLINTEND(readability-magic-numbers)
 }
+
+std::tuple<CUdeviceptr, size_t> alloc_pitch_deviceptr(const gfx::Size& devicePtrSize,
+                                                      size_t numChannels)
+{
+  CUdeviceptr devicePtr{};
+  size_t devicePtrPitch{0UL};
+
+  CUCHECK(cuMemAllocPitch(&devicePtr,
+                          &devicePtrPitch,
+                          devicePtrSize.width * numChannels,
+                          devicePtrSize.height,
+                          static_cast<uint32_t>(numChannels)));
+
+  return std::make_tuple(devicePtr, devicePtrPitch);
+}
+
 } // namespace
 
 int main()
@@ -54,16 +72,9 @@ int main()
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   constexpr gfx::Size devicePtrSize{512UL, 512UL};
-  CUdeviceptr devicePtr{};
-  size_t devicePtrPitch{0UL};
-
   constexpr size_t numChannels{4UL};
 
-  CUCHECK(cuMemAllocPitch(&devicePtr,
-                          &devicePtrPitch,
-                          devicePtrSize.width * numChannels,
-                          devicePtrSize.height,
-                          numChannels));
+  auto [devicePtr, devicePtrPitch] = alloc_pitch_deviceptr(devicePtrSize, numChannels);
 
   auto* renderBufferArray = renderBuffer.lockCuArray();
 
@@ -77,14 +88,16 @@ int main()
 
   CUCHECK(cuMemcpy2D(&memcpyStruct));
 
+  gfx::compute::utils::dump_deviceptr("headless_memcpy.jpg", devicePtr, devicePtrSize);
+
   gfx::compute::readFromTexture(renderBufferArray,
                                 renderBufferSize,
                                 devicePtr,
                                 devicePtrSize);
 
-  renderBuffer.releaseCuArray();
+  gfx::compute::utils::dump_deviceptr("headless_kernel.jpg", devicePtr, devicePtrSize);
 
-  gfx::compute::utils::dump_deviceptr("headless.jpg", devicePtr, devicePtrSize);
+  renderBuffer.releaseCuArray();
 
   CUCHECK(cuMemFree(devicePtr));
   return EXIT_SUCCESS;
