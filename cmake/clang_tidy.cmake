@@ -11,7 +11,6 @@ get_property(
 set(GFX_CXX_CLANG_TIDY_OPTIONS
     -load=${GFX_TIDY_LOCATION}
     --extra-arg=-DGFX_CLANG_TIDY;
-    --extra-arg=-nostdinc++;
     --extra-arg=-Wno-unused-command-line-argument;
     --extra-arg=-Wno-error=unknown-warning-option;
     --extra-arg=-Weverything;
