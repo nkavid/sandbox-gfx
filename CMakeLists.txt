@@ -9,6 +9,7 @@ set(GFX_CMAKE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/cmake)
 
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/clang_toolchain.cmake)
 
+option(GFX_IWYU "Enable include-what-you-use." OFF)
 option(GFX_CLANG_TIDY "Enable clang-tidy." OFF)
 option(GFX_ASAN "Enable address sanitized." OFF)
 option(GFX_UBSAN "Enable undefined behavior sanitizer." OFF)
