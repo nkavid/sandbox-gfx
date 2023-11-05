@@ -91,7 +91,7 @@ string(
 )
 
 set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
-set(CMAKE_CUDA_COMPILER /usr/local/cuda-12.1/bin/nvcc)
+set(CMAKE_CUDA_COMPILER /usr/local/cuda-12.3/bin/nvcc)
 
 string(
   APPEND

@@ -12,13 +12,19 @@ target_link_libraries(
   utils::logger
 )
 
+append_clang_tidy_check(TARGET demo_application CHECK "gfx-fundamental-type")
+
 gfx_executable_target(
   TARGET demo-application
   MAIN gfx/applications/demo_application_main.cpp
   DEPENDENCIES demo_application
 )
 
+append_clang_tidy_check(TARGET demo-application CHECK "gfx-fundamental-type")
+
 add_executable(gamepad-demo gfx/applications/gamepad_demo_main.cpp)
+
+append_clang_tidy_check(TARGET gamepad-demo CHECK "gfx-fundamental-type")
 
 target_link_libraries(
   gamepad-demo
@@ -41,6 +47,8 @@ target_link_libraries(
 
 add_executable(muxing gfx/applications/muxing_main.cpp)
 
+append_clang_tidy_check(TARGET muxing CHECK "gfx-fundamental-type")
+
 target_link_libraries(
   muxing
   dummy_video_muxer
@@ -50,6 +58,10 @@ target_link_libraries(
 
 add_executable(
   opengl-compute-shader gfx/applications/opengl_compute_shader_main.cpp
+)
+
+append_clang_tidy_check(
+  TARGET opengl-compute-shader CHECK "gfx-fundamental-type"
 )
 
 target_link_libraries(

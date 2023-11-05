@@ -7,7 +7,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(GFX_CMAKE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/cmake)
 
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/clang_toolchain.cmake)
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/gcc_toolchain.cmake)
 
 option(GFX_IWYU "Enable include-what-you-use." OFF)
 option(GFX_CLANG_TIDY "Enable clang-tidy." OFF)

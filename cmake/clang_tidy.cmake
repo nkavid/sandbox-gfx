@@ -8,6 +8,27 @@ get_property(
   PROPERTY LOCATION
 )
 
+# Append check to a target, only supporting single check
+function(append_clang_tidy_check)
+  set(one_value_args TARGET CHECK)
+  cmake_parse_arguments(
+    APPEND_CHECK
+    ""
+    "${one_value_args}"
+    ""
+    ${ARGN}
+  )
+
+  if(${GFX_CLANG_TIDY})
+    set_property(
+      TARGET ${APPEND_CHECK_TARGET}
+      APPEND
+      PROPERTY CXX_CLANG_TIDY "--checks=${APPEND_CHECK_CHECK}"
+    )
+  endif()
+
+endfunction()
+
 set(GFX_CXX_CLANG_TIDY_OPTIONS
     -load=${GFX_TIDY_LOCATION}
     --extra-arg=-DGFX_CLANG_TIDY;

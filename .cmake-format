@@ -16,6 +16,10 @@ parse:
       kwargs:
         DEPENDENCIES: '*'
         INCLUDE_PATH: '*'
+    append_clang_tidy_check:
+      kwargs:
+        TARGET: '*'
+        CHECK: '*'
   override_spec: {}
   vartags: []
   proptags: []
