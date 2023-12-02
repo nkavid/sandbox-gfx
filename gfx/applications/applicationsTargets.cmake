@@ -56,6 +56,15 @@ target_link_libraries(
   vocabulary::uri
 )
 
+add_library(dummy_texture STATIC)
+target_sources(
+  dummy_texture
+  PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}/dummy_texture.cpp
+)
+
+target_include_directories(dummy_texture PRIVATE gfx)
+
 add_executable(
   opengl-compute-shader gfx/applications/opengl_compute_shader_main.cpp
 )
@@ -66,6 +75,7 @@ append_clang_tidy_check(
 
 target_link_libraries(
   opengl-compute-shader
+  dummy_texture
   graphics::window
   graphics::components
   utils::logger
