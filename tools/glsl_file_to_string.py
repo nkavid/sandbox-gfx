@@ -38,7 +38,7 @@ def main() -> None:
         logger.debug("{program_name}.hpp not updated")
         return
 
-    logger.info("generating: {program_name}")
+    logger.info(f"generating: {program_name}")
 
     with pathlib.Path(path_to_shaders / str(program_name + ".hpp")).open(
         "w", encoding="utf-8"
