@@ -31,6 +31,7 @@ void DemoApplication::run()
                                 graphics::shaders::Texture::fragment);
 
   shader.use();
+  // NOLINTNEXTLINE(gfx-fundamental-type)
   const float scale{0.8F};
   shader.setMatrixUniform(scale);
 
@@ -44,6 +45,7 @@ void DemoApplication::run()
   compute::PixelBuffer pixelBuffer{drawSize};
   const graphics::Texture texture{drawSize};
 
+  // NOLINTNEXTLINE(gfx-fundamental-type)
   CUdeviceptr devicePtr{};
   pixelBuffer.lockDevicePtr(&devicePtr);
   compute::callDrawCircle(devicePtr, drawSize.width, drawSize.height);
