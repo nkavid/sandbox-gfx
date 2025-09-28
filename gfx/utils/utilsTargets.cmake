@@ -35,7 +35,7 @@ add_executable(app_utils_demuxer_c ${CMAKE_CURRENT_LIST_DIR}/demuxer.c)
 ignore_gfx_target(app_utils_demuxer_c CLANG_TIDY WARNINGS)
 
 target_link_libraries(
-  app_utils_demuxer_c ffmpeg::libavcodec ffmpeg::libavformat
+  app_utils_demuxer_c ffmpeg::libavcodec ffmpeg::libavformat ffmpeg::libavutil
 )
 
 add_executable(app_utils_demuxer_cpp ${CMAKE_CURRENT_LIST_DIR}/demuxer.cpp)
@@ -46,6 +46,7 @@ target_link_libraries(
   app_utils_demuxer_cpp
   ffmpeg::libavcodec
   ffmpeg::libavformat
+  ffmpeg::libavutil
   fmt::fmt
 )
 

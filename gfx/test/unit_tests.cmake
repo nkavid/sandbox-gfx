@@ -21,7 +21,7 @@ function(obj_unit_test unit)
     obj_${unit}_test PRIVATE ${CMAKE_SOURCE_DIR}/${OBJ_UNIT_TEST_INCLUDE_PATH}
   )
 
-  target_link_libraries(obj_${unit}_test PRIVATE ${OBJ_UNIT_TEST_DEPENDENCIES})
+  target_link_libraries(obj_${unit}_test PRIVATE ${OBJ_UNIT_TEST_DEPENDENCIES} Catch2::Catch2)
 
   set_target_properties(
     obj_${unit}_test

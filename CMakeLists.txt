@@ -43,7 +43,18 @@ set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY true)
 include(cmake/ignore_target.cmake)
 
 find_package(CUDAToolkit 12.0 REQUIRED)
-find_package(Catch2 3.2 REQUIRED)
+
+Include(FetchContent)
+
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.8.1
+  SYSTEM
+)
+
+FetchContent_MakeAvailable(Catch2)
+ignore_third_party(Catch2)
 
 add_subdirectory(third_party/glm EXCLUDE_FROM_ALL SYSTEM)
 
@@ -62,7 +73,9 @@ include(cmake/pkgconfig_import_macro.cmake)
 
 gfx_pkgconfig_import(ffmpeg libavcodec 59.37)
 gfx_pkgconfig_import(ffmpeg libavformat 59.27)
+gfx_pkgconfig_import(ffmpeg libavutil 58.2)
 gfx_pkgconfig_import(ffmpeg libswscale 6.7)
+gfx_pkgconfig_import(ffmpeg libswresample 4.10)
 
 gfx_pkgconfig_import(google re2 10)
 
@@ -76,7 +89,7 @@ find_package(
 )
 
 include(cmake/clang_tidy.cmake)
-include(cmake/iwyu.cmake)
+#include(cmake/iwyu.cmake)
 
 include(third_party/stbTargets.cmake)
 include(third_party/nvidia_video_codec_sdkTargets.cmake)
@@ -86,7 +99,7 @@ include(cmake/gfx_executable_target.cmake)
 
 include(gfx/vocabulary/vocabularyTargets.cmake)
 include(gfx/graphics/graphicsTargets.cmake)
-include(gfx/vulkan/vulkanTargets.cmake)
+#include(gfx/vulkan/vulkanTargets.cmake)
 include(gfx/compute/computeTargets.cmake)
 include(gfx/shmem/system_resourcesTargets.cmake)
 include(gfx/utils/utilsTargets.cmake)

@@ -21,6 +21,7 @@ target_link_libraries(
   nvdecoder
   ffmpeg::libavcodec
   ffmpeg::libavformat
+  ffmpeg::libavutil
   CUDA::cuda_driver
   ${CUVID_LIB}
 )
@@ -35,4 +36,4 @@ add_executable(
 
 ignore_third_party(appdecgl)
 
-target_link_libraries(appdecgl PRIVATE nvidia::nvdecoder GLEW ${GL_LIB})
+target_link_libraries(appdecgl PRIVATE nvidia::nvdecoder GLEW ${GL_LIB} X11)

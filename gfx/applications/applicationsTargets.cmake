@@ -39,7 +39,9 @@ target_link_libraries(
   dummy_video_muxer
   ffmpeg::libavcodec
   ffmpeg::libavformat
+  ffmpeg::libavutil
   ffmpeg::libswscale
+  ffmpeg::libswresample
   fmt::fmt
   utils::arg_parser
   vocabulary
