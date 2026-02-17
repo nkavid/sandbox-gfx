@@ -7,7 +7,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gfx/vocabulary",
-        "@glew//:GLEW",
+        "@glew//:glew_static",
         "@glfw",
     ],
 )
@@ -31,7 +31,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gfx/vocabulary",
-        "@glew//:GLEW",
+        "@glew//:glew_static",
     ],
 )
 
@@ -48,6 +48,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gfx/utils:logger",
-        "@stb",
+        "@stb//:stb_image_write",
+        "@stb//:stb_image",
     ],
 )

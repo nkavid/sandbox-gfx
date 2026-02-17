@@ -1,21 +1,21 @@
-load("@rules_cuda//cuda:defs.bzl", "cuda_library", "requires_cuda_enabled")
+load("@rules_cuda//cuda:defs.bzl", "cuda_library")
 
 cuda_library(
     name = "drawcircle",
     srcs = ["circle.cu"],
+    copts = ["-allow-unsupported-compiler"],
     hdrs = [
         "circle.cuh",
     ],
-    target_compatible_with = requires_cuda_enabled(),
 )
 
 cuda_library(
     name = "drawcircletexture",
     srcs = ["circle_texture.cu"],
+    copts = ["-allow-unsupported-compiler"],
     hdrs = [
         "circle_texture.cuh",
     ],
-    target_compatible_with = requires_cuda_enabled(),
 )
 
 cc_library(
@@ -40,7 +40,7 @@ cc_library(
         ":drawcircle",
         ":drawcircletexture",
         "//gfx/vocabulary",
-        "@rules_cuda//cuda:cuda_runtime",
+        "@rules_cuda//cuda:runtime",
     ],
     linkopts = [
         "-lcuda",
@@ -62,7 +62,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gfx/vocabulary",
-        "@rules_cuda//cuda:cuda_runtime",
-        "@stb",
+        "@rules_cuda//cuda:runtime",
+        "@stb//:stb_image_write",
     ],
 )

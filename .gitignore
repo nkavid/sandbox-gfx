@@ -44,6 +44,7 @@ bin/python3
 
 # Bazel
 bazel-*
+MODULE.bazel.lock
 
 # python
 __pycache__/

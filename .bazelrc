@@ -1,2 +1,2 @@
-build --@rules_cuda//cuda:enable_cuda
-build --@rules_cuda//cuda:cuda_targets=sm_75
+build --@rules_cuda//cuda:enable
+build --@rules_cuda//cuda:archs=sm_75

@@ -28,10 +28,11 @@ load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
 bazel_skylib_workspace()
 
-new_local_repository(
+http_archive(
     name = "bazel_pkg_config",
-    build_file = "/home/divak/repos/bazel_pkg_config/BUILD",
-    path = "/home/divak/repos/bazel_pkg_config",
+    strip_prefix = "bazel_pkg_config-master",
+    urls = ["https://github.com/cherrry/bazel_pkg_config/archive/master.zip"],
+    integrity = "sha256-biwIuVcTe8eTJX/Ev6V3pGKwv3SRSis0n0OSFXoO0CY=",
 )
 
 new_local_repository(
