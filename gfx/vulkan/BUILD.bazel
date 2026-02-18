@@ -45,7 +45,7 @@ cc_library(
         ":context",
         ":shader",
         "@glm",
-        "@stb",
+        "@stb//:stb_image",
     ],
 )
 

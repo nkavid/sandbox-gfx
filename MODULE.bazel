@@ -14,6 +14,7 @@ bazel_dep(name = "stb", version = "0.0.0-20251026-f1c79c0")
 bazel_dep(name = "glew", version = "2.2.0")
 bazel_dep(name = "glfw", version = "3.4.0.bcr.1")
 bazel_dep(name = "fmt", version = "12.1.0")
+bazel_dep(name = "glm", version = "1.0.3")
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.1.2")
 bazel_dep(name = "rules_vulkan", version = "0.7.0")
 
