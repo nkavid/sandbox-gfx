@@ -1,21 +1,22 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("@rules_cuda//cuda:defs.bzl", "cuda_library")
 
 cuda_library(
     name = "drawcircle",
     srcs = ["circle.cu"],
-    copts = ["-allow-unsupported-compiler"],
     hdrs = [
         "circle.cuh",
     ],
+    copts = ["-allow-unsupported-compiler"],
 )
 
 cuda_library(
     name = "drawcircletexture",
     srcs = ["circle_texture.cu"],
-    copts = ["-allow-unsupported-compiler"],
     hdrs = [
         "circle_texture.cuh",
     ],
+    copts = ["-allow-unsupported-compiler"],
 )
 
 cc_library(
@@ -34,6 +35,10 @@ cc_library(
         "texture_buffer.hpp",
     ],
     copts = ["-std=c++20"],
+    linkopts = [
+        "-lcuda",
+        "-lnvcuvid",
+    ],
     strip_include_prefix = "/gfx",
     visibility = ["//visibility:public"],
     deps = [
@@ -42,10 +47,6 @@ cc_library(
         "//gfx/vocabulary",
         "@rules_cuda//cuda:runtime",
     ],
-    linkopts = [
-        "-lcuda",
-        "-lnvcuvid",
-    ],    
 )
 
 cc_library(

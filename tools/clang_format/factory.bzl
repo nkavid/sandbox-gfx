@@ -39,8 +39,6 @@ def clang_format_impl_factory(ctx, test_rule = False):
 
     out_file = ctx.actions.declare_file(ctx.label.name + ".bash")
 
-    print(_get_find_args(ctx.attr.extensions))
-
     substitutions = {
         "@@WORKSPACE@@": workspace,
         "@@MODE@@": ctx.attr.mode,

@@ -14,7 +14,6 @@ rules_foreign_cc_dependencies()
 load(
     "@bazel_tools//tools/build_defs/repo:git.bzl",
     "git_repository",
-    "new_git_repository",
 )
 
 git_repository(
@@ -30,9 +29,9 @@ bazel_skylib_workspace()
 
 http_archive(
     name = "bazel_pkg_config",
+    integrity = "sha256-biwIuVcTe8eTJX/Ev6V3pGKwv3SRSis0n0OSFXoO0CY=",
     strip_prefix = "bazel_pkg_config-master",
     urls = ["https://github.com/cherrry/bazel_pkg_config/archive/master.zip"],
-    integrity = "sha256-biwIuVcTe8eTJX/Ev6V3pGKwv3SRSis0n0OSFXoO0CY=",
 )
 
 new_local_repository(
@@ -84,11 +83,9 @@ load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
 
-load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies")
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 
 go_rules_dependencies()
-
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains")
 
 go_register_toolchains(version = "1.17.2")
 

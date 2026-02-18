@@ -1,4 +1,31 @@
+load("@buildifier_prebuilt//:rules.bzl", "buildifier")
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
 load("//:tools/clang_format/clang_format.bzl", "clang_format")
+
+buildifier(
+    name = "buildifier.check",
+    exclude_patterns = [
+        "./.git/*",
+        "./bazel-*",
+        "./build/*",
+        "./third_party/*",
+    ],
+    lint_mode = "warn",
+    mode = "diff",
+)
+
+buildifier(
+    name = "buildifier.fix",
+    exclude_patterns = [
+        "./.git/*",
+        "./bazel-*",
+        "./build/*",
+        "./third_party/*",
+    ],
+    lint_mode = "fix",
+    mode = "fix",
+)
 
 clang_format(
     name = "clang-format",
@@ -67,7 +94,7 @@ cc_binary(
     copts = ["-std=c++20"],
     deps = [
         ":demo",
-        "@fmt//:fmt",
+        "@fmt",
     ],
 )
 
